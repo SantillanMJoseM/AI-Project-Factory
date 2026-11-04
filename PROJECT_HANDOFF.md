@@ -2,26 +2,23 @@
 
 ## Current state
 
-F0 foundation implemented and audited. Repository on branch `main`.
+F1 agent control core implemented and audited on branch `feature/f1-agent-control-core`.
 
 ## What was being done
 
-F0 closure after independent audit.
+F1 closure after independent audit.
 
 ## Completed
 
-- Git repository initialized.
-- Base directory structure created.
-- Persistent context files created.
-- Contracts and schemas implemented and tested.
-- 18 agent definitions created (normative and OpenCode executable).
-- Workflows, Quality Gates, standards, templates, integrations created.
-- Automated tests passing.
-- F0 final audit PASS.
+- AG-001, AG-002, AG-003 functional definitions and OpenCode agents.
+- Coordination, audit, and security workflows.
+- Risk and severity matrices.
+- F1 tests and integration tests TEST-001 to TEST-008.
+- F1 final audit PASS.
 
 ## Pending
 
-- F1 requirements.
+- Merge to main and tag v0.2.0-f1.
 
 ## Modified files
 
@@ -33,16 +30,16 @@ ADR-001 to ADR-004.
 
 ## Problems found
 
-Stray heredoc artifacts in tests; remediated.
+Free model rate limits required model switch.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS.
+`python3 tests/run_all.py`: PASS. TEST-001 to TEST-008: PASS.
 
 ## Last valid commit
 
-v0.1.0-f0.
+v0.2.0-f1
 
 ## Instructions to continue
 
-Start F1 requirements using templates and QG-01. Do not repeat F0.
+Merge feature branch to main after review, tag v0.2.0-f1.
