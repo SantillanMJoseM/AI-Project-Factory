@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasks</title>
+</head>
+<body>
+  <h1>Tasks</h1>
+
+  <form id="task-form">
+    <input id="title" name="title" type="text" placeholder="Task title" required />
+    <button type="submit">Create task</button>
+  </form>
+
+  <ul id="task-list"></ul>
+
+  <script>
+    const API = "/tasks";
+
+    const form = document.getElementById("task-form");
+    const titleInput = document.getElementById("title");
+    const list = document.getElementById("task-list");
+
+    function render(tasks) {
+      list.innerHTML = "";
+      for (const task of tasks) {
+        const li = document.createElement("li");
+        li.textContent = task.title;
+        list.appendChild(li);
+      }
+    }
+
+    async function loadTasks() {
+      const res = await fetch(API);
+      const tasks = await res.json();
+      render(tasks);
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const title = titleInput.value.trim();
+      if (!title) return;
+
+      const res = await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title }),
+      });
+
+      if (res.ok) {
+        titleInput.value = "";
+        await loadTasks();
+      }
+    });
+
+    loadTasks();
+  </script>
+</body>
+</html>

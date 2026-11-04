@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DevelopmentTask",
+  "type": "object",
+  "required": ["task_id","project_id","module_id","agent_id","objective","requirements","dependencies","assigned_files","allowed_directories","expected_artifacts","acceptance_criteria","test_requirements","git_branch","status"],
+  "properties": {
+    "task_id": { "type": "string", "pattern": "^DTASK-[0-9]{4}$" },
+    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
+    "module_id": { "type": "string", "minLength": 1 },
+    "agent_id": { "type": "string", "pattern": "^AG-[0-9]{3}$" },
+    "objective": { "type": "string", "minLength": 1 },
+    "requirements": { "type": "array", "items": { "type": "string", "pattern": "^REQ-[0-9]{4}$" }, "minItems": 1 },
+    "dependencies": { "type": "array", "items": { "type": "string" } },
+    "assigned_files": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "allowed_directories": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "expected_artifacts": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "acceptance_criteria": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "test_requirements": { "type": "array", "items": { "type": "string" } },
+    "git_branch": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["PENDING","ASSIGNED","RUNNING","BLOCKED","REVIEW_REQUIRED","REJECTED","COMPLETED","FAILED","CANCELLED"] }
+  },
+  "additionalProperties": false
+}
