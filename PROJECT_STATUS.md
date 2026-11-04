@@ -10,5 +10,5 @@
 - Blockers: none
 - Last Quality Gate: R1 runtime PASS_WITH_OBSERVATIONS
 - Last audit: R4_PROJECT001_FINAL_AUDIT PASS
-- Last validated commit: R4_REMEDIATION_COMMIT
+- Last validated commit: v0.6.4-r4
 - Next recommended step: merge feature/r4-project001-remediation to main and create remediation tag

@@ -111,5 +111,5 @@
 - Tests executed: `python3 tests/run_all.py` (PASS); backend tests (7 PASS).
 - Functional demo PASS; R1 PASS_WITH_OBSERVATIONS; R2 PASS.
 - Results: R4 audit PASS.
-- Commit related: R4_REMEDIATION_COMMIT
+- Commit related: v0.6.4-r4
 - Next activities: merge and create remediation tag.

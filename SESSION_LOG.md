@@ -176,5 +176,5 @@
 - Objective: Execute R4 PROJECT-001 functional and security remediation.
 - Tasks executed: backend, database, frontend, integration, tests, quality, release, audit.
 - Result: R4 audit PASS.
-- Commit generated: R4_REMEDIATION_COMMIT
+- Commit generated: v0.6.4-r4
 - Next step: merge and create remediation tag.

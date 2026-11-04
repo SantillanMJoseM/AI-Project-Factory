@@ -42,7 +42,7 @@ Minor frontend/adapter observations.
 
 ## Last valid commit
 
-R4_REMEDIATION_COMMIT
+v0.6.4-r4
 
 ## Instructions to continue
 
