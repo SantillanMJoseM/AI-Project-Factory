@@ -10,5 +10,5 @@
 - Blockers: none
 - Last Quality Gate: R5.1 runtime tests PASS
 - Last audit: R5.1_FINAL_AUDIT PASS
-- Last validated commit: R5_1_REMEDIATION_COMMIT
+- Last validated commit: v0.6.5-r5.1
 - Next recommended step: merge feature/r5.1-agent-runtime-integration to main and create remediation tag

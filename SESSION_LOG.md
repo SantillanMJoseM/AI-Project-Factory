@@ -200,5 +200,5 @@
 - Objective: Execute R5.1 agent runtime integration remediation.
 - Tasks executed: contract alignment, runtime integration, adapter isolation, migrations, tests, audit.
 - Result: R5.1 audit PASS.
-- Commit generated: R5_1_REMEDIATION_COMMIT
+- Commit generated: v0.6.5-r5.1
 - Next step: merge and create remediation tag.

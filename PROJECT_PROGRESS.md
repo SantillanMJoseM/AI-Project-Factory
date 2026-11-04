@@ -129,5 +129,5 @@
 - Activities: Aligned task states with F1 contract, added migrations, execution/audit fields, task/workflow run commands, OpenCode adapter isolation, and tests.
 - Tests executed: `python3 tests/run_all.py` (PASS).
 - Results: R5.1 audit PASS.
-- Commit related: R5_1_REMEDIATION_COMMIT
+- Commit related: v0.6.5-r5.1
 - Next activities: merge and create remediation tag.

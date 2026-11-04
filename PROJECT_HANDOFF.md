@@ -39,7 +39,7 @@ None blocking.
 
 ## Last valid commit
 
-R5_1_REMEDIATION_COMMIT
+v0.6.5-r5.1
 
 ## Instructions to continue
 
