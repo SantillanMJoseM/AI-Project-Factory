@@ -114,3 +114,16 @@ BEGIN
        SET updated_at = datetime('now')
      WHERE id = OLD.id;
 END;
+
+-- -------------------------------------------------------------
+-- Table: sessions
+-- -------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS sessions (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    token_hash TEXT    NOT NULL UNIQUE,
+    user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    expires_at TEXT    NOT NULL,
+    created_at TEXT    NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);

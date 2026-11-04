@@ -1,4 +1,6 @@
-"""PROJECT-001 integration adapter: TaskApiClient (stdlib urllib, retry on 5xx)."""
+"""Integration adapter for PROJECT-001 backend API."""
+
+from __future__ import annotations
 
 import json
 import time
@@ -6,68 +8,75 @@ import urllib.error
 import urllib.request
 
 
-class TaskApiError(Exception):
-    """Raised when the Task API returns a non-recoverable error."""
-
-    def __init__(self, message, status=None, body=None):
-        super().__init__(message)
-        self.status = status
-        self.body = body
-
-
 class TaskApiClient:
-    """Minimal JSON HTTP client for the Task API using urllib."""
-
-    def __init__(self, base_url, api_key=None, timeout=10, max_retries=3, backoff=0.5):
+    def __init__(self, base_url, token=None, timeout=10, max_retries=3, backoff=0.5):
         self.base_url = base_url.rstrip("/")
-        self._api_key = api_key  # never logged or echoed in errors
+        self.token = token
         self.timeout = timeout
         self.max_retries = max_retries
         self.backoff = backoff
 
-    def request(self, method, path, payload=None):
-        url = f"{self.base_url}/{path.lstrip('/')}"
-        headers = {"Accept": "application/json"}
-        data = None
-        if self._api_key:
-            headers["Authorization"] = f"Bearer {self._api_key}"
-        if payload is not None:
-            data = json.dumps(payload).encode("utf-8")
-            headers["Content-Type"] = "application/json"
+    def _headers(self):
+        headers = {"Content-Type": "application/json"}
+        if self.token:
+            headers["Authorization"] = f"Bearer {self.token}"
+        return headers
 
-        attempt = 0
-        while True:
-            req = urllib.request.Request(url, data=data, headers=headers, method=method)
+    def _request(self, method, path, data=None):
+        url = self.base_url + path
+        body = None if data is None else json.dumps(data).encode("utf-8")
+        req = urllib.request.Request(url, data=body, headers=self._headers(), method=method)
+        for attempt in range(self.max_retries + 1):
             try:
                 with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-                    body = resp.read().decode("utf-8")
-                    return json.loads(body) if body else None
+                    raw = resp.read()
+                    return resp.status, json.loads(raw) if raw else None
             except urllib.error.HTTPError as exc:
-                if exc.code >= 500 and attempt < self.max_retries:
-                    attempt += 1
-                    time.sleep(self.backoff * (2 ** (attempt - 1)))
+                raw = exc.read()
+                payload = json.loads(raw) if raw else {"error": exc.reason}
+                if 500 <= exc.code < 600 and attempt < self.max_retries:
+                    time.sleep(self.backoff * (2 ** attempt))
                     continue
-                raise TaskApiError(
-                    f"{method} {url} failed: HTTP {exc.code}",
-                    status=exc.code,
-                    body=exc.read().decode("utf-8", errors="replace"),
-                ) from exc
-            except urllib.error.URLError as exc:
-                raise TaskApiError(f"{method} {url} failed: {exc.reason}") from exc
+                return exc.code, payload
+            except urllib.error.URLError:
+                if attempt < self.max_retries:
+                    time.sleep(self.backoff * (2 ** attempt))
+                    continue
+                raise
 
-    # -- task operations -------------------------------------------------
+    def login(self, username, password):
+        status, data = self._request("POST", "/auth/login", {"username": username, "password": password})
+        if status == 200 and data and "token" in data:
+            self.token = data["token"]
+        return status, data
+
+    def register(self, username, email, full_name, password):
+        return self._request("POST", "/auth/register", {
+            "username": username, "email": email, "full_name": full_name, "password": password
+        })
+
+    def me(self):
+        return self._request("GET", "/auth/me")
+
+    def logout(self):
+        return self._request("POST", "/auth/logout")
 
     def list_tasks(self):
-        return self.request("GET", "/tasks")
+        return self._request("GET", "/tasks")
 
     def get_task(self, task_id):
-        return self.request("GET", f"/tasks/{task_id}")
+        return self._request("GET", f"/tasks/{task_id}")
 
-    def create_task(self, task):
-        return self.request("POST", "/tasks", payload=task)
+    def create_task(self, title, description="", status="pending", priority=3, due_date=None):
+        return self._request("POST", "/tasks", {
+            "title": title, "description": description, "status": status,
+            "priority": priority, "due_date": due_date
+        })
 
-    def update_task(self, task_id, task):
-        return self.request("PATCH", f"/tasks/{task_id}", payload=task)
+    def update_task(self, task_id, **fields):
+        return self._request("PATCH", f"/tasks/{task_id}", fields)
 
     def delete_task(self, task_id):
-        return self.request("DELETE", f"/tasks/{task_id}")
+        return self._request("DELETE", f"/tasks/{task_id}")
+EOF
+echo done
