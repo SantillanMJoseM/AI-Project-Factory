@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## R1 - 2026-11-04
+
+### Added
+
+- Executable Quality Gate Runtime and CLI.
+- Quality certificate evaluation_id requirement.
+- AG-002 runtime integration.
+- Runtime tests and real-case reproduction.
+- R1 final audit PASS.
+
 ## 0.6.0 - 2026-11-04
 
 ### Added

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "QualityCertificate",
   "type": "object",
-  "required": ["certificate_id","project_id","version","commit","date","technologies","qa_result","code_review_result","performance_result","security_result","open_defects","remediated_defects","authorized_exceptions","evidence","final_verdict","gatekeeper"],
+  "required": ["certificate_id","project_id","version","commit","date","technologies","qa_result","code_review_result","performance_result","security_result","open_defects","remediated_defects","authorized_exceptions","evidence","final_verdict","gatekeeper","evaluation_id"],
   "properties": {
     "certificate_id": { "type": "string", "pattern": "^QCERT-[0-9]{4}$" },
     "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
@@ -19,7 +19,8 @@
     "authorized_exceptions": { "type": "array", "items": { "type": "string" } },
     "evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
     "final_verdict": { "type": "string", "enum": ["PASS","PASS_WITH_OBSERVATIONS","FAIL","BLOCKED"] },
-    "gatekeeper": { "type": "string", "pattern": "^AG-[0-9]{3}$" }
+    "gatekeeper": { "type": "string", "pattern": "^AG-[0-9]{3}$" },
+    "evaluation_id": { "type": "string", "minLength": 1 }
   },
   "additionalProperties": false
 }

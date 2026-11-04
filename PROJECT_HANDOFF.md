@@ -2,26 +2,27 @@
 
 ## Current state
 
-AI-Project-Factory v0.6.0 is published at https://github.com/SantillanMJoseM/AI-Project-Factory.git on branch main.
+R1 Executable Quality Gate Runtime implemented and audited on branch `feature/r1-executable-quality-gates`.
 
 ## What was being done
 
-Repository publication and clean clone verification.
+R1 closure after independent audit.
 
 ## Completed
 
-- Audited repository status, tests, and secrets.
-- Created and published remote repository.
-- Pushed main and all six tags.
-- Verified clean clone and test execution.
+- Quality Gate Runtime and CLI.
+- Schema update for evaluation_id.
+- AG-002 integration.
+- Runtime tests and real-case reproduction.
+- R1 final audit PASS.
 
 ## Pending
 
-- None for publication.
+- Merge to main and create remediation tag.
 
 ## Modified files
 
-Publication metadata in context files.
+See Git history.
 
 ## Decisions taken
 
@@ -29,16 +30,16 @@ ADR-001 to ADR-004.
 
 ## Problems found
 
-None.
+None blocking.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py` in original and clean clone: PASS.
+`python3 tests/run_all.py`: PASS. Runtime tests: 16 PASS.
 
 ## Last valid commit
 
-dbdc242018b1489806261b79f64fefd24bc64f58
+R1_REMEDIATION_COMMIT
 
 ## Instructions to continue
 
-No further action required for publication.
+Merge feature branch to main after review, create remediation tag.
