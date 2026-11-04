@@ -122,3 +122,12 @@
 - Results: R5 preparation audit PASS.
 - Commit related: d5d015a32fe1c354b8c959b01c01c6e66b5be2d0
 - Next activities: review and integrate branch; await pilot brief approval.
+
+## 2026-11-04 - R5.1 - Agent Runtime Integration
+
+- Phase: R5.1
+- Activities: Aligned task states with F1 contract, added migrations, execution/audit fields, task/workflow run commands, OpenCode adapter isolation, and tests.
+- Tests executed: `python3 tests/run_all.py` (PASS).
+- Results: R5.1 audit PASS.
+- Commit related: R5_1_REMEDIATION_COMMIT
+- Next activities: merge and create remediation tag.

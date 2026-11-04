@@ -5,6 +5,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -28,7 +29,7 @@ class OpenCodeAdapter:
         agents = self.list_agents()
         return any(a.get("id") == agent_id for a in agents)
 
-    def invoke(self, agent_id, prompt, context_files=None, model=None):
+    def invoke(self, agent_id, prompt, context_files=None, model=None, cwd=None, factory_root=None):
         if not self.available():
             return {"status": "BLOCKED", "output": "", "error": "opencode binary not available", "command": None}
         if not self.validate_agent(agent_id):
@@ -39,16 +40,23 @@ class OpenCodeAdapter:
         if context_files:
             for f in context_files:
                 cmd.extend(["--file", str(f)])
+        env = dict(os.environ)
+        if factory_root:
+            env["OPENCODE_CONFIG_DIR"] = str(factory_root)
+        workdir = str(cwd) if cwd else None
+        if workdir:
+            path = Path(workdir)
+            if not path.is_dir():
+                return {"status": "BLOCKED", "output": "", "error": f"working directory not found: {workdir}", "command": None}
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=self.timeout)
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=self.timeout, cwd=workdir, env=env)
             status = "COMPLETED" if result.returncode == 0 else "FAILED"
             return {
                 "status": status,
                 "output": result.stdout,
                 "error": result.stderr if result.returncode != 0 else None,
                 "command": cmd,
+                "cwd": workdir,
             }
         except subprocess.TimeoutExpired:
-            return {"status": "FAILED", "output": "", "error": "timeout", "command": cmd}
-PY
-echo created
+            return {"status": "FAILED", "output": "", "error": "timeout", "command": cmd, "cwd": workdir}

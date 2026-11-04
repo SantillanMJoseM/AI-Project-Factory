@@ -58,7 +58,6 @@ def test_reject_invalid_agent():
         c = conn(td)
         pid = rt.register_project(c, "Test", "/tmp/repo")
         tid = rt.create_task(c, pid, "AG-008", "Task", "Objective")
-        rt.update_task_status(c, tid, "READY")
         rt.assign_task(c, tid, "AG-009")
         try:
             rt.assign_task(c, tid, "AG-010")
@@ -74,12 +73,11 @@ def test_dependency_validation():
         pid = rt.register_project(c, "Test", "/tmp/repo")
         t1 = rt.create_task(c, pid, "AG-008", "Dep", "Objective")
         t2 = rt.create_task(c, pid, "AG-008", "Main", "Objective", dependencies=[t1])
-        rt.update_task_status(c, t1, "READY")
         rt.update_task_status(c, t1, "ASSIGNED")
         rt.update_task_status(c, t1, "RUNNING")
         rt.update_task_status(c, t1, "COMPLETED")
-        rt.update_task_status(c, t2, "READY")
-        assert rt.get_task(c, t2)["status"] == "READY"
+        rt.update_task_status(c, t2, "ASSIGNED")
+        assert rt.get_task(c, t2)["status"] == "ASSIGNED"
         c.close()
 
 def test_invalid_transition_rejected():
@@ -130,7 +128,7 @@ def test_blocked_by_dependency():
         t1 = rt.create_task(c, pid, "AG-008", "Dep", "Objective")
         t2 = rt.create_task(c, pid, "AG-008", "Main", "Objective", dependencies=[t1])
         try:
-            rt.update_task_status(c, t2, "READY")
+            rt.update_task_status(c, t2, "ASSIGNED")
             raised = False
         except ValueError:
             raised = True
@@ -220,7 +218,6 @@ def test_interrupted_execution_detected():
         c = conn(td)
         pid = rt.register_project(c, "Test", "/tmp/repo")
         tid = rt.create_task(c, pid, "AG-008", "Task", "Objective")
-        rt.update_task_status(c, tid, "READY")
         rt.update_task_status(c, tid, "ASSIGNED")
         rt.update_task_status(c, tid, "RUNNING")
         eid = rt.create_execution(c, pid, tid, "AG-008")
@@ -248,7 +245,6 @@ def test_no_duplicate_completed_tasks():
         c = conn(td)
         pid = rt.register_project(c, "Test", "/tmp/repo")
         tid = rt.create_task(c, pid, "AG-008", "Task", "Objective")
-        rt.update_task_status(c, tid, "READY")
         rt.update_task_status(c, tid, "ASSIGNED")
         rt.update_task_status(c, tid, "RUNNING")
         rt.update_task_status(c, tid, "COMPLETED")
@@ -316,16 +312,19 @@ def test_opencode_adapter_contract():
     assert res["status"] == "COMPLETED"
 
 def test_real_opencode_adapter_invocation():
-    # Best-effort real invocation; skip if opencode unavailable or fails
     import shutil
     if not shutil.which("opencode"):
         return
-    try:
-        r = subprocess.run(["opencode", "run", "--agent", "ag-001-project-coordinator", "--model", "opencode-go/qwen3.8-flash", "--auto", "Respond with exactly: RUNTIME_OK"], capture_output=True, text=True, timeout=120)
-    except Exception:
+    from orchestration.runtime.opencode_adapter import OpenCodeAdapter
+    adapter = OpenCodeAdapter(timeout=120)
+    with tempfile.TemporaryDirectory() as td:
+        repo = Path(td) / "project"
+        repo.mkdir()
+        result = adapter.invoke("ag-001-project-coordinator", "Respond with exactly: RUNTIME_OK", cwd=repo, model="opencode-go/qwen3.8-flash", factory_root=ROOT)
+    if result["status"] != "COMPLETED":
         return
-    # Not fail the suite if environment/model unavailable
-    assert r.returncode in (0, 1)
+    assert "RUNTIME_OK" in result.get("output", "")
+    assert result.get("cwd") == str(repo)
 
 if __name__ == "__main__":
     tests = [v for k, v in globals().items() if k.startswith("test_")]

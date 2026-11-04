@@ -2,23 +2,24 @@
 
 ## Current state
 
-R5 preparation completed on branch `feature/r5-pilot-preparation`.
+R5.1 Agent Runtime Integration implemented and audited on branch `feature/r5.1-agent-runtime-integration`.
 
 ## What was being done
 
-R5 pilot preparation and audit.
+R5.1 closure after independent audit.
 
 ## Completed
 
-- Pilot docs.
-- Preflight command.
-- Controlled invocation evidence.
-- R5 preparation audit PASS.
+- Contract-aligned task states.
+- SQLite migration v2.
+- Execution and audit persistence.
+- Task and workflow execution commands.
+- OpenCode adapter isolation.
+- R5.1 tests and audit PASS.
 
 ## Pending
 
-- Human approval of pilot brief.
-- Review and integration of preparation branch.
+- Merge to main and create remediation tag.
 
 ## Modified files
 
@@ -30,16 +31,16 @@ ADR-001 to ADR-005.
 
 ## Problems found
 
-None.
+None blocking.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS. Preflight: PASS.
+`python3 tests/run_all.py`: PASS. Runtime tests: 28 PASS.
 
 ## Last valid commit
 
-d5d015a32fe1c354b8c959b01c01c6e66b5be2d0
+R5_1_REMEDIATION_COMMIT
 
 ## Instructions to continue
 
-Review branch, integrate if approved, then await pilot brief.
+Merge feature branch to main after review, create remediation tag.

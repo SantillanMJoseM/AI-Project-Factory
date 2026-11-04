@@ -190,3 +190,15 @@
 - Result: R5 preparation audit PASS.
 - Commit generated: d5d015a32fe1c354b8c959b01c01c6e66b5be2d0
 - Next step: review and integrate branch.
+
+## Session R5.1-001
+
+- Session ID: R5.1-001
+- Model: OpenCode Beam
+- Runtime: OpenCode
+- Date: 2026-11-04
+- Objective: Execute R5.1 agent runtime integration remediation.
+- Tasks executed: contract alignment, runtime integration, adapter isolation, migrations, tests, audit.
+- Result: R5.1 audit PASS.
+- Commit generated: R5_1_REMEDIATION_COMMIT
+- Next step: merge and create remediation tag.
