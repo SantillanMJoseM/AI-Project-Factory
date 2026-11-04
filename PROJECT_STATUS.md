@@ -10,5 +10,5 @@
 - Blockers: none
 - Last Quality Gate: R2 traceability tests PASS
 - Last audit: R2_FINAL_AUDIT PASS
-- Last validated commit: R2_REMEDIATION_COMMIT
+- Last validated commit: v0.6.2-r2
 - Next recommended step: merge feature/r2-artifact-release-traceability to main and create remediation tag

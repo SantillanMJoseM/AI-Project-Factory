@@ -152,5 +152,5 @@
 - Objective: Execute R2 Artifact & Release Traceability Engine.
 - Tasks executed: validator, CLI, schemas, integration, tests, audit.
 - Result: R2 audit PASS.
-- Commit generated: R2_REMEDIATION_COMMIT
+- Commit generated: v0.6.2-r2
 - Next step: merge and create remediation tag.
