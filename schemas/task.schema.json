@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-project-factory.local/schemas/task.schema.json",
+  "title": "Task",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "description",
+    "status",
+    "priority",
+    "assigned_agent",
+    "inputs",
+    "outputs",
+    "acceptance_criteria",
+    "quality_gates",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^TASK-[0-9]{4}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "ASSIGNED", "RUNNING", "BLOCKED", "REVIEW_REQUIRED", "REJECTED", "COMPLETED", "FAILED", "CANCELLED"]
+    },
+    "priority": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+    "assigned_agent": { "type": "string", "pattern": "^AG-[0-9]{3}$" },
+    "inputs": { "type": "array", "items": { "type": "string" } },
+    "outputs": { "type": "array", "items": { "type": "string" } },
+    "acceptance_criteria": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "quality_gates": { "type": "array", "items": { "type": "string", "pattern": "^QG-0[1-6]$" } },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

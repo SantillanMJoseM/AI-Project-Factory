@@ -1,0 +1,4 @@
+.git.broken/
+.env
+.env*.local
+secrets/

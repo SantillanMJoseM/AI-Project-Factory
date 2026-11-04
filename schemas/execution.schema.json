@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-project-factory.local/schemas/execution.schema.json",
+  "title": "Execution",
+  "type": "object",
+  "required": [
+    "execution_id",
+    "task_id",
+    "agent_id",
+    "started_at",
+    "status",
+    "inputs",
+    "outputs",
+    "tools_used",
+    "decisions",
+    "errors",
+    "completed_at"
+  ],
+  "properties": {
+    "execution_id": { "type": "string", "pattern": "^EXEC-[0-9]{4}$" },
+    "task_id": { "type": "string", "pattern": "^TASK-[0-9]{4}$" },
+    "agent_id": { "type": "string", "pattern": "^AG-[0-9]{3}$" },
+    "started_at": { "type": "string", "format": "date-time" },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "ASSIGNED", "RUNNING", "BLOCKED", "REVIEW_REQUIRED", "REJECTED", "COMPLETED", "FAILED", "CANCELLED"]
+    },
+    "inputs": { "type": "array", "items": { "type": "string" } },
+    "outputs": { "type": "array", "items": { "type": "string" } },
+    "tools_used": { "type": "array", "items": { "type": "string" } },
+    "decisions": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "completed_at": { "type": ["string", "null"], "format": "date-time" }
+  },
+  "additionalProperties": false
+}

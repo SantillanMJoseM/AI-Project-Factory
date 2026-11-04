@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-project-factory.local/schemas/audit.schema.json",
+  "title": "Audit",
+  "type": "object",
+  "required": [
+    "audit_id",
+    "scope",
+    "auditor",
+    "audited_artifacts",
+    "findings",
+    "verdict",
+    "evidence",
+    "created_at"
+  ],
+  "properties": {
+    "audit_id": { "type": "string", "pattern": "^AUDIT-[0-9]{4}$" },
+    "scope": { "type": "string", "minLength": 1 },
+    "auditor": { "type": "string", "pattern": "^AG-[0-9]{3}$" },
+    "audited_artifacts": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "findings": { "type": "array", "items": { "type": "string" } },
+    "verdict": { "type": "string", "enum": ["PASS", "PASS_WITH_OBSERVATIONS", "FAIL", "BLOCKED"] },
+    "evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,18 @@
+# Task Template
+
+```json
+{
+  "id": "TASK-0001",
+  "title": "",
+  "description": "",
+  "status": "PENDING",
+  "priority": "medium",
+  "assigned_agent": "AG-001",
+  "inputs": [],
+  "outputs": [],
+  "acceptance_criteria": [],
+  "quality_gates": ["QG-01"],
+  "created_at": "2026-11-04T00:00:00Z",
+  "updated_at": "2026-11-04T00:00:00Z"
+}
+```
