@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TestCase",
+  "type": "object",
+  "required": ["case_id","title","objective","steps","expected_result","priority"],
+  "properties": {
+    "case_id": { "type": "string", "pattern": "^TC-[0-9]{4}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "objective": { "type": "string", "minLength": 1 },
+    "steps": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "expected_result": { "type": "string", "minLength": 1 },
+    "priority": { "type": "string", "enum": ["low","medium","high","critical"] }
+  },
+  "additionalProperties": false
+}

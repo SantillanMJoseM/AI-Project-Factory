@@ -43,3 +43,14 @@
 - Incidents: model timeout; split runs.
 - Commit related: v0.4.0-f3
 - Next activities: merge and tag v0.4.0-f3.
+
+## 2026-11-04 - F4 - Quality & Testing Engine
+
+- Phase: F4
+- Sprint: S4.1-S4.10
+- Activities: Implemented AG-012 to AG-015; added quality contracts and schemas; F4 workflow and Quality Gates; technology detection; demo quality reports; Quality Certificate; F4 integration tests; independent audit.
+- Tests executed: `python3 tests/run_all.py` (PASS); backend unit tests PASS; TEST-F4-001 to TEST-F4-020 (PASS).
+- Results: F4 audit PASS.
+- Incidents: model timeout; split runs.
+- Commit related: v0.5.0-f4
+- Next activities: merge and tag v0.5.0-f4.

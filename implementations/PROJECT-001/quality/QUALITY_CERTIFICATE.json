@@ -1,0 +1,18 @@
+{
+  "certificate_id": "QCERT-0001",
+  "project_id": "PROJECT-001",
+  "version": "0.4.0",
+  "commit": "61b10729f9abfabcb699e75e70d91c23dbfb72d3",
+  "date": "2026-11-04",
+  "technologies": ["python", "html", "sql"],
+  "qa_result": "PASS (2 unit tests)",
+  "code_review_result": "PASS_WITH_OBSERVATIONS",
+  "performance_result": "PASS (1.039 ms health endpoint)",
+  "security_result": "PASS (no hardcoded secrets)",
+  "open_defects": ["CR-P001-001 missing authentication"],
+  "remediated_defects": [],
+  "authorized_exceptions": [],
+  "evidence": ["implementations/PROJECT-001/quality/CODE_REVIEW_REPORT.md", "implementations/PROJECT-001/quality/PERFORMANCE_REPORT.md", "implementations/PROJECT-001/quality/SECURITY_AUDIT_REPORT.md", "implementations/PROJECT-001/tests/test_backend.py"],
+  "final_verdict": "PASS_WITH_OBSERVATIONS",
+  "gatekeeper": "AG-002"
+}
