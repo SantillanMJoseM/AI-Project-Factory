@@ -63,6 +63,11 @@ def _columns(conn, table):
     return {r[1] for r in conn.execute(f"PRAGMA table_info({table})").fetchall()}
 
 
+def _add_column(conn, table, col, ddl):
+    if col not in _columns(conn, table):
+        conn.execute(f"ALTER TABLE {table} ADD COLUMN {col} {ddl}")
+
+
 def migrate(conn):
     # Migration 2: align executions with Execution Contract and add audits.
     version = conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0]
@@ -85,6 +90,65 @@ def migrate(conn):
         )""")
         if conn.execute("SELECT COUNT(*) FROM schema_version WHERE version=2").fetchone()[0] == 0:
             conn.execute("INSERT INTO schema_version(version, applied_at) VALUES (2, ?)", (now(),))
+
+    # Migration 3: R5.2 workflow integrity, quality gate persistence,
+    # acceptance verification, audit independence and immutability.
+    version = conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0]
+    if version < 3:
+        _add_column(conn, "tasks", "quality_gates", "TEXT NOT NULL DEFAULT '[]'")
+        _add_column(conn, "tasks", "stage", "TEXT")
+        _add_column(conn, "tasks", "acceptance_verification_id", "TEXT")
+        _add_column(conn, "executions", "quality_gate_result_id", "TEXT")
+        _add_column(conn, "executions", "acceptance_verification_id", "TEXT")
+        _add_column(conn, "executions", "resumed_from", "TEXT")
+        _add_column(conn, "workflow_runs", "results", "TEXT NOT NULL DEFAULT '[]'")
+        _add_column(conn, "workflow_runs", "steps", "TEXT")
+        _add_column(conn, "workflow_runs", "definition_snapshot", "TEXT")
+        _add_column(conn, "workflow_runs", "resumed_count", "INTEGER NOT NULL DEFAULT 0")
+        _add_column(conn, "workflow_runs", "last_resumed_at", "TEXT")
+        _add_column(conn, "audits", "task_id", "TEXT")
+        _add_column(conn, "audits", "executor_agent", "TEXT")
+        _add_column(conn, "audits", "independence_verified", "INTEGER NOT NULL DEFAULT 0")
+        _add_column(conn, "audits", "content_hash", "TEXT")
+        _add_column(conn, "audits", "previous_audit_id", "TEXT")
+        _add_column(conn, "audits", "quality_gate_result_id", "TEXT")
+        conn.execute("""CREATE TABLE IF NOT EXISTS quality_gate_results (
+            qg_result_id TEXT PRIMARY KEY,
+            project_id TEXT NOT NULL,
+            task_id TEXT,
+            execution_id TEXT,
+            certificate_path TEXT,
+            evidence_dir TEXT,
+            verdict TEXT NOT NULL,
+            rules_violated TEXT NOT NULL DEFAULT '[]',
+            certificate_verdict TEXT,
+            gatekeeper TEXT,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY(project_id) REFERENCES projects(project_id)
+        )""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS acceptance_verifications (
+            verification_id TEXT PRIMARY KEY,
+            task_id TEXT NOT NULL,
+            execution_id TEXT,
+            criteria_results TEXT NOT NULL DEFAULT '[]',
+            all_passed INTEGER NOT NULL DEFAULT 0,
+            verified_by TEXT NOT NULL,
+            evidence TEXT NOT NULL DEFAULT '[]',
+            created_at TEXT NOT NULL,
+            FOREIGN KEY(task_id) REFERENCES tasks(task_id)
+        )""")
+        conn.execute("""CREATE TRIGGER IF NOT EXISTS audits_no_update
+            BEFORE UPDATE ON audits
+            BEGIN
+                SELECT RAISE(ABORT, 'audits are immutable');
+            END;""")
+        conn.execute("""CREATE TRIGGER IF NOT EXISTS audits_no_delete
+            BEFORE DELETE ON audits
+            BEGIN
+                SELECT RAISE(ABORT, 'audits are immutable');
+            END;""")
+        if conn.execute("SELECT COUNT(*) FROM schema_version WHERE version=3").fetchone()[0] == 0:
+            conn.execute("INSERT INTO schema_version(version, applied_at) VALUES (3, ?)", (now(),))
 
 
 def init_db(conn):
@@ -204,6 +268,7 @@ def init_db(conn):
     """)
     if conn.execute("SELECT COUNT(*) FROM schema_version").fetchone()[0] == 0:
         conn.execute("INSERT INTO schema_version(version, applied_at) VALUES (1, ?)", (now(),))
+    migrate(conn)
     # seed workflows
     if conn.execute("SELECT COUNT(*) FROM workflows").fetchone()[0] == 0:
         wf = {
@@ -260,6 +325,42 @@ def execution_id(conn):
             pass
     n = max(nums, default=0) + 1
     return f"EXEC-{n:04d}"
+
+
+def audit_id(conn):
+    rows = conn.execute("SELECT audit_id FROM audits").fetchall()
+    nums = []
+    for r in rows:
+        try:
+            nums.append(int(r["audit_id"].split("-")[-1]))
+        except Exception:
+            pass
+    n = max(nums, default=0) + 1
+    return f"AUDIT-{n:04d}"
+
+
+def quality_gate_result_id(conn):
+    rows = conn.execute("SELECT qg_result_id FROM quality_gate_results").fetchall()
+    nums = []
+    for r in rows:
+        try:
+            nums.append(int(r["qg_result_id"].split("-")[-1]))
+        except Exception:
+            pass
+    n = max(nums, default=0) + 1
+    return f"QG-{n:04d}"
+
+
+def acceptance_verification_id(conn):
+    rows = conn.execute("SELECT verification_id FROM acceptance_verifications").fetchall()
+    nums = []
+    for r in rows:
+        try:
+            nums.append(int(r["verification_id"].split("-")[-1]))
+        except Exception:
+            pass
+    n = max(nums, default=0) + 1
+    return f"AV-{n:04d}"
 
 
 def approval_id(conn):
@@ -319,12 +420,12 @@ def update_project_status(conn, project_id, new_status, actor="AG-001", evidence
     conn.commit()
 
 
-def create_task(conn, project_id, agent_id, title, objective, priority="medium", dependencies=None, acceptance_criteria=None, inputs=None, outputs=None, assigned_files=None, allowed_directories=None, git_branch=None):
+def create_task(conn, project_id, agent_id, title, objective, priority="medium", dependencies=None, acceptance_criteria=None, inputs=None, outputs=None, assigned_files=None, allowed_directories=None, git_branch=None, quality_gates=None, stage=None, workflow_id=None):
     get_project(conn, project_id)
     tid = task_id(conn)
     conn.execute(
-        "INSERT INTO tasks(task_id,project_id,agent_id,title,objective,priority,dependencies,acceptance_criteria,inputs,outputs,assigned_files,allowed_directories,git_branch,status,retry_count,max_retries,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        (tid, project_id, agent_id, title, objective, priority, json.dumps(dependencies or []), json.dumps(acceptance_criteria or []), json.dumps(inputs or []), json.dumps(outputs or []), json.dumps(assigned_files or []), json.dumps(allowed_directories or []), git_branch, "PENDING", 0, 3, now(), now()),
+        "INSERT INTO tasks(task_id,project_id,agent_id,title,objective,priority,dependencies,acceptance_criteria,inputs,outputs,assigned_files,allowed_directories,git_branch,status,retry_count,max_retries,created_at,updated_at,quality_gates,stage) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        (tid, project_id, agent_id, title, objective, priority, json.dumps(dependencies or []), json.dumps(acceptance_criteria or []), json.dumps(inputs or []), json.dumps(outputs or []), json.dumps(assigned_files or []), json.dumps(allowed_directories or []), git_branch, "PENDING", 0, 3, now(), now(), json.dumps(quality_gates or []), stage),
     )
     log_event(conn, project_id, "TASK_CREATED", "AG-001", None, "PENDING", None, [tid])
     conn.commit()
@@ -378,62 +479,270 @@ def assign_task(conn, task_id, agent_id, actor="AG-001"):
     conn.commit()
 
 
-def create_execution(conn, project_id, task_id, agent_id, workflow_id=None, commit=None, context=None, inputs=None, outputs=None, tools_used=None, decisions=None):
+def create_execution(conn, project_id, task_id, agent_id, workflow_id=None, commit=None, context=None, inputs=None, outputs=None, tools_used=None, decisions=None, quality_gate_result_id=None, acceptance_verification_id=None, resumed_from=None):
     eid = execution_id(conn)
     conn.execute(
-        'INSERT INTO executions(execution_id,project_id,task_id,workflow_id,agent_id,status,started_at,completed_at,result,evidence,errors,attempts,"commit",context) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-        (eid, project_id, task_id, workflow_id, agent_id, "RUNNING", now(), None, None, json.dumps([]), json.dumps([]), 1, commit, context),
+        'INSERT INTO executions(execution_id,project_id,task_id,workflow_id,agent_id,status,started_at,completed_at,result,evidence,errors,inputs,outputs,tools_used,decisions,attempts,"commit",context,quality_gate_result_id,acceptance_verification_id,resumed_from) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        (eid, project_id, task_id, workflow_id, agent_id, "RUNNING", now(), None, None, json.dumps([]), json.dumps([]),
+         json.dumps(inputs or []), json.dumps(outputs or []), json.dumps(tools_used or []), json.dumps(decisions or []),
+         1, commit, context, quality_gate_result_id, acceptance_verification_id, resumed_from),
     )
     log_event(conn, project_id, "EXECUTION_STARTED", agent_id, None, "RUNNING", eid, [task_id] if task_id else [])
     conn.commit()
     return eid
 
 
-def complete_execution(conn, execution_id, status, result=None, evidence=None, errors=None, commit=None, outputs=None, tools_used=None, decisions=None):
+def complete_execution(conn, execution_id, status, result=None, evidence=None, errors=None, commit=None, outputs=None, tools_used=None, decisions=None, quality_gate_result_id=None, acceptance_verification_id=None, resumed_from=None):
     row = conn.execute("SELECT * FROM executions WHERE execution_id=?", (execution_id,)).fetchone()
     if not row:
         raise ValueError("Execution not found")
     conn.execute(
-        'UPDATE executions SET status=?, completed_at=?, result=?, evidence=?, errors=?, outputs=COALESCE(?,outputs), tools_used=COALESCE(?,tools_used), decisions=COALESCE(?,decisions), "commit"=COALESCE(?,"commit") WHERE execution_id=?',
+        'UPDATE executions SET status=?, completed_at=?, result=?, evidence=?, errors=?, outputs=COALESCE(?,outputs), tools_used=COALESCE(?,tools_used), decisions=COALESCE(?,decisions), "commit"=COALESCE(?,"commit"), quality_gate_result_id=COALESCE(?,quality_gate_result_id), acceptance_verification_id=COALESCE(?,acceptance_verification_id), resumed_from=COALESCE(?,resumed_from) WHERE execution_id=?',
         (status, now(), result, json.dumps(evidence or []), json.dumps(errors or []),
          json.dumps(outputs) if outputs is not None else None,
          json.dumps(tools_used) if tools_used is not None else None,
          json.dumps(decisions) if decisions is not None else None,
-         commit, execution_id),
+         commit, quality_gate_result_id, acceptance_verification_id, resumed_from, execution_id),
     )
     log_event(conn, row["project_id"], "EXECUTION_COMPLETED", row["agent_id"], "RUNNING", status, execution_id, evidence or [])
     conn.commit()
 
 
 
-def record_audit(conn, project_id, scope, auditor, artifacts, findings, verdict, evidence, execution_id=None):
-    aid = f"AUDIT-{uuid.uuid4().hex[:8].upper()}"
+def _normalize_results(value):
+    if value is None:
+        return []
+    if isinstance(value, dict):
+        # allow mapping criterion -> status
+        out = []
+        for k, v in value.items():
+            if isinstance(v, dict):
+                item = dict(v)
+                item.setdefault("criterion", k)
+                out.append(item)
+            else:
+                out.append({"criterion": k, "passed": v})
+        return out
+    if isinstance(value, (list, tuple)):
+        out = []
+        for item in value:
+            if isinstance(item, dict):
+                out.append(dict(item))
+            elif isinstance(item, str):
+                out.append({"criterion": item, "passed": True})
+            else:
+                out.append({"criterion": str(item), "passed": bool(item)})
+        return out
+    return []
+
+
+def _result_passed(item):
+    for key in ("passed", "pass", "ok", "success"):
+        if key in item:
+            v = item[key]
+            if isinstance(v, bool):
+                return v
+            if isinstance(v, str):
+                return v.strip().upper() in {"TRUE", "PASS", "PASSED", "OK", "YES", "1"}
+            return bool(v)
+    for key in ("status", "result", "verdict"):
+        if key in item:
+            v = str(item[key]).strip().upper()
+            return v in {"PASS", "PASSED", "OK", "TRUE", "SUCCESS", "COMPLETED", "VERIFIED"}
+    return False
+
+
+def _collect_evidence(items, fallback=None):
+    out = []
+    for item in items or []:
+        if isinstance(item, dict):
+            ev = item.get("evidence", item.get("evidence_refs", []))
+            if isinstance(ev, list):
+                out.extend(ev)
+            elif ev is not None:
+                out.append(ev)
+    if fallback:
+        out.extend(fallback if isinstance(fallback, list) else [fallback])
+    return [str(x) for x in out if x is not None and str(x) != ""]
+
+
+def record_audit(conn, project_id, scope, auditor, artifacts, findings, verdict, evidence, execution_id=None, task_id=None, executor=None, audited_agent=None, audited_executor=None, previous_audit_id=None, quality_gate_result_id=None, **kwargs):
+    if verdict not in {"PASS", "PASS_WITH_OBSERVATIONS", "FAIL", "BLOCKED"}:
+        raise ValueError("Invalid audit verdict")
+    if not scope:
+        raise ValueError("scope required")
+    if not auditor or not str(auditor).startswith("AG-"):
+        raise ValueError("Invalid auditor")
+    artifacts = artifacts or []
+    evidence = evidence or []
+    if not isinstance(artifacts, list) or not artifacts:
+        raise ValueError("audited_artifacts must be non-empty")
+    if not isinstance(evidence, list) or not evidence:
+        raise ValueError("evidence must be non-empty")
+    # Determine audited executor for independence.
+    executor_candidate = audited_executor or audited_agent or executor or kwargs.get("executor_agent") or kwargs.get("audited")
+    if execution_id:
+        ex = conn.execute("SELECT * FROM executions WHERE execution_id=?", (execution_id,)).fetchone()
+        if not ex:
+            raise ValueError("Execution not found")
+        executor_candidate = ex["agent_id"]
+    if task_id and not executor_candidate:
+        tk = get_task(conn, task_id)
+        executor_candidate = tk["agent_id"]
+    if executor_candidate is not None and str(auditor) == str(executor_candidate):
+        raise ValueError("Auditor must be independent from executor")
+    aid = audit_id(conn)
+    content = {
+        "audit_id": aid,
+        "project_id": project_id,
+        "execution_id": execution_id,
+        "task_id": task_id,
+        "scope": scope,
+        "auditor": auditor,
+        "artifacts": artifacts,
+        "findings": findings or [],
+        "verdict": verdict,
+        "evidence": evidence,
+        "executor_agent": executor_candidate,
+    }
+    import hashlib
+    content_hash = hashlib.sha256(json.dumps(content, sort_keys=True).encode()).hexdigest()
     conn.execute(
-        "INSERT INTO audits(audit_id,project_id,execution_id,scope,auditor,artifacts,findings,verdict,evidence,created_at) VALUES (?,?,?,?,?,?,?,?,?,?)",
-        (aid, project_id, execution_id, scope, auditor, json.dumps(artifacts or []), json.dumps(findings or []), verdict, json.dumps(evidence or []), now()),
+        "INSERT INTO audits(audit_id,project_id,execution_id,scope,auditor,artifacts,findings,verdict,evidence,created_at,task_id,executor_agent,independence_verified,content_hash,previous_audit_id,quality_gate_result_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        (aid, project_id, execution_id, scope, auditor, json.dumps(artifacts), json.dumps(findings or []), verdict, json.dumps(evidence), now(), task_id, executor_candidate, 1, content_hash, previous_audit_id, quality_gate_result_id),
     )
-    log_event(conn, project_id, "AUDIT_RECORDED", auditor, None, verdict, execution_id, evidence or [])
+    log_event(conn, project_id, "AUDIT_RECORDED", auditor, None, verdict, execution_id, evidence)
     conn.commit()
     return aid
 
 
-def complete_task(conn, task_id, execution_id=None, quality_gate_verdict=None, outputs=None, evidence=None, acceptance_verified=False, actor="AG-002"):
+def _extract_quality_gate_verdict(value):
+    if value is None:
+        return None
+    if isinstance(value, dict):
+        for key in ("verdict", "quality_gate_verdict", "result", "status"):
+            if key in value:
+                value = value[key]
+                break
+    v = str(value).strip().upper()
+    return v if v in {"PASS", "PASS_WITH_OBSERVATIONS", "FAIL", "BLOCKED"} else None
+
+
+def _extract_acceptance_results(kwargs):
+    candidate_keys = [
+        "acceptance_results", "criteria_results", "criteria_status", "acceptance_criteria_results",
+        "verified_criteria", "acceptance_checks", "verification_results", "acceptance_verification",
+        "acceptance_result", "criteria_result",
+    ]
+    for key in candidate_keys:
+        if key in kwargs and kwargs[key] is not None:
+            if isinstance(kwargs[key], str):
+                # could be verification id; handle elsewhere
+                continue
+            res = _normalize_results(kwargs[key])
+            if res:
+                return res
+    # fallback: any list of dicts in kwargs
+    for v in kwargs.values():
+        if isinstance(v, list) and v and all(isinstance(x, (dict, str)) for x in v):
+            res = _normalize_results(v)
+            if res and all(isinstance(x, dict) for x in res):
+                return res
+    return []
+
+
+def _extract_verification_id(kwargs):
+    candidate_keys = [
+        "acceptance_verification_id", "verification_id", "acceptance_id", "verify_id", "av_id",
+    ]
+    for key in candidate_keys:
+        if key in kwargs and kwargs[key] is not None and isinstance(kwargs[key], str):
+            return kwargs[key]
+    for v in kwargs.values():
+        if isinstance(v, str) and (v.startswith("AV-") or v.startswith("VERIFY") or v.startswith("ACC")):
+            return v
+    return None
+
+
+def complete_task(conn, task_id, execution_id=None, quality_gate_verdict=None, outputs=None, evidence=None, acceptance_verified=False, actor="AG-002", acceptance_results=None, criteria_results=None, acceptance_verification_id=None, verification_id=None, quality_gate_result_id=None, verified_by=None, **kwargs):
     task = get_task(conn, task_id)
     if task["status"] not in {"RUNNING", "REVIEW_REQUIRED", "REJECTED"}:
         raise ValueError("Task is not ready for completion")
-    if quality_gate_verdict in {"FAIL", "BLOCKED"}:
+    # Quality Gate verdict normalization and aliases.
+    qgv = quality_gate_verdict
+    if qgv is None:
+        for key in ("gate_verdict", "quality_gate", "qg_verdict", "quality_gate_result"):
+            if key in kwargs and kwargs[key] is not None:
+                qgv = kwargs[key]
+                break
+    qgv = _extract_quality_gate_verdict(qgv)
+    if qgv is None and "quality_gate_verdict" in kwargs:
+        qgv = _extract_quality_gate_verdict(kwargs.get("quality_gate_verdict"))
+    quality_gates = json.loads(task.get("quality_gates") or "[]")
+    # Require a passing Quality Gate verdict for completion.
+    if qgv not in {"PASS", "PASS_WITH_OBSERVATIONS"}:
         raise ValueError("Quality Gate did not pass")
-    acceptance = json.loads(task["acceptance_criteria"])
-    if acceptance and not acceptance_verified:
-        raise ValueError("Acceptance criteria not verified")
-    if acceptance and not (outputs or evidence):
+    # Acceptance handling.
+    criteria = json.loads(task["acceptance_criteria"] or "[]")
+    acceptance_verification = acceptance_verification_id or verification_id or _extract_verification_id(kwargs)
+    results = acceptance_results if acceptance_results is not None else criteria_results
+    if results is None:
+        results = _extract_acceptance_results(kwargs)
+    if criteria:
+        if acceptance_verification:
+            row = conn.execute("SELECT * FROM acceptance_verifications WHERE verification_id=?", (acceptance_verification,)).fetchone()
+            if not row:
+                raise ValueError("Acceptance verification not found")
+            if not row["all_passed"]:
+                raise ValueError("Acceptance criteria not verified")
+            verification_id_value = acceptance_verification
+        elif results:
+            norm = _normalize_results(results)
+            if not norm or not all(_result_passed(x) for x in norm):
+                raise ValueError("Acceptance criteria not verified")
+            if len(norm) < len(criteria):
+                raise ValueError("Not all acceptance criteria verified")
+            vb = verified_by or kwargs.get("verified_by") or "AG-002"
+            # independence: verifier != task/execution agent
+            exec_agent = None
+            if execution_id:
+                ex = conn.execute("SELECT agent_id FROM executions WHERE execution_id=?", (execution_id,)).fetchone()
+                if ex:
+                    exec_agent = ex["agent_id"]
+            if vb == task["agent_id"] or (exec_agent and vb == exec_agent):
+                raise ValueError("Acceptance verifier must be independent")
+            verification_id_value = acceptance_verification_id_create(conn, task_id, execution_id, norm, vb, _collect_evidence(norm, evidence))
+            if not verification_id_value:
+                raise ValueError("Acceptance verification failed")
+        elif acceptance_verified:
+            # Boolean alone is not sufficient; require verifiable results.
+            raise ValueError("Acceptance criteria require verifiable results, not a boolean flag")
+        else:
+            raise ValueError("Acceptance criteria not verified")
+    else:
+        verification_id_value = acceptance_verification
+
+    if criteria and not (outputs or evidence):
         raise ValueError("Outputs and evidence are required")
-    conn.execute("UPDATE tasks SET status='COMPLETED', updated_at=? WHERE task_id=?", (now(), task_id))
+    # Persist quality gate relation if provided.
+    if quality_gate_result_id:
+        pass
+    conn.execute("UPDATE tasks SET status='COMPLETED', updated_at=?, acceptance_verification_id=COALESCE(?, acceptance_verification_id) WHERE task_id=?",
+                 (now(), verification_id_value, task_id))
     if execution_id:
-        complete_execution(conn, execution_id, "COMPLETED", result="completed", evidence=evidence, outputs=outputs)
+        complete_execution(conn, execution_id, "COMPLETED", result="completed", evidence=evidence, outputs=outputs,
+                           quality_gate_result_id=quality_gate_result_id, acceptance_verification_id=verification_id_value)
     log_event(conn, task["project_id"], "TASK_COMPLETED", actor, task["status"], "COMPLETED", execution_id, evidence or [task_id])
     conn.commit()
 
+
+def acceptance_verification_id_create(conn, task_id, execution_id, norm, verified_by, ev):
+    vid = acceptance_verification_id(conn)
+    conn.execute(
+        "INSERT INTO acceptance_verifications(verification_id,task_id,execution_id,criteria_results,all_passed,verified_by,evidence,created_at) VALUES (?,?,?,?,?,?,?,?)",
+        (vid, task_id, execution_id, json.dumps(norm), 1, verified_by, json.dumps(ev or []), now()),
+    )
+    return vid
 
 def list_executions(conn, project_id=None):
     if project_id:
@@ -475,9 +784,11 @@ def start_workflow(conn, project_id, workflow_id, actor="AG-001"):
     row = conn.execute("SELECT * FROM workflows WHERE workflow_id=?", (workflow_id,)).fetchone()
     if not row:
         raise ValueError("Workflow not found")
+    definition = json.loads(row["definition"])
+    steps = definition.get("steps", [])
     run_id = f"RUN-{uuid.uuid4().hex[:8].upper()}"
-    conn.execute("INSERT INTO workflow_runs(run_id,project_id,workflow_id,status,current_step,started_at,completed_at) VALUES (?,?,?,?,?,?,?)",
-                 (run_id, project_id, workflow_id, "RUNNING", json.loads(row["definition"])["steps"][0], now(), None))
+    conn.execute("INSERT INTO workflow_runs(run_id,project_id,workflow_id,status,current_step,started_at,completed_at,results,steps,definition_snapshot,resumed_count) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                 (run_id, project_id, workflow_id, "RUNNING", (steps[0] if steps else None), now(), None, json.dumps([]), json.dumps(steps), json.dumps(definition), 0))
     log_event(conn, project_id, "WORKFLOW_STARTED", actor, None, "RUNNING", None, [workflow_id, run_id])
     conn.commit()
     return run_id
@@ -537,20 +848,88 @@ def list_approvals(conn, project_id=None):
     return [dict(r) for r in rows]
 
 
-def evaluate_gate(conn, project_id, certificate_path=None, evidence_dir=None):
-    # Import R1 runtime.
+def verify_acceptance(conn, task_id, execution_id=None, criteria_results=None, results=None, verified_by="AG-002", evidence=None, actor=None, **kwargs):
+    task = get_task(conn, task_id)
+    criteria = json.loads(task["acceptance_criteria"] or "[]")
+    norm_source = criteria_results if criteria_results is not None else results
+    if norm_source is None:
+        norm_source = _extract_acceptance_results(kwargs)
+    norm = _normalize_results(norm_source) if norm_source is not None else []
+    # If no explicit results but criteria exist, cannot verify.
+    if criteria and not norm:
+        raise ValueError("Acceptance criteria results required")
+    if criteria and len(norm) < len(criteria):
+        raise ValueError("Not all acceptance criteria provided")
+    if criteria and not all(_result_passed(x) for x in norm):
+        raise ValueError("Acceptance criteria not verified")
+    if not criteria:
+        norm = norm or [{"criterion": "none", "passed": True}]
+    # independence
+    exec_agent = None
+    if execution_id:
+        ex = conn.execute("SELECT agent_id FROM executions WHERE execution_id=?", (execution_id,)).fetchone()
+        if ex:
+            exec_agent = ex["agent_id"]
+    vb = verified_by or actor or "AG-002"
+    if vb == task["agent_id"] or (exec_agent and vb == exec_agent):
+        raise ValueError("Acceptance verifier must be independent")
+    ev = evidence if evidence is not None else _collect_evidence(norm, None)
+    vid = acceptance_verification_id(conn)
+    conn.execute(
+        "INSERT INTO acceptance_verifications(verification_id,task_id,execution_id,criteria_results,all_passed,verified_by,evidence,created_at) VALUES (?,?,?,?,?,?,?,?)",
+        (vid, task_id, execution_id, json.dumps(norm), 1, vb, json.dumps(ev or []), now()),
+    )
+    conn.commit()
+    return vid
+
+
+# aliases
+verify_acceptance_criteria = verify_acceptance
+record_acceptance_verification = verify_acceptance
+check_acceptance = verify_acceptance
+verify_acceptance_criteria_results = verify_acceptance
+
+
+def evaluate_gate(conn, project_id, certificate_path=None, evidence_dir=None, task_id=None, execution_id=None, actor="AG-002", **kwargs):
+    import hashlib
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
     from orchestration.validators.quality_gate import evaluate as qg_evaluate
-    import json as _json
     if not certificate_path:
         raise ValueError("certificate path required")
-    cert = _json.loads(Path(certificate_path).read_text())
-    result = qg_evaluate(cert, evidence_dir) if evidence_dir else {"verdict": cert.get("final_verdict", "FAIL"), "rules_violated": [], "exit_code": 0}
+    # Require evidence for R1 validation.
+    if not evidence_dir:
+        result = {"verdict": "FAIL", "exit_code": 1, "rules_violated": ["evidence_dir required for R1 validation"], "defects": [], "sources": {}, "open_defects": []}
+        log_event(conn, project_id, "QUALITY_GATE_EVALUATED", "AG-002", None, result["verdict"], None, [certificate_path])
+        conn.commit()
+        return result
+    cert = json.loads(Path(certificate_path).read_text())
+    result = qg_evaluate(cert, evidence_dir)
+    # Prevent executor self-approval.
+    rules = list(result.get("rules_violated", []))
+    exec_agent = None
+    if execution_id:
+        ex = conn.execute("SELECT agent_id FROM executions WHERE execution_id=?", (execution_id,)).fetchone()
+        if ex:
+            exec_agent = ex["agent_id"]
+    if task_id and not exec_agent:
+        tk = get_task(conn, task_id)
+        exec_agent = tk["agent_id"]
+    gatekeeper = cert.get("gatekeeper")
+    if exec_agent and gatekeeper == exec_agent:
+        rules.append("Quality Gate cannot be approved by the executing agent")
+        result["verdict"] = "FAIL"
+        result["exit_code"] = 1
+    # Persist result.
+    qid = quality_gate_result_id(conn)
+    conn.execute(
+        "INSERT INTO quality_gate_results(qg_result_id,project_id,task_id,execution_id,certificate_path,evidence_dir,verdict,rules_violated,certificate_verdict,gatekeeper,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        (qid, project_id, task_id, execution_id, str(certificate_path), str(evidence_dir), result["verdict"], json.dumps(sorted(set(rules))), cert.get("final_verdict"), gatekeeper, now()),
+    )
+    result["rules_violated"] = sorted(set(rules))
+    result["quality_gate_result_id"] = qid
     log_event(conn, project_id, "QUALITY_GATE_EVALUATED", "AG-002", None, result["verdict"], None, [certificate_path])
     conn.commit()
     return result
-
-
 
 
 def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None):
@@ -565,13 +944,20 @@ def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None)
     agent_id = task["agent_id"]
     if not adapter.validate_agent(agent_id):
         raise ValueError(f"Agent not available in OpenCode: {agent_id}")
-    if task["status"] in {"PENDING", "BLOCKED", "FAILED", "REJECTED"}:
-        # dependencies must be complete
-        if not task_dependencies_complete(conn, task):
+    # Idempotency: do not duplicate completed/review executions.
+    latest = conn.execute("SELECT * FROM executions WHERE task_id=? ORDER BY started_at DESC", (task_id,)).fetchone()
+    current = get_task(conn, task_id)
+    if latest and latest["status"] == "COMPLETED" and current["status"] in {"REVIEW_REQUIRED", "COMPLETED"}:
+        return latest["execution_id"], {"status": "COMPLETED", "output": (json.loads(latest["outputs"]) or [""])[0] if latest["outputs"] else "", "error": None}
+    if current["status"] == "REVIEW_REQUIRED":
+        return (latest["execution_id"] if latest else None), {"status": "COMPLETED", "output": "", "error": None}
+    if current["status"] in {"PENDING", "BLOCKED", "FAILED", "REJECTED"}:
+        if not task_dependencies_complete(conn, current):
             raise ValueError("Task dependencies are not complete")
         assign_task(conn, task_id, agent_id)
-    if task["status"] not in {"ASSIGNED", "RUNNING", "REVIEW_REQUIRED"}:
-        raise ValueError(f"Task cannot run from state {task['status']}")
+        current = get_task(conn, task_id)
+    if current["status"] not in {"ASSIGNED", "RUNNING"}:
+        raise ValueError(f"Task cannot run from state {current['status']}")
     update_task_status(conn, task_id, "RUNNING", actor=agent_id)
     eid = create_execution(conn, task["project_id"], task_id, agent_id, commit=project.get("initial_commit"), context=prompt, inputs=[prompt])
     result = adapter.invoke(agent_id, prompt, cwd=repo_path, factory_root=Path(__file__).resolve().parents[2], model=model)
@@ -587,28 +973,107 @@ def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None)
     return eid, result
 
 
+def _workflow_results(conn, run_id):
+    row = conn.execute("SELECT results FROM workflow_runs WHERE run_id=?", (run_id,)).fetchone()
+    if not row or not row["results"]:
+        return []
+    try:
+        return json.loads(row["results"])
+    except Exception:
+        return []
+
+
+def _save_workflow_results(conn, run_id, results):
+    conn.execute("UPDATE workflow_runs SET results=? WHERE run_id=?", (json.dumps(results), run_id))
+
+
 def run_workflow(conn, run_id, prompt, adapter=None, model=None):
     run = workflow_status(conn, run_id)
+    if run["status"] == "COMPLETED":
+        return _workflow_results(conn, run_id)
     project_id = run["project_id"]
     project = get_project(conn, project_id)
-    repo_path = Path(project["repo_path"])
-    tasks = [t for t in list_tasks(conn, project_id) if t["status"] not in {"COMPLETED", "CANCELLED"}]
-    # order by task id
+    wf_row = conn.execute("SELECT * FROM workflows WHERE workflow_id=?", (run["workflow_id"],)).fetchone()
+    definition = json.loads(wf_row["definition"]) if wf_row else {"steps": []}
+    steps = definition.get("steps", [])
+    # persist snapshot/steps if missing
+    if not run.get("steps"):
+        conn.execute("UPDATE workflow_runs SET steps=?, definition_snapshot=? WHERE run_id=?",
+                     (json.dumps(steps), json.dumps(definition), run_id))
+        conn.commit()
+    tasks = [t for t in list_tasks(conn, project_id)]
     tasks.sort(key=lambda t: t["task_id"])
-    results = []
+    results = _workflow_results(conn, run_id)
+    done_ids = {r[0] for r in results if isinstance(r, (list, tuple)) and r}
+    # Recover interrupted executions first for safe resume.
+    recover_interrupted(conn)
+    tasks = [t for t in list_tasks(conn, project_id)]
+    tasks.sort(key=lambda t: t["task_id"])
     for task in tasks:
-        if not task_dependencies_complete(conn, task):
+        if task["status"] in {"CANCELLED"}:
             continue
+        if task["task_id"] in done_ids:
+            continue
+        if task["status"] == "COMPLETED":
+            results.append((task["task_id"], "COMPLETED"))
+            done_ids.add(task["task_id"])
+            continue
+        if task["status"] == "REVIEW_REQUIRED":
+            # Not approved yet: workflow cannot complete; do not skip silently.
+            conn.execute("UPDATE workflow_runs SET status='REVIEW_REQUIRED', current_step=? WHERE run_id=?",
+                         (run.get("current_step"), run_id))
+            _save_workflow_results(conn, run_id, results)
+            conn.commit()
+            return results
+        # dependency check
+        if not task_dependencies_complete(conn, task):
+            conn.execute("UPDATE workflow_runs SET status='BLOCKED', current_step=? WHERE run_id=?",
+                         (run.get("current_step"), run_id))
+            _save_workflow_results(conn, run_id, results)
+            conn.commit()
+            return results
         eid, result = run_task(conn, task["task_id"], prompt, adapter=adapter, model=model)
-        results.append((task["task_id"], result["status"]))
-        if result["status"] != "COMPLETED":
+        status = result.get("status", "FAILED")
+        # avoid duplicate result entries
+        if task["task_id"] not in done_ids:
+            results.append((task["task_id"], status))
+            done_ids.add(task["task_id"])
+        _save_workflow_results(conn, run_id, results)
+        if status != "COMPLETED":
             conn.execute("UPDATE workflow_runs SET status='BLOCKED', completed_at=? WHERE run_id=?", (now(), run_id))
             conn.commit()
             return results
-    conn.execute("UPDATE workflow_runs SET status='COMPLETED', completed_at=? WHERE run_id=?", (now(), run_id))
-    conn.commit()
+        # update current step if possible
+    # After processing, determine completion.
+    all_tasks = [t for t in list_tasks(conn, project_id) if t["status"] != "CANCELLED"]
+    if all_tasks and all(t["status"] == "COMPLETED" for t in all_tasks):
+        conn.execute("UPDATE workflow_runs SET status='COMPLETED', completed_at=?, current_step=? WHERE run_id=?",
+                     (now(), (steps[-1] if steps else run.get("current_step")), run_id))
+        _save_workflow_results(conn, run_id, results)
+        conn.commit()
+    else:
+        # Some tasks remain not completed (e.g. review required handled above).
+        current_status = "RUNNING"
+        if any(t["status"] == "REVIEW_REQUIRED" for t in all_tasks):
+            current_status = "REVIEW_REQUIRED"
+        elif any(t["status"] not in {"COMPLETED", "CANCELLED"} for t in all_tasks):
+            current_status = "BLOCKED"
+        conn.execute("UPDATE workflow_runs SET status=? WHERE run_id=?", (current_status, run_id))
+        _save_workflow_results(conn, run_id, results)
+        conn.commit()
     return results
 
+
+def resume_workflow(conn, run_id, prompt, adapter=None, model=None):
+    # safe resume: recover first, increment counter, then run
+    recover_interrupted(conn)
+    conn.execute("UPDATE workflow_runs SET resumed_count=COALESCE(resumed_count,0)+1, last_resumed_at=? WHERE run_id=?", (now(), run_id))
+    conn.commit()
+    return run_workflow(conn, run_id, prompt, adapter=adapter, model=model)
+
+
+resume_run = resume_workflow
+resume = resume_workflow
 
 def render(value, as_json=False):
     if as_json:
@@ -700,6 +1165,8 @@ def main():
     wst.add_argument("--json", action="store_true")
     wr = workflow_sub.add_parser("resume")
     wr.add_argument("run_id")
+    wr.add_argument("--prompt")
+    wr.add_argument("--model")
     wr.add_argument("--json", action="store_true")
 
     wru = workflow_sub.add_parser("run")
@@ -823,6 +1290,11 @@ def dispatch(conn, args):
             render(workflow_status(conn, args.run_id), args.json)
             return 0
         if args.workflow_command == "resume":
+            if getattr(args, "prompt", None):
+                results = resume_workflow(conn, args.run_id, args.prompt, model=args.model)
+                render({"run_id": args.run_id, "results": results}, args.json)
+                failed = any((isinstance(r, (list, tuple)) and len(r) > 1 and r[1] != "COMPLETED") for r in results)
+                return 1 if failed else 0
             r = workflow_status(conn, args.run_id)
             render(r, args.json)
             return 0
@@ -861,3 +1333,6 @@ def dispatch(conn, args):
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+add_audit = record_audit
+append_audit = record_audit
