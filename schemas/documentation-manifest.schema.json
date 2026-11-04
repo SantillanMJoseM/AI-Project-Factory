@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DocumentationManifest",
+  "type": "object",
+  "required": ["manifest_id","project_id","documents","owner"],
+  "properties": {
+    "manifest_id": { "type": "string", "pattern": "^DOCMAN-[0-9]{4}$" },
+    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
+    "documents": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "owner": { "type": "string", "pattern": "^AG-[0-9]{3}$" }
+  },
+  "additionalProperties": false
+}

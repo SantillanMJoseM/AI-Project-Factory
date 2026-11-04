@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PipelineDefinition",
+  "type": "object",
+  "required": ["pipeline_id","project_id","stages","trigger"],
+  "properties": {
+    "pipeline_id": { "type": "string", "pattern": "^PIPE-[0-9]{4}$" },
+    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
+    "stages": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "trigger": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,8 @@
+{
+  "rollback_id": "RB-0001",
+  "deployment_id": "DEP-0001",
+  "trigger_conditions": ["health check failure", "smoke test failure"],
+  "steps": ["restore backup", "restart service", "verify health"],
+  "estimated_time": "5m",
+  "owner": "AG-017"
+}

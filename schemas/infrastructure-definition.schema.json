@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InfrastructureDefinition",
+  "type": "object",
+  "required": ["infrastructure_id","project_id","components","observability","created_by"],
+  "properties": {
+    "infrastructure_id": { "type": "string", "pattern": "^INFRA-[0-9]{4}$" },
+    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
+    "components": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "observability": { "type": "array", "items": { "type": "string" } },
+    "created_by": { "type": "string", "pattern": "^AG-[0-9]{3}$" }
+  },
+  "additionalProperties": false
+}
