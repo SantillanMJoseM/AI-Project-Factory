@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.4.0 - 2026-11-04
+
+### Added
+
+- F3 Development Engine: AG-008 to AG-011.
+- Development contracts and schemas.
+- F3 workflows and Quality Gates.
+- Demo implementation with backend, frontend, database, integration, and tests.
+- F3 final audit PASS.
+
 ## 0.3.0 - 2026-11-04
 
 ### Added

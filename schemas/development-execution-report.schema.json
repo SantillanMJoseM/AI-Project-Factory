@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DevelopmentExecutionReport",
+  "type": "object",
+  "required": ["execution_id","modified_files","generated_artifacts","implementation_summary","tests_executed","test_results","known_issues","technical_decisions","commit_reference","handoff_notes"],
+  "properties": {
+    "execution_id": { "type": "string", "pattern": "^EXEC-[0-9]{4}$" },
+    "modified_files": { "type": "array", "items": { "type": "string" } },
+    "generated_artifacts": { "type": "array", "items": { "type": "string" } },
+    "implementation_summary": { "type": "string", "minLength": 1 },
+    "tests_executed": { "type": "array", "items": { "type": "string" } },
+    "test_results": { "type": "string", "minLength": 1 },
+    "known_issues": { "type": "array", "items": { "type": "string" } },
+    "technical_decisions": { "type": "array", "items": { "type": "string" } },
+    "commit_reference": { "type": "string", "minLength": 1 },
+    "handoff_notes": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

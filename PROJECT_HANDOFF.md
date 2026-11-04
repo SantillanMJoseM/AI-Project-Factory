@@ -2,24 +2,24 @@
 
 ## Current state
 
-F2 Intelligence & Architecture Engine implemented and audited on branch `feature/f2-intelligence-architecture`.
+F3 Development Engine implemented and audited on branch `feature/f3-development-engine`.
 
 ## What was being done
 
-F2 closure after independent audit.
+F3 closure after independent audit.
 
 ## Completed
 
-- AG-004 to AG-007 functional definitions and OpenCode agents.
-- 7 F2 JSON Schemas.
-- F2 workflow, Quality Gates, project template.
-- Sample project PROJECT-001 and PROJECT-002 deliverables.
-- F2 tests and integration tests TEST-F2-001 to TEST-F2-013.
-- F2 final audit PASS.
+- AG-008 to AG-011 functional definitions and OpenCode agents.
+- Development contracts and schemas.
+- F3 workflows and Quality Gates.
+- Demo implementation with backend, frontend, database, integration, and tests.
+- F3 integration tests and regression.
+- F3 final audit PASS.
 
 ## Pending
 
-- Merge to main and tag v0.3.0-f2.
+- Merge to main and tag v0.4.0-f3.
 
 ## Modified files
 
@@ -31,16 +31,16 @@ ADR-001 to ADR-004.
 
 ## Problems found
 
-Model rate limits and timeouts; switched models and split runs.
+Model timeout; split runs.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS. TEST-F2-001 to TEST-F2-013: PASS.
+`python3 tests/run_all.py`: PASS. Backend unit tests: PASS. TEST-F3-001 to TEST-F3-017: PASS.
 
 ## Last valid commit
 
-v0.3.0-f2
+v0.4.0-f3
 
 ## Instructions to continue
 
-Merge feature branch to main after review, tag v0.3.0-f2.
+Merge feature branch to main after review, tag v0.4.0-f3.
