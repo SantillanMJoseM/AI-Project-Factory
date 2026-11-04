@@ -2,23 +2,20 @@
 
 ## Current state
 
-R4 PROJECT-001 remediation implemented and audited on branch `feature/r4-project001-remediation`.
+R5.1 Agent Runtime Integration implemented and audited on branch `feature/r5.1-agent-runtime-integration`.
 
 ## What was being done
 
-R4 closure after independent audit.
+R5.1 closure after independent audit.
 
 ## Completed
 
-- Backend authentication and authorization.
-- User isolation.
-- Complete task API.
-- Frontend integration.
-- Database decision and sessions.
-- Tests and quality certification.
-- Release manifest and traceability.
-- Deployment pipeline.
-- R4 final audit PASS.
+- Contract-aligned task states.
+- SQLite migration v2.
+- Execution and audit persistence.
+- Task and workflow execution commands.
+- OpenCode adapter isolation.
+- R5.1 tests and audit PASS.
 
 ## Pending
 
@@ -34,15 +31,15 @@ ADR-001 to ADR-005.
 
 ## Problems found
 
-Minor frontend/adapter observations.
+None blocking.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS. Backend tests: 7 PASS. R1: PASS_WITH_OBSERVATIONS. R2: PASS.
+`python3 tests/run_all.py`: PASS. Runtime tests: 28 PASS.
 
 ## Last valid commit
 
-v0.6.4-r4
+R5_1_REMEDIATION_COMMIT
 
 ## Instructions to continue
 

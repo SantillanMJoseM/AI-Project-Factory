@@ -72,7 +72,7 @@
 - Activities: Verified repository, tests, and secrets; created GitHub repository; pushed main and six tags; verified clean clone and tests.
 - Remote URL: https://github.com/SantillanMJoseM/AI-Project-Factory.git
 - Branch: main
-- Commit: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
+- Commit: v0.6.1-r1 (commit d5d015a32fe1c354b8c959b01c01c6e66b5be2d0)
 - Tags: v0.1.0-f0, v0.2.0-f1, v0.3.0-f2, v0.4.0-f3, v0.5.0-f4, v0.6.0-f5
 - Clean clone test: PASS
 - Tests: PASS
@@ -83,7 +83,7 @@
 - Activities: Implemented deterministic Quality Gate Runtime, CLI, schema update, AG-002 integration, and 16 tests.
 - Tests executed: `python3 tests/run_all.py` (PASS).
 - Results: R1 audit PASS.
-- Commit related: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
+- Commit related: v0.6.1-r1 (commit d5d015a32fe1c354b8c959b01c01c6e66b5be2d0)
 - Next activities: merge and create remediation tag.
 
 ## 2026-11-04 - R2 - Artifact & Release Traceability Engine
@@ -112,4 +112,22 @@
 - Functional demo PASS; R1 PASS_WITH_OBSERVATIONS; R2 PASS.
 - Results: R4 audit PASS.
 - Commit related: v0.6.4-r4
+- Next activities: merge and create remediation tag.
+
+## 2026-11-04 - R5 Preparation
+
+- Phase: R5 preparation
+- Activities: Created pilot docs, preflight command, controlled invocation evidence, R5 preparation audit.
+- Tests executed: `python3 tests/run_all.py` (PASS); preflight PASS.
+- Results: R5 preparation audit PASS.
+- Commit related: d5d015a32fe1c354b8c959b01c01c6e66b5be2d0
+- Next activities: review and integrate branch; await pilot brief approval.
+
+## 2026-11-04 - R5.1 - Agent Runtime Integration
+
+- Phase: R5.1
+- Activities: Aligned task states with F1 contract, added migrations, execution/audit fields, task/workflow run commands, OpenCode adapter isolation, and tests.
+- Tests executed: `python3 tests/run_all.py` (PASS).
+- Results: R5.1 audit PASS.
+- Commit related: R5_1_REMEDIATION_COMMIT
 - Next activities: merge and create remediation tag.

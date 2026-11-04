@@ -1,14 +1,14 @@
 # PROJECT_STATUS
 
-- Version: 0.6.4 (R4 remediation)
-- Active phase: R4 - PROJECT-001 Functional & Security Remediation
-- Active sprint: R4 closure
-- Last completed task: R4 integration tests and independent audit
+- Version: 0.6.5 (R5.1 remediation)
+- Active phase: R5.1 - Agent Runtime Integration
+- Active sprint: R5.1 closure
+- Last completed task: R5.1 integration tests and independent audit
 - Task in progress: none
 - Pending tasks:
-  - None for R4
+  - None for R5.1
 - Blockers: none
-- Last Quality Gate: R1 runtime PASS_WITH_OBSERVATIONS
-- Last audit: R4_PROJECT001_FINAL_AUDIT PASS
-- Last validated commit: v0.6.4-r4
-- Next recommended step: merge feature/r4-project001-remediation to main and create remediation tag
+- Last Quality Gate: R5.1 runtime tests PASS
+- Last audit: R5.1_FINAL_AUDIT PASS
+- Last validated commit: R5_1_REMEDIATION_COMMIT
+- Next recommended step: merge feature/r5.1-agent-runtime-integration to main and create remediation tag

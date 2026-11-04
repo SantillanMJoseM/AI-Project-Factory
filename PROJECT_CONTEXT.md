@@ -9,7 +9,7 @@
 ## Identity
 
 - Name: AI-Project-Factory
-- Version: 0.6.4 (R4 remediation)
+- Version: 0.6.5 (R5.1 remediation)
 - Runtime: OpenCode
 - Autonomy: supervised
 - Scope: universal

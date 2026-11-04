@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## R5.1 - 2026-11-04
+
+### Added
+
+- Agent runtime integration remediation.
+- Contract-aligned task states.
+- SQLite migration v2.
+- OpenCode adapter isolation.
+- Task and workflow execution.
+- R5.1 audit PASS.
+
+## R5 Preparation - 2026-11-04
+
+### Added
+
+- R5 pilot documentation.
+- R5 environment preflight command.
+- Controlled invocation evidence.
+- R5 preparation audit PASS.
+
 ## R4 - 2026-11-04
 
 ### Added

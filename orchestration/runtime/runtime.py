@@ -14,7 +14,7 @@ from pathlib import Path
 DB_PATH = Path(os.environ.get("APF_DB_PATH", Path(__file__).resolve().parent / "runtime.db"))
 
 PROJECT_STATES = ["REGISTERED", "ANALYSIS", "ARCHITECTURE", "DEVELOPMENT", "QUALITY", "SECURITY_REVIEW", "RELEASE_PREPARATION", "DEPLOYMENT", "COMPLETED", "BLOCKED", "FAILED", "CANCELLED"]
-TASK_STATES = ["PENDING", "READY", "ASSIGNED", "RUNNING", "WAITING_APPROVAL", "BLOCKED", "COMPLETED", "FAILED", "CANCELLED"]
+TASK_STATES = ["PENDING", "ASSIGNED", "RUNNING", "BLOCKED", "REVIEW_REQUIRED", "REJECTED", "COMPLETED", "FAILED", "CANCELLED"]
 
 PROJECT_TRANSITIONS = {
     "REGISTERED": {"ANALYSIS", "CANCELLED"},
@@ -32,14 +32,14 @@ PROJECT_TRANSITIONS = {
 }
 
 TASK_TRANSITIONS = {
-    "PENDING": {"READY", "CANCELLED"},
-    "READY": {"ASSIGNED", "CANCELLED"},
+    "PENDING": {"ASSIGNED", "CANCELLED"},
     "ASSIGNED": {"RUNNING", "CANCELLED"},
-    "RUNNING": {"WAITING_APPROVAL", "BLOCKED", "COMPLETED", "FAILED", "CANCELLED"},
-    "WAITING_APPROVAL": {"RUNNING", "BLOCKED", "CANCELLED"},
-    "BLOCKED": {"READY", "CANCELLED"},
+    "RUNNING": {"REVIEW_REQUIRED", "BLOCKED", "COMPLETED", "FAILED", "CANCELLED"},
+    "REVIEW_REQUIRED": {"COMPLETED", "REJECTED", "CANCELLED"},
+    "REJECTED": {"RUNNING", "CANCELLED"},
+    "BLOCKED": {"RUNNING", "CANCELLED"},
     "COMPLETED": set(),
-    "FAILED": {"READY", "CANCELLED"},
+    "FAILED": {"PENDING", "CANCELLED"},
     "CANCELLED": set(),
 }
 
@@ -57,6 +57,34 @@ def connect(db_path=None):
     conn.execute("PRAGMA journal_mode = WAL;")
     conn.execute("PRAGMA busy_timeout = 30000;")
     return conn
+
+
+def _columns(conn, table):
+    return {r[1] for r in conn.execute(f"PRAGMA table_info({table})").fetchall()}
+
+
+def migrate(conn):
+    # Migration 2: align executions with Execution Contract and add audits.
+    version = conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0]
+    if version < 2:
+        cols = _columns(conn, "executions")
+        for col in ("inputs", "outputs", "tools_used", "decisions"):
+            if col not in cols:
+                conn.execute(f"ALTER TABLE executions ADD COLUMN {col} TEXT NOT NULL DEFAULT '[]'")
+        conn.execute("""CREATE TABLE IF NOT EXISTS audits (
+            audit_id TEXT PRIMARY KEY,
+            project_id TEXT NOT NULL,
+            execution_id TEXT,
+            scope TEXT NOT NULL,
+            auditor TEXT NOT NULL,
+            artifacts TEXT NOT NULL,
+            findings TEXT NOT NULL,
+            verdict TEXT NOT NULL,
+            evidence TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        )""")
+        if conn.execute("SELECT COUNT(*) FROM schema_version WHERE version=2").fetchone()[0] == 0:
+            conn.execute("INSERT INTO schema_version(version, applied_at) VALUES (2, ?)", (now(),))
 
 
 def init_db(conn):
@@ -110,6 +138,10 @@ def init_db(conn):
         result TEXT,
         evidence TEXT NOT NULL,
         errors TEXT NOT NULL,
+        inputs TEXT NOT NULL DEFAULT '[]',
+        outputs TEXT NOT NULL DEFAULT '[]',
+        tools_used TEXT NOT NULL DEFAULT '[]',
+        decisions TEXT NOT NULL DEFAULT '[]',
         attempts INTEGER NOT NULL DEFAULT 1,
         "commit" TEXT,
         context TEXT,
@@ -154,6 +186,19 @@ def init_db(conn):
         approved_at TEXT,
         expires_at TEXT,
         binding_hash TEXT NOT NULL,
+        FOREIGN KEY(project_id) REFERENCES projects(project_id)
+    );
+    CREATE TABLE IF NOT EXISTS audits (
+        audit_id TEXT PRIMARY KEY,
+        project_id TEXT NOT NULL,
+        execution_id TEXT,
+        scope TEXT NOT NULL,
+        auditor TEXT NOT NULL,
+        artifacts TEXT NOT NULL,
+        findings TEXT NOT NULL,
+        verdict TEXT NOT NULL,
+        evidence TEXT NOT NULL,
+        created_at TEXT NOT NULL,
         FOREIGN KEY(project_id) REFERENCES projects(project_id)
     );
     """)
@@ -317,7 +362,7 @@ def update_task_status(conn, task_id, new_status, actor="AG-001", evidence=None)
         raise ValueError("Invalid task status")
     if new_status not in TASK_TRANSITIONS.get(old, set()):
         raise ValueError(f"Invalid task transition {old} -> {new_status}")
-    if new_status in {"READY", "RUNNING"} and not task_dependencies_complete(conn, task):
+    if new_status in {"ASSIGNED", "RUNNING"} and not task_dependencies_complete(conn, task):
         raise ValueError("Task dependencies are not complete")
     conn.execute("UPDATE tasks SET status=?, updated_at=? WHERE task_id=?", (new_status, now(), task_id))
     log_event(conn, task["project_id"], "TASK_STATUS_CHANGED", actor, old, new_status, None, evidence or [task_id])
@@ -326,14 +371,14 @@ def update_task_status(conn, task_id, new_status, actor="AG-001", evidence=None)
 
 def assign_task(conn, task_id, agent_id, actor="AG-001"):
     task = get_task(conn, task_id)
-    if task["status"] not in {"PENDING", "READY", "BLOCKED", "FAILED"}:
+    if task["status"] not in {"PENDING", "BLOCKED", "FAILED", "REJECTED"}:
         raise ValueError("Task cannot be assigned in current state")
     conn.execute("UPDATE tasks SET agent_id=?, status=?, updated_at=? WHERE task_id=?", (agent_id, "ASSIGNED", now(), task_id))
     log_event(conn, task["project_id"], "TASK_ASSIGNED", actor, task["status"], "ASSIGNED", None, [task_id, agent_id])
     conn.commit()
 
 
-def create_execution(conn, project_id, task_id, agent_id, workflow_id=None, commit=None, context=None):
+def create_execution(conn, project_id, task_id, agent_id, workflow_id=None, commit=None, context=None, inputs=None, outputs=None, tools_used=None, decisions=None):
     eid = execution_id(conn)
     conn.execute(
         'INSERT INTO executions(execution_id,project_id,task_id,workflow_id,agent_id,status,started_at,completed_at,result,evidence,errors,attempts,"commit",context) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
@@ -344,15 +389,49 @@ def create_execution(conn, project_id, task_id, agent_id, workflow_id=None, comm
     return eid
 
 
-def complete_execution(conn, execution_id, status, result=None, evidence=None, errors=None, commit=None):
+def complete_execution(conn, execution_id, status, result=None, evidence=None, errors=None, commit=None, outputs=None, tools_used=None, decisions=None):
     row = conn.execute("SELECT * FROM executions WHERE execution_id=?", (execution_id,)).fetchone()
     if not row:
         raise ValueError("Execution not found")
     conn.execute(
-        'UPDATE executions SET status=?, completed_at=?, result=?, evidence=?, errors=?, "commit"=COALESCE(?,"commit") WHERE execution_id=?',
-        (status, now(), result, json.dumps(evidence or []), json.dumps(errors or []), commit, execution_id),
+        'UPDATE executions SET status=?, completed_at=?, result=?, evidence=?, errors=?, outputs=COALESCE(?,outputs), tools_used=COALESCE(?,tools_used), decisions=COALESCE(?,decisions), "commit"=COALESCE(?,"commit") WHERE execution_id=?',
+        (status, now(), result, json.dumps(evidence or []), json.dumps(errors or []),
+         json.dumps(outputs) if outputs is not None else None,
+         json.dumps(tools_used) if tools_used is not None else None,
+         json.dumps(decisions) if decisions is not None else None,
+         commit, execution_id),
     )
     log_event(conn, row["project_id"], "EXECUTION_COMPLETED", row["agent_id"], "RUNNING", status, execution_id, evidence or [])
+    conn.commit()
+
+
+
+def record_audit(conn, project_id, scope, auditor, artifacts, findings, verdict, evidence, execution_id=None):
+    aid = f"AUDIT-{uuid.uuid4().hex[:8].upper()}"
+    conn.execute(
+        "INSERT INTO audits(audit_id,project_id,execution_id,scope,auditor,artifacts,findings,verdict,evidence,created_at) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (aid, project_id, execution_id, scope, auditor, json.dumps(artifacts or []), json.dumps(findings or []), verdict, json.dumps(evidence or []), now()),
+    )
+    log_event(conn, project_id, "AUDIT_RECORDED", auditor, None, verdict, execution_id, evidence or [])
+    conn.commit()
+    return aid
+
+
+def complete_task(conn, task_id, execution_id=None, quality_gate_verdict=None, outputs=None, evidence=None, acceptance_verified=False, actor="AG-002"):
+    task = get_task(conn, task_id)
+    if task["status"] not in {"RUNNING", "REVIEW_REQUIRED", "REJECTED"}:
+        raise ValueError("Task is not ready for completion")
+    if quality_gate_verdict in {"FAIL", "BLOCKED"}:
+        raise ValueError("Quality Gate did not pass")
+    acceptance = json.loads(task["acceptance_criteria"])
+    if acceptance and not acceptance_verified:
+        raise ValueError("Acceptance criteria not verified")
+    if acceptance and not (outputs or evidence):
+        raise ValueError("Outputs and evidence are required")
+    conn.execute("UPDATE tasks SET status='COMPLETED', updated_at=? WHERE task_id=?", (now(), task_id))
+    if execution_id:
+        complete_execution(conn, execution_id, "COMPLETED", result="completed", evidence=evidence, outputs=outputs)
+    log_event(conn, task["project_id"], "TASK_COMPLETED", actor, task["status"], "COMPLETED", execution_id, evidence or [task_id])
     conn.commit()
 
 
@@ -472,6 +551,65 @@ def evaluate_gate(conn, project_id, certificate_path=None, evidence_dir=None):
     return result
 
 
+
+
+def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None):
+    from orchestration.runtime.opencode_adapter import OpenCodeAdapter
+    if adapter is None:
+        adapter = OpenCodeAdapter()
+    task = get_task(conn, task_id)
+    project = get_project(conn, task["project_id"])
+    repo_path = Path(project["repo_path"])
+    if not repo_path.is_dir():
+        raise ValueError(f"Project repository not found: {repo_path}")
+    agent_id = task["agent_id"]
+    if not adapter.validate_agent(agent_id):
+        raise ValueError(f"Agent not available in OpenCode: {agent_id}")
+    if task["status"] in {"PENDING", "BLOCKED", "FAILED", "REJECTED"}:
+        # dependencies must be complete
+        if not task_dependencies_complete(conn, task):
+            raise ValueError("Task dependencies are not complete")
+        assign_task(conn, task_id, agent_id)
+    if task["status"] not in {"ASSIGNED", "RUNNING", "REVIEW_REQUIRED"}:
+        raise ValueError(f"Task cannot run from state {task['status']}")
+    update_task_status(conn, task_id, "RUNNING", actor=agent_id)
+    eid = create_execution(conn, task["project_id"], task_id, agent_id, commit=project.get("initial_commit"), context=prompt, inputs=[prompt])
+    result = adapter.invoke(agent_id, prompt, cwd=repo_path, factory_root=Path(__file__).resolve().parents[2], model=model)
+    outputs = [result.get("output", "")]
+    evidence = [result.get("output", "")]
+    if result["status"] == "COMPLETED":
+        complete_execution(conn, eid, "COMPLETED", result="completed", evidence=evidence, outputs=outputs, tools_used=["opencode.run"])
+        update_task_status(conn, task_id, "REVIEW_REQUIRED", actor=agent_id, evidence=evidence)
+    else:
+        complete_execution(conn, eid, "FAILED", result="failed", evidence=evidence, errors=[result.get("error") or "unknown"], outputs=outputs, tools_used=["opencode.run"])
+        update_task_status(conn, task_id, "FAILED", actor=agent_id, evidence=evidence)
+    conn.commit()
+    return eid, result
+
+
+def run_workflow(conn, run_id, prompt, adapter=None, model=None):
+    run = workflow_status(conn, run_id)
+    project_id = run["project_id"]
+    project = get_project(conn, project_id)
+    repo_path = Path(project["repo_path"])
+    tasks = [t for t in list_tasks(conn, project_id) if t["status"] not in {"COMPLETED", "CANCELLED"}]
+    # order by task id
+    tasks.sort(key=lambda t: t["task_id"])
+    results = []
+    for task in tasks:
+        if not task_dependencies_complete(conn, task):
+            continue
+        eid, result = run_task(conn, task["task_id"], prompt, adapter=adapter, model=model)
+        results.append((task["task_id"], result["status"]))
+        if result["status"] != "COMPLETED":
+            conn.execute("UPDATE workflow_runs SET status='BLOCKED', completed_at=? WHERE run_id=?", (now(), run_id))
+            conn.commit()
+            return results
+    conn.execute("UPDATE workflow_runs SET status='COMPLETED', completed_at=? WHERE run_id=?", (now(), run_id))
+    conn.commit()
+    return results
+
+
 def render(value, as_json=False):
     if as_json:
         print(json.dumps(value, indent=2, sort_keys=True, default=str))
@@ -542,6 +680,12 @@ def main():
     tst.add_argument("--actor", default="AG-001")
     tst.add_argument("--json", action="store_true")
 
+    tr = task_sub.add_parser("run")
+    tr.add_argument("task_id")
+    tr.add_argument("--prompt", required=True)
+    tr.add_argument("--model")
+    tr.add_argument("--json", action="store_true")
+
     # workflow
     workflow = sub.add_parser("workflow")
     workflow_sub = workflow.add_subparsers(dest="workflow_command", required=True)
@@ -557,6 +701,12 @@ def main():
     wr = workflow_sub.add_parser("resume")
     wr.add_argument("run_id")
     wr.add_argument("--json", action="store_true")
+
+    wru = workflow_sub.add_parser("run")
+    wru.add_argument("run_id")
+    wru.add_argument("--prompt", required=True)
+    wru.add_argument("--model")
+    wru.add_argument("--json", action="store_true")
 
     # execution
     execution = sub.add_parser("execution")
@@ -657,6 +807,10 @@ def dispatch(conn, args):
             update_task_status(conn, args.task_id, args.new_status, args.actor)
             render({"task_id": args.task_id, "status": args.new_status}, args.json)
             return 0
+        if args.task_command == "run":
+            eid, result = run_task(conn, args.task_id, args.prompt, model=args.model)
+            render({"execution_id": eid, "status": result["status"], "error": result.get("error")}, args.json)
+            return 0 if result["status"] == "COMPLETED" else 1
     if args.command == "workflow":
         if args.workflow_command == "list":
             render(list_workflows(conn), args.json)
@@ -672,6 +826,11 @@ def dispatch(conn, args):
             r = workflow_status(conn, args.run_id)
             render(r, args.json)
             return 0
+        if args.workflow_command == "run":
+            results = run_workflow(conn, args.run_id, args.prompt, model=args.model)
+            render({"run_id": args.run_id, "results": results}, args.json)
+            failed = any(status != "COMPLETED" for _, status in results)
+            return 1 if failed else 0
     if args.command == "execution":
         if args.execution_command == "history":
             render(list_executions(conn, args.project_id), args.json)

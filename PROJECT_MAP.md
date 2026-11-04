@@ -39,3 +39,4 @@
 - `quality-gates/f2/`: F2 Quality Gates.
 - Quality Gate runtime: `orchestration/validators/`
 - Orchestration runtime: `orchestration/runtime/`
+- R5 preflight: `orchestration/preflight/`
