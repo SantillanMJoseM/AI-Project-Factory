@@ -94,3 +94,12 @@
 - Results: R2 audit PASS.
 - Commit related: v0.6.2-r2
 - Next activities: merge and create remediation tag.
+
+## 2026-11-04 - R3 - Persistent Orchestration Runtime
+
+- Phase: R3
+- Activities: Implemented SQLite orchestration runtime, state machine, registries, workflow engine, OpenCode adapter, CLI, recovery, and 28 tests.
+- Tests executed: `python3 tests/run_all.py` (PASS).
+- Results: R3 audit PASS.
+- Commit related: R3_REMEDIATION_COMMIT
+- Next activities: merge and create remediation tag.

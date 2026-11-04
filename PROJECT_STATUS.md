@@ -1,14 +1,14 @@
 # PROJECT_STATUS
 
-- Version: 0.6.0 (R2 remediation)
-- Active phase: R2 - Artifact & Release Traceability Engine
-- Active sprint: R2 closure
-- Last completed task: R2 integration tests and independent audit
+- Version: 0.6.3 (R3 remediation)
+- Active phase: R3 - Persistent Orchestration Runtime
+- Active sprint: R3 closure
+- Last completed task: R3 integration tests and independent audit
 - Task in progress: none
 - Pending tasks:
-  - None for R2
+  - None for R3
 - Blockers: none
-- Last Quality Gate: R2 traceability tests PASS
-- Last audit: R2_FINAL_AUDIT PASS
-- Last validated commit: v0.6.2-r2
-- Next recommended step: merge feature/r2-artifact-release-traceability to main and create remediation tag
+- Last Quality Gate: R3 runtime tests PASS
+- Last audit: R3_FINAL_AUDIT PASS
+- Last validated commit: R3_REMEDIATION_COMMIT
+- Next recommended step: merge feature/r3-orchestration-runtime to main and create remediation tag
