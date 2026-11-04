@@ -10,5 +10,5 @@
 - Blockers: none
 - Last Quality Gate: R1 runtime tests PASS
 - Last audit: R1_FINAL_AUDIT PASS
-- Last validated commit: R1_REMEDIATION_COMMIT
+- Last validated commit: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
 - Next recommended step: merge feature/r1-executable-quality-gates to main and create remediation tag

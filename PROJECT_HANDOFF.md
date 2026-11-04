@@ -38,7 +38,7 @@ None blocking.
 
 ## Last valid commit
 
-R1_REMEDIATION_COMMIT
+v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
 
 ## Instructions to continue
 

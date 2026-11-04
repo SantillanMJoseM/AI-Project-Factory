@@ -127,7 +127,7 @@
 - Tasks executed: audit, create remote, push main and tags, clean clone verification.
 - Result: publication successful.
 - Remote URL: https://github.com/SantillanMJoseM/AI-Project-Factory.git
-- Commit: R1_REMEDIATION_COMMIT
+- Commit: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
 - Tags: v0.1.0-f0, v0.2.0-f1, v0.3.0-f2, v0.4.0-f3, v0.5.0-f4, v0.6.0-f5
 - Clean clone tests: PASS
 
@@ -140,5 +140,5 @@
 - Objective: Execute R1 Executable Quality Gate Runtime.
 - Tasks executed: runtime, CLI, schema, AG-002 integration, tests, audit.
 - Result: R1 audit PASS.
-- Commit generated: R1_REMEDIATION_COMMIT
+- Commit generated: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
 - Next step: merge and create remediation tag.

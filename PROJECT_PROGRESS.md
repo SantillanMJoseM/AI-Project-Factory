@@ -72,7 +72,7 @@
 - Activities: Verified repository, tests, and secrets; created GitHub repository; pushed main and six tags; verified clean clone and tests.
 - Remote URL: https://github.com/SantillanMJoseM/AI-Project-Factory.git
 - Branch: main
-- Commit: R1_REMEDIATION_COMMIT
+- Commit: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
 - Tags: v0.1.0-f0, v0.2.0-f1, v0.3.0-f2, v0.4.0-f3, v0.5.0-f4, v0.6.0-f5
 - Clean clone test: PASS
 - Tests: PASS
@@ -83,5 +83,5 @@
 - Activities: Implemented deterministic Quality Gate Runtime, CLI, schema update, AG-002 integration, and 16 tests.
 - Tests executed: `python3 tests/run_all.py` (PASS).
 - Results: R1 audit PASS.
-- Commit related: R1_REMEDIATION_COMMIT
+- Commit related: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
 - Next activities: merge and create remediation tag.
