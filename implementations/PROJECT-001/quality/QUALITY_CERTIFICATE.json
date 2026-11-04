@@ -2,7 +2,7 @@
   "certificate_id": "QCERT-0002",
   "project_id": "PROJECT-001",
   "version": "1.0.0",
-  "commit": "R4_COMMIT",
+  "commit": "6404e4dae27f4d86ebddbd73b6f87de580974d00",
   "date": "2026-11-04",
   "technologies": [
     "python",

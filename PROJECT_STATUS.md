@@ -1,14 +1,14 @@
 # PROJECT_STATUS
 
-- Version: 0.6.3 (R3 remediation)
-- Active phase: R3 - Persistent Orchestration Runtime
-- Active sprint: R3 closure
-- Last completed task: R3 integration tests and independent audit
+- Version: 0.6.4 (R4 remediation)
+- Active phase: R4 - PROJECT-001 Functional & Security Remediation
+- Active sprint: R4 closure
+- Last completed task: R4 integration tests and independent audit
 - Task in progress: none
 - Pending tasks:
-  - None for R3
+  - None for R4
 - Blockers: none
-- Last Quality Gate: R3 runtime tests PASS
-- Last audit: R3_FINAL_AUDIT PASS
-- Last validated commit: v0.6.3-r3
-- Next recommended step: merge feature/r3-orchestration-runtime to main and create remediation tag
+- Last Quality Gate: R1 runtime PASS_WITH_OBSERVATIONS
+- Last audit: R4_PROJECT001_FINAL_AUDIT PASS
+- Last validated commit: R4_REMEDIATION_COMMIT
+- Next recommended step: merge feature/r4-project001-remediation to main and create remediation tag

@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## R4 - 2026-11-04
+
+### Added
+
+- PROJECT-001 functional and security remediation.
+- Authentication, authorization, and user isolation.
+- Complete task API and frontend.
+- Database decision and sessions.
+- Quality certification and traceability.
+- R4 final audit PASS.
+
 ## R3 - 2026-11-04
 
 ### Added

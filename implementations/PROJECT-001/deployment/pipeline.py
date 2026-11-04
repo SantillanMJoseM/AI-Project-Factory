@@ -59,7 +59,7 @@ def health_check():
     return False
 
 def smoke_test():
-    with urllib.request.urlopen(f"http://127.0.0.1:{PORT}/tasks", timeout=2) as r:
+    with urllib.request.urlopen(f"http://127.0.0.1:{PORT}/health", timeout=2) as r:
         return r.status == 200
 
 def start_server():
