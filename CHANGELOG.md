@@ -14,7 +14,7 @@
 
 - Remote: https://github.com/SantillanMJoseM/AI-Project-Factory.git
 - Branch: main
-- Commit: fc6913167b0393634ed8cb314c23c5f9eb3efc3f
+- Commit: dbdc242018b1489806261b79f64fefd24bc64f58
 - Tags: v0.1.0-f0, v0.2.0-f1, v0.3.0-f2, v0.4.0-f3, v0.5.0-f4, v0.6.0-f5
 - Clean clone tests: PASS
 
