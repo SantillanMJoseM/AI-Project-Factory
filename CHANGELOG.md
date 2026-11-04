@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 0.5.0 - 2026-11-04
+
+### Added
+
+- F4 Quality & Testing Engine: AG-012 to AG-015.
+- Quality contracts and schemas.
+- F4 workflow and Quality Gates.
+- Technology detection.
+- Demo quality reports and Quality Certificate.
+- F4 final audit PASS.
+
 ## 0.4.0 - 2026-11-04
 
 ### Added

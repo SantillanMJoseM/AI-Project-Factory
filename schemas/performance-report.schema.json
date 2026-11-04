@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PerformanceReport",
+  "type": "object",
+  "required": ["report_id","commit","environment","hardware","configuration","tool","load","duration_seconds","results","limitations"],
+  "properties": {
+    "report_id": { "type": "string", "pattern": "^PERF-[0-9]{4}$" },
+    "commit": { "type": "string", "minLength": 1 },
+    "environment": { "type": "string", "minLength": 1 },
+    "hardware": { "type": "string", "minLength": 1 },
+    "configuration": { "type": "string", "minLength": 1 },
+    "tool": { "type": "string", "minLength": 1 },
+    "load": { "type": "string", "minLength": 1 },
+    "duration_seconds": { "type": "number" },
+    "results": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

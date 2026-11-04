@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SecurityFinding",
+  "type": "object",
+  "required": ["finding_id","category","component","evidence","impact","probability","severity","recommendation","status"],
+  "properties": {
+    "finding_id": { "type": "string", "pattern": "^SEC-[0-9]{4}$" },
+    "category": { "type": "string", "minLength": 1 },
+    "component": { "type": "string", "minLength": 1 },
+    "evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "impact": { "type": "string", "minLength": 1 },
+    "probability": { "type": "string", "enum": ["low","medium","high"] },
+    "severity": { "type": "string", "enum": ["CRITICAL","HIGH","MEDIUM","LOW","INFO"] },
+    "recommendation": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["open","remediated","accepted","false_positive"] },
+    "reference": { "type": "string" }
+  },
+  "additionalProperties": false
+}

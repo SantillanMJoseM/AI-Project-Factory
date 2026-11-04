@@ -2,24 +2,25 @@
 
 ## Current state
 
-F3 Development Engine implemented and audited on branch `feature/f3-development-engine`.
+F4 Quality & Testing Engine implemented and audited on branch `feature/f4-quality-testing-engine`.
 
 ## What was being done
 
-F3 closure after independent audit.
+F4 closure after independent audit.
 
 ## Completed
 
-- AG-008 to AG-011 functional definitions and OpenCode agents.
-- Development contracts and schemas.
-- F3 workflows and Quality Gates.
-- Demo implementation with backend, frontend, database, integration, and tests.
-- F3 integration tests and regression.
-- F3 final audit PASS.
+- AG-012 to AG-015 functional definitions and OpenCode agents.
+- Quality contracts and schemas.
+- F4 workflow and Quality Gates.
+- Technology detection.
+- Demo quality reports and Quality Certificate.
+- F4 integration tests and regression.
+- F4 final audit PASS.
 
 ## Pending
 
-- Merge to main and tag v0.4.0-f3.
+- Merge to main and tag v0.5.0-f4.
 
 ## Modified files
 
@@ -35,12 +36,12 @@ Model timeout; split runs.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS. Backend unit tests: PASS. TEST-F3-001 to TEST-F3-017: PASS.
+`python3 tests/run_all.py`: PASS. Backend unit tests: PASS. TEST-F4-001 to TEST-F4-020: PASS.
 
 ## Last valid commit
 
-v0.4.0-f3
+v0.5.0-f4
 
 ## Instructions to continue
 
-Merge feature branch to main after review, tag v0.4.0-f3.
+Merge feature branch to main after review, tag v0.5.0-f4.
