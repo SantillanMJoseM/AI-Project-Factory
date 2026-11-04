@@ -1,9 +1,18 @@
 {
-  "release_id": "REL-0001",
+  "artifact": "/tmp/scratchpad/project001-deploy/artifact.zip",
+  "artifact_format": "zip",
+  "artifact_hash": "110e9ecdeff7fddc31ba686e779d47253a60a888c7789495ca732370417f79f8",
+  "commit": "6404e4dae27f4d86ebddbd73b6f87de580974d00",
+  "created_by": "AG-016",
+  "creation_timestamp": "2026-11-04T14:04:06.296081+00:00",
+  "evaluation_id": "EVAL-R4-001",
   "project_id": "PROJECT-001",
-  "version": "0.4.0",
-  "commit": "26a5af6dc3baca5b37183911fcece7066e2ec467",
-  "artifact": "artifact.zip",
   "quality_certificate": "implementations/PROJECT-001/quality/QUALITY_CERTIFICATE.json",
-  "created_by": "AG-016"
+  "quality_certificate_hash": "1d484ddd78b40d062abf629b32a526d288861f993f45cb4f9f70d83135307465",
+  "release_id": "REL-0002",
+  "responsible_agent": "AG-016",
+  "source_commit": "6404e4dae27f4d86ebddbd73b6f87de580974d00",
+  "source_tree_hash": "e3bad5fd961998e40814298f934a8769358e3e66",
+  "target_environment": "staging-local",
+  "version": "1.0.0"
 }

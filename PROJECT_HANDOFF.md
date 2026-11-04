@@ -2,22 +2,23 @@
 
 ## Current state
 
-R3 Persistent Orchestration Runtime implemented and audited on branch `feature/r3-orchestration-runtime`.
+R4 PROJECT-001 remediation implemented and audited on branch `feature/r4-project001-remediation`.
 
 ## What was being done
 
-R3 closure after independent audit.
+R4 closure after independent audit.
 
 ## Completed
 
-- Orchestration runtime and CLI.
-- Project, task, execution, event registries.
-- State machine and workflow engine.
-- OpenCode adapter.
-- Recovery and approval support.
-- R1/R2 integration.
-- 28 runtime tests.
-- R3 final audit PASS.
+- Backend authentication and authorization.
+- User isolation.
+- Complete task API.
+- Frontend integration.
+- Database decision and sessions.
+- Tests and quality certification.
+- Release manifest and traceability.
+- Deployment pipeline.
+- R4 final audit PASS.
 
 ## Pending
 
@@ -29,19 +30,19 @@ See Git history.
 
 ## Decisions taken
 
-ADR-001 to ADR-004.
+ADR-001 to ADR-005.
 
 ## Problems found
 
-None blocking.
+Minor frontend/adapter observations.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS. Runtime tests: 28 PASS.
+`python3 tests/run_all.py`: PASS. Backend tests: 7 PASS. R1: PASS_WITH_OBSERVATIONS. R2: PASS.
 
 ## Last valid commit
 
-v0.6.3-r3
+R4_REMEDIATION_COMMIT
 
 ## Instructions to continue
 

@@ -103,3 +103,13 @@
 - Results: R3 audit PASS.
 - Commit related: v0.6.3-r3
 - Next activities: merge and create remediation tag.
+
+## 2026-11-04 - R4 - PROJECT-001 Functional & Security Remediation
+
+- Phase: R4
+- Activities: Remediated PROJECT-001 backend auth/authz, isolation, API, frontend, database, tests, quality, release, and deployment.
+- Tests executed: `python3 tests/run_all.py` (PASS); backend tests (7 PASS).
+- Functional demo PASS; R1 PASS_WITH_OBSERVATIONS; R2 PASS.
+- Results: R4 audit PASS.
+- Commit related: R4_REMEDIATION_COMMIT
+- Next activities: merge and create remediation tag.

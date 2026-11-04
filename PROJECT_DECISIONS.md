@@ -36,7 +36,17 @@
 - Impact: Provider/model can change without losing definitions.
 - Status: vigente
 
-## ADR-004 - Independent audit
+## ADR-005 - PROJECT-001 uses SQLite for local implementation
+
+- ID: ADR-005
+- Date: 2026-11-04
+- Context: PROJECT-001 original architecture mentioned PostgreSQL, but implementation and tests use SQLite.
+- Problem: Need a consistent persistence decision for the remediation.
+- Alternatives: PostgreSQL with external server; SQLite local.
+- Decision: Use SQLite for the PROJECT-001 remediated implementation to keep it self-contained and testable.
+- Justification: Standard library support, reproducible local tests, no external service dependency.
+- Impact: Architecture documents should describe SQLite for PROJECT-001. PostgreSQL remains an option for future deployment.
+- Status: vigente
 
 - ID: ADR-004
 - Date: 2026-11-04

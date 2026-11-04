@@ -1,19 +1,31 @@
 {
-  "certificate_id": "QCERT-0001",
+  "certificate_id": "QCERT-0002",
   "project_id": "PROJECT-001",
-  "version": "0.4.0",
-  "commit": "61b10729f9abfabcb699e75e70d91c23dbfb72d3",
+  "version": "1.0.0",
+  "commit": "6404e4dae27f4d86ebddbd73b6f87de580974d00",
   "date": "2026-11-04",
-  "technologies": ["python", "html", "sql"],
-  "qa_result": "PASS (2 unit tests)",
+  "technologies": [
+    "python",
+    "html",
+    "sql"
+  ],
+  "qa_result": "PASS (7 backend tests)",
   "code_review_result": "PASS_WITH_OBSERVATIONS",
-  "performance_result": "PASS (1.039 ms health endpoint)",
-  "security_result": "PASS (no hardcoded secrets)",
-  "open_defects": ["CR-P001-001 missing authentication"],
-  "remediated_defects": [],
+  "performance_result": "PASS",
+  "security_result": "PASS_WITH_OBSERVATIONS",
+  "open_defects": [
+    "CR-P001-R4-002"
+  ],
+  "remediated_defects": [
+    "CR-P001-001"
+  ],
   "authorized_exceptions": [],
-  "evidence": ["implementations/PROJECT-001/quality/CODE_REVIEW_REPORT.md", "implementations/PROJECT-001/quality/PERFORMANCE_REPORT.md", "implementations/PROJECT-001/quality/SECURITY_AUDIT_REPORT.md", "implementations/PROJECT-001/tests/test_backend.py"],
+  "evidence": [
+    "implementations/PROJECT-001/quality/CODE_REVIEW_REPORT.md",
+    "implementations/PROJECT-001/quality/SECURITY_AUDIT_REPORT.md",
+    "implementations/PROJECT-001/quality/TEST_EXECUTION_REPORT.md"
+  ],
   "final_verdict": "PASS_WITH_OBSERVATIONS",
   "gatekeeper": "AG-002",
-  "evaluation_id": "EVAL-PROJECT001-001"
+  "evaluation_id": "EVAL-R4-001"
 }
