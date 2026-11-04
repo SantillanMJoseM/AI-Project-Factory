@@ -2,19 +2,22 @@
 
 ## Current state
 
-R2 Artifact & Release Traceability Engine implemented and audited on branch `feature/r2-artifact-release-traceability`.
+R3 Persistent Orchestration Runtime implemented and audited on branch `feature/r3-orchestration-runtime`.
 
 ## What was being done
 
-R2 closure after independent audit.
+R3 closure after independent audit.
 
 ## Completed
 
-- Traceability validator and CLI.
-- Schema updates.
-- AG-002, AG-016, AG-017 integration.
-- 20 traceability tests.
-- R2 final audit PASS.
+- Orchestration runtime and CLI.
+- Project, task, execution, event registries.
+- State machine and workflow engine.
+- OpenCode adapter.
+- Recovery and approval support.
+- R1/R2 integration.
+- 28 runtime tests.
+- R3 final audit PASS.
 
 ## Pending
 
@@ -34,11 +37,11 @@ None blocking.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS. Traceability tests: 20 PASS.
+`python3 tests/run_all.py`: PASS. Runtime tests: 28 PASS.
 
 ## Last valid commit
 
-v0.6.2-r2
+R3_REMEDIATION_COMMIT
 
 ## Instructions to continue
 

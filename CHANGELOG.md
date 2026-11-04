@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## R3 - 2026-11-04
+
+### Added
+
+- Persistent orchestration runtime.
+- SQLite registries and state machine.
+- Workflow engine and recovery.
+- OpenCode adapter and CLI.
+- 28 runtime tests.
+- R3 final audit PASS.
+
 ## R2 - 2026-11-04
 
 ### Added

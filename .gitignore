@@ -4,3 +4,7 @@
 secrets/
 __pycache__/
 *.pyc
+
+# Runtime state
+orchestration/runtime/*.db
+orchestration/runtime/*.db-*
