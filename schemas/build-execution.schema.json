@@ -2,16 +2,63 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "BuildExecution",
   "type": "object",
-  "required": ["execution_id","build_id","status","started_at","completed_at","artifact_path","artifact_hash","logs"],
+  "required": [
+    "execution_id",
+    "build_id",
+    "status",
+    "started_at",
+    "completed_at",
+    "artifact_path",
+    "artifact_hash",
+    "logs"
+  ],
   "properties": {
-    "execution_id": { "type": "string", "pattern": "^BEXEC-[0-9]{4}$" },
-    "build_id": { "type": "string", "pattern": "^BUILD-[0-9]{4}$" },
-    "status": { "type": "string", "enum": ["PENDING","RUNNING","COMPLETED","FAILED"] },
-    "started_at": { "type": "string", "minLength": 1 },
-    "completed_at": { "type": ["string","null"], "minLength": 1 },
-    "artifact_path": { "type": "string", "minLength": 1 },
-    "artifact_hash": { "type": "string", "minLength": 1 },
-    "logs": { "type": "array", "items": { "type": "string" } }
+    "execution_id": {
+      "type": "string",
+      "pattern": "^BEXEC-[0-9]{4}$"
+    },
+    "build_id": {
+      "type": "string",
+      "pattern": "^BUILD-[0-9]{4}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "RUNNING",
+        "COMPLETED",
+        "FAILED"
+      ]
+    },
+    "started_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "completed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "artifact_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "logs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_commit": {
+      "type": "string",
+      "minLength": 1
+    }
   },
   "additionalProperties": false
 }

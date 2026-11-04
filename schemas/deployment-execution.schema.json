@@ -2,16 +2,63 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DeploymentExecution",
   "type": "object",
-  "required": ["execution_id","deployment_id","status","started_at","completed_at","health_check","smoke_tests","rollback_executed"],
+  "required": [
+    "execution_id",
+    "deployment_id",
+    "status",
+    "started_at",
+    "completed_at",
+    "health_check",
+    "smoke_tests",
+    "rollback_executed"
+  ],
   "properties": {
-    "execution_id": { "type": "string", "pattern": "^DEXEC-[0-9]{4}$" },
-    "deployment_id": { "type": "string", "pattern": "^DEP-[0-9]{4}$" },
-    "status": { "type": "string", "enum": ["PENDING","RUNNING","COMPLETED","FAILED","ROLLED_BACK"] },
-    "started_at": { "type": "string", "minLength": 1 },
-    "completed_at": { "type": ["string","null"], "minLength": 1 },
-    "health_check": { "type": "string", "minLength": 1 },
-    "smoke_tests": { "type": "array", "items": { "type": "string" } },
-    "rollback_executed": { "type": "boolean" }
+    "execution_id": {
+      "type": "string",
+      "pattern": "^DEXEC-[0-9]{4}$"
+    },
+    "deployment_id": {
+      "type": "string",
+      "pattern": "^DEP-[0-9]{4}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "RUNNING",
+        "COMPLETED",
+        "FAILED",
+        "ROLLED_BACK"
+      ]
+    },
+    "started_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "completed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "health_check": {
+      "type": "string",
+      "minLength": 1
+    },
+    "smoke_tests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rollback_executed": {
+      "type": "boolean"
+    },
+    "artifact_hash": {
+      "type": "string",
+      "minLength": 1
+    }
   },
   "additionalProperties": false
 }

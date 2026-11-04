@@ -2,25 +2,126 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "QualityCertificate",
   "type": "object",
-  "required": ["certificate_id","project_id","version","commit","date","technologies","qa_result","code_review_result","performance_result","security_result","open_defects","remediated_defects","authorized_exceptions","evidence","final_verdict","gatekeeper","evaluation_id"],
+  "required": [
+    "certificate_id",
+    "project_id",
+    "version",
+    "commit",
+    "date",
+    "technologies",
+    "qa_result",
+    "code_review_result",
+    "performance_result",
+    "security_result",
+    "open_defects",
+    "remediated_defects",
+    "authorized_exceptions",
+    "evidence",
+    "final_verdict",
+    "gatekeeper",
+    "evaluation_id"
+  ],
   "properties": {
-    "certificate_id": { "type": "string", "pattern": "^QCERT-[0-9]{4}$" },
-    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
-    "version": { "type": "string", "minLength": 1 },
-    "commit": { "type": "string", "minLength": 1 },
-    "date": { "type": "string", "minLength": 1 },
-    "technologies": { "type": "array", "items": { "type": "string" } },
-    "qa_result": { "type": "string", "minLength": 1 },
-    "code_review_result": { "type": "string", "minLength": 1 },
-    "performance_result": { "type": "string", "minLength": 1 },
-    "security_result": { "type": "string", "minLength": 1 },
-    "open_defects": { "type": "array", "items": { "type": "string" } },
-    "remediated_defects": { "type": "array", "items": { "type": "string" } },
-    "authorized_exceptions": { "type": "array", "items": { "type": "string" } },
-    "evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
-    "final_verdict": { "type": "string", "enum": ["PASS","PASS_WITH_OBSERVATIONS","FAIL","BLOCKED"] },
-    "gatekeeper": { "type": "string", "pattern": "^AG-[0-9]{3}$" },
-    "evaluation_id": { "type": "string", "minLength": 1 }
+    "certificate_id": {
+      "type": "string",
+      "pattern": "^QCERT-[0-9]{4}$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^PROJECT-[0-9]{3,}$"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "type": "string",
+      "minLength": 1
+    },
+    "technologies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qa_result": {
+      "type": "string",
+      "minLength": 1
+    },
+    "code_review_result": {
+      "type": "string",
+      "minLength": 1
+    },
+    "performance_result": {
+      "type": "string",
+      "minLength": 1
+    },
+    "security_result": {
+      "type": "string",
+      "minLength": 1
+    },
+    "open_defects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "remediated_defects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "authorized_exceptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "final_verdict": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "PASS_WITH_OBSERVATIONS",
+        "FAIL",
+        "BLOCKED"
+      ]
+    },
+    "gatekeeper": {
+      "type": "string",
+      "pattern": "^AG-[0-9]{3}$"
+    },
+    "evaluation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_tree_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "certificate_hash": {
+      "type": "string",
+      "minLength": 1
+    }
   },
   "additionalProperties": false
 }

@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## R2 - 2026-11-04
+
+### Added
+
+- Artifact & Release Traceability Engine.
+- Traceability validator and CLI.
+- Schema traceability fields.
+- AG-002, AG-016, AG-017 integration.
+- 20 traceability tests.
+- R2 final audit PASS.
+
 ## R1 - 2026-11-04
 
 ### Added

@@ -2,19 +2,74 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DeploymentApproval",
   "type": "object",
-  "required": ["approval_id","project_id","version","commit","artifact","environment","strategy","rollback_plan","risks","approved_by","approved_at"],
+  "required": [
+    "approval_id",
+    "project_id",
+    "version",
+    "commit",
+    "artifact",
+    "environment",
+    "strategy",
+    "rollback_plan",
+    "risks",
+    "approved_by",
+    "approved_at"
+  ],
   "properties": {
-    "approval_id": { "type": "string", "pattern": "^APPR-[0-9]{4}$" },
-    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
-    "version": { "type": "string", "minLength": 1 },
-    "commit": { "type": "string", "minLength": 1 },
-    "artifact": { "type": "string", "minLength": 1 },
-    "environment": { "type": "string", "minLength": 1 },
-    "strategy": { "type": "string", "minLength": 1 },
-    "rollback_plan": { "type": "string", "minLength": 1 },
-    "risks": { "type": "array", "items": { "type": "string" } },
-    "approved_by": { "type": "string", "minLength": 1 },
-    "approved_at": { "type": "string", "minLength": 1 }
+    "approval_id": {
+      "type": "string",
+      "pattern": "^APPR-[0-9]{4}$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^PROJECT-[0-9]{3,}$"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_plan": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approved_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approved_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_hash": {
+      "type": "string",
+      "minLength": 1
+    }
   },
   "additionalProperties": false
 }
