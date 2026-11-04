@@ -101,5 +101,5 @@
 - Activities: Implemented SQLite orchestration runtime, state machine, registries, workflow engine, OpenCode adapter, CLI, recovery, and 28 tests.
 - Tests executed: `python3 tests/run_all.py` (PASS).
 - Results: R3 audit PASS.
-- Commit related: R3_REMEDIATION_COMMIT
+- Commit related: v0.6.3-r3
 - Next activities: merge and create remediation tag.

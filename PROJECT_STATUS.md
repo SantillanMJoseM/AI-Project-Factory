@@ -10,5 +10,5 @@
 - Blockers: none
 - Last Quality Gate: R3 runtime tests PASS
 - Last audit: R3_FINAL_AUDIT PASS
-- Last validated commit: R3_REMEDIATION_COMMIT
+- Last validated commit: v0.6.3-r3
 - Next recommended step: merge feature/r3-orchestration-runtime to main and create remediation tag

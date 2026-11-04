@@ -41,7 +41,7 @@ None blocking.
 
 ## Last valid commit
 
-R3_REMEDIATION_COMMIT
+v0.6.3-r3
 
 ## Instructions to continue
 

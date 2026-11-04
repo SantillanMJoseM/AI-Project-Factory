@@ -164,5 +164,5 @@
 - Objective: Execute R3 Persistent Orchestration Runtime.
 - Tasks executed: runtime, registries, state machine, workflow, adapter, CLI, recovery, tests, audit.
 - Result: R3 audit PASS.
-- Commit generated: R3_REMEDIATION_COMMIT
+- Commit generated: v0.6.3-r3
 - Next step: merge and create remediation tag.
