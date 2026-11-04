@@ -72,7 +72,7 @@
 - Activities: Verified repository, tests, and secrets; created GitHub repository; pushed main and six tags; verified clean clone and tests.
 - Remote URL: https://github.com/SantillanMJoseM/AI-Project-Factory.git
 - Branch: main
-- Commit: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
+- Commit: v0.6.1-r1 (commit d5d015a32fe1c354b8c959b01c01c6e66b5be2d0)
 - Tags: v0.1.0-f0, v0.2.0-f1, v0.3.0-f2, v0.4.0-f3, v0.5.0-f4, v0.6.0-f5
 - Clean clone test: PASS
 - Tests: PASS
@@ -83,7 +83,7 @@
 - Activities: Implemented deterministic Quality Gate Runtime, CLI, schema update, AG-002 integration, and 16 tests.
 - Tests executed: `python3 tests/run_all.py` (PASS).
 - Results: R1 audit PASS.
-- Commit related: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
+- Commit related: v0.6.1-r1 (commit d5d015a32fe1c354b8c959b01c01c6e66b5be2d0)
 - Next activities: merge and create remediation tag.
 
 ## 2026-11-04 - R2 - Artifact & Release Traceability Engine
@@ -120,5 +120,5 @@
 - Activities: Created pilot docs, preflight command, controlled invocation evidence, R5 preparation audit.
 - Tests executed: `python3 tests/run_all.py` (PASS); preflight PASS.
 - Results: R5 preparation audit PASS.
-- Commit related: 74c762f6113933728fb4a7bc690f1309513dbc2a
+- Commit related: d5d015a32fe1c354b8c959b01c01c6e66b5be2d0
 - Next activities: review and integrate branch; await pilot brief approval.

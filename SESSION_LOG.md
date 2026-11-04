@@ -127,7 +127,7 @@
 - Tasks executed: audit, create remote, push main and tags, clean clone verification.
 - Result: publication successful.
 - Remote URL: https://github.com/SantillanMJoseM/AI-Project-Factory.git
-- Commit: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
+- Commit: v0.6.1-r1 (commit d5d015a32fe1c354b8c959b01c01c6e66b5be2d0)
 - Tags: v0.1.0-f0, v0.2.0-f1, v0.3.0-f2, v0.4.0-f3, v0.5.0-f4, v0.6.0-f5
 - Clean clone tests: PASS
 
@@ -140,7 +140,7 @@
 - Objective: Execute R1 Executable Quality Gate Runtime.
 - Tasks executed: runtime, CLI, schema, AG-002 integration, tests, audit.
 - Result: R1 audit PASS.
-- Commit generated: v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
+- Commit generated: v0.6.1-r1 (commit d5d015a32fe1c354b8c959b01c01c6e66b5be2d0)
 - Next step: merge and create remediation tag.
 
 ## Session R2-001
@@ -188,5 +188,5 @@
 - Objective: Prepare R5 pilot.
 - Tasks executed: docs, preflight, controlled invocation, audit.
 - Result: R5 preparation audit PASS.
-- Commit generated: 74c762f6113933728fb4a7bc690f1309513dbc2a
+- Commit generated: d5d015a32fe1c354b8c959b01c01c6e66b5be2d0
 - Next step: review and integrate branch.
