@@ -66,6 +66,7 @@ Design and implement build, packaging, CI/CD, environment, infrastructure, and o
 ## Dependencies
 
 - contracts/coordination-contract.md
+- orchestration/validators/traceability/
 
 ## Acceptance criteria
 

@@ -37,6 +37,7 @@ See `PROJECT_MAP.md`.
 - Standards (`standards/`).
 - Quality Gates (`quality-gates/`).
 - Quality Gate runtime (`orchestration/validators/`).
+- Traceability engine (`orchestration/validators/traceability/`).
 - Templates (`templates/`).
 - Tests (`tests/`).
 - Documentation (`docs/`).

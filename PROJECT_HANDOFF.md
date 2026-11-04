@@ -2,19 +2,19 @@
 
 ## Current state
 
-R1 Executable Quality Gate Runtime implemented and audited on branch `feature/r1-executable-quality-gates`.
+R2 Artifact & Release Traceability Engine implemented and audited on branch `feature/r2-artifact-release-traceability`.
 
 ## What was being done
 
-R1 closure after independent audit.
+R2 closure after independent audit.
 
 ## Completed
 
-- Quality Gate Runtime and CLI.
-- Schema update for evaluation_id.
-- AG-002 integration.
-- Runtime tests and real-case reproduction.
-- R1 final audit PASS.
+- Traceability validator and CLI.
+- Schema updates.
+- AG-002, AG-016, AG-017 integration.
+- 20 traceability tests.
+- R2 final audit PASS.
 
 ## Pending
 
@@ -34,11 +34,11 @@ None blocking.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS. Runtime tests: 16 PASS.
+`python3 tests/run_all.py`: PASS. Traceability tests: 20 PASS.
 
 ## Last valid commit
 
-v0.6.1-r1 (commit cecf2ea1e255d5c1d290c17ccdefbd6997db3a32)
+R2_REMEDIATION_COMMIT
 
 ## Instructions to continue
 

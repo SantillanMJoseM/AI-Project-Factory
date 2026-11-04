@@ -67,6 +67,7 @@ Prepare, validate, coordinate, verify, and document controlled deployments.
 ## Dependencies
 
 - contracts/coordination-contract.md
+- orchestration/validators/traceability/
 
 ## Acceptance criteria
 

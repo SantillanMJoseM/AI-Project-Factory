@@ -73,6 +73,7 @@ Perform independent audits of deliverables, inspect real artifacts, verify accep
 - contracts/audit-contract.md
 - quality-gates/
 - orchestration/validators/quality_gate.py
+- orchestration/validators/traceability/
 
 ## Acceptance criteria
 
