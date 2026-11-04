@@ -2,28 +2,26 @@
 
 ## Current state
 
-F5 DevOps & Deployment Engine implemented and audited on branch `feature/f5-devops-deployment-engine`.
+AI-Project-Factory v0.6.0 is published at https://github.com/SantillanMJoseM/AI-Project-Factory.git on branch main.
 
 ## What was being done
 
-F5 closure after independent audit.
+Repository publication and clean clone verification.
 
 ## Completed
 
-- AG-016 to AG-018 functional definitions and OpenCode agents.
-- DevOps contracts and schemas.
-- F5 workflow and Quality Gates.
-- Demo pipeline, rollback, release manifest, runbook.
-- F5 integration tests and regression.
-- F5 final audit PASS.
+- Audited repository status, tests, and secrets.
+- Created and published remote repository.
+- Pushed main and all six tags.
+- Verified clean clone and test execution.
 
 ## Pending
 
-- Merge to main and tag v0.6.0-f5.
+- None for publication.
 
 ## Modified files
 
-See Git history.
+Publication metadata in context files.
 
 ## Decisions taken
 
@@ -31,16 +29,16 @@ ADR-001 to ADR-004.
 
 ## Problems found
 
-Model timeout; split runs.
+None.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS. Pipeline: PASS. Rollback: PASS. TEST-F5-001 to TEST-F5-022: PASS.
+`python3 tests/run_all.py` in original and clean clone: PASS.
 
 ## Last valid commit
 
-v0.6.0-f5
+fc6913167b0393634ed8cb314c23c5f9eb3efc3f
 
 ## Instructions to continue
 
-Merge feature branch to main after review, tag v0.6.0-f5.
+No further action required for publication.

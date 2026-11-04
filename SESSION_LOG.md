@@ -116,3 +116,17 @@
 - Result: F5 audit PASS.
 - Commit generated: v0.6.0-f5
 - Next step: merge and tag v0.6.0-f5.
+
+## Session PUB-001
+
+- Session ID: PUB-001
+- Model: OpenCode Beam
+- Runtime: OpenCode
+- Date: 2026-11-04
+- Objective: Publish repository to GitHub.
+- Tasks executed: audit, create remote, push main and tags, clean clone verification.
+- Result: publication successful.
+- Remote URL: https://github.com/SantillanMJoseM/AI-Project-Factory.git
+- Commit: fc6913167b0393634ed8cb314c23c5f9eb3efc3f
+- Tags: v0.1.0-f0, v0.2.0-f1, v0.3.0-f2, v0.4.0-f3, v0.5.0-f4, v0.6.0-f5
+- Clean clone tests: PASS

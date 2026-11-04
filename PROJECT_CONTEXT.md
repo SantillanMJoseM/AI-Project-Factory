@@ -1,5 +1,11 @@
 # PROJECT_CONTEXT
 
+## Repository
+
+- Remote: https://github.com/SantillanMJoseM/AI-Project-Factory.git
+- Branch: main
+- Published commit: fc6913167b0393634ed8cb314c23c5f9eb3efc3f
+
 ## Identity
 
 - Name: AI-Project-Factory

@@ -1,14 +1,19 @@
 # PROJECT_STATUS
 
 - Version: 0.6.0
-- Active phase: F5 - DevOps & Deployment Engine
-- Active sprint: F5 closure
-- Last completed task: F5 integration tests and independent audit
+- Active phase: Publication complete
+- Active sprint: Repository publication
+- Last completed task: Clean clone verification and tests
 - Task in progress: none
 - Pending tasks:
-  - None for F5
+  - None
 - Blockers: none
 - Last Quality Gate: QG-F5-10 PASS (audit)
 - Last audit: F5_FINAL_AUDIT PASS
-- Last validated commit: v0.6.0-f5
-- Next recommended step: merge feature/f5-devops-deployment-engine to main and tag v0.6.0-f5
+- Last validated commit: fc6913167b0393634ed8cb314c23c5f9eb3efc3f
+- Published remote: https://github.com/SantillanMJoseM/AI-Project-Factory.git
+- Published branch: main
+- Published tags: v0.1.0-f0, v0.2.0-f1, v0.3.0-f2, v0.4.0-f3, v0.5.0-f4, v0.6.0-f5
+- Clean clone test: PASS
+- Clone tests: PASS
+- Next recommended step: none for publication; await next phase instructions
