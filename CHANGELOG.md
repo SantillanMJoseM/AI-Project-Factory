@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## R5 Preparation - 2026-11-04
+
+### Added
+
+- R5 pilot documentation.
+- R5 environment preflight command.
+- Controlled invocation evidence.
+- R5 preparation audit PASS.
+
 ## R4 - 2026-11-04
 
 ### Added

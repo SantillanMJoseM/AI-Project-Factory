@@ -2,27 +2,23 @@
 
 ## Current state
 
-R4 PROJECT-001 remediation implemented and audited on branch `feature/r4-project001-remediation`.
+R5 preparation completed on branch `feature/r5-pilot-preparation`.
 
 ## What was being done
 
-R4 closure after independent audit.
+R5 pilot preparation and audit.
 
 ## Completed
 
-- Backend authentication and authorization.
-- User isolation.
-- Complete task API.
-- Frontend integration.
-- Database decision and sessions.
-- Tests and quality certification.
-- Release manifest and traceability.
-- Deployment pipeline.
-- R4 final audit PASS.
+- Pilot docs.
+- Preflight command.
+- Controlled invocation evidence.
+- R5 preparation audit PASS.
 
 ## Pending
 
-- Merge to main and create remediation tag.
+- Human approval of pilot brief.
+- Review and integration of preparation branch.
 
 ## Modified files
 
@@ -34,16 +30,16 @@ ADR-001 to ADR-005.
 
 ## Problems found
 
-Minor frontend/adapter observations.
+None.
 
 ## Tests executed and results
 
-`python3 tests/run_all.py`: PASS. Backend tests: 7 PASS. R1: PASS_WITH_OBSERVATIONS. R2: PASS.
+`python3 tests/run_all.py`: PASS. Preflight: PASS.
 
 ## Last valid commit
 
-v0.6.4-r4
+74c762f6113933728fb4a7bc690f1309513dbc2a
 
 ## Instructions to continue
 
-Merge feature branch to main after review, create remediation tag.
+Review branch, integrate if approved, then await pilot brief.

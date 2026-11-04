@@ -113,3 +113,12 @@
 - Results: R4 audit PASS.
 - Commit related: v0.6.4-r4
 - Next activities: merge and create remediation tag.
+
+## 2026-11-04 - R5 Preparation
+
+- Phase: R5 preparation
+- Activities: Created pilot docs, preflight command, controlled invocation evidence, R5 preparation audit.
+- Tests executed: `python3 tests/run_all.py` (PASS); preflight PASS.
+- Results: R5 preparation audit PASS.
+- Commit related: 74c762f6113933728fb4a7bc690f1309513dbc2a
+- Next activities: review and integrate branch; await pilot brief approval.
