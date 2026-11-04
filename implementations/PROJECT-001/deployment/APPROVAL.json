@@ -1,0 +1,13 @@
+{
+  "approval_id": "APPR-0001",
+  "project_id": "PROJECT-001",
+  "version": "0.4.0",
+  "commit": "26a5af6dc3baca5b37183911fcece7066e2ec467",
+  "artifact": "artifact.zip",
+  "environment": "staging-local",
+  "strategy": "in_place",
+  "rollback_plan": "RB-0001",
+  "risks": ["missing authentication"],
+  "approved_by": "human",
+  "approved_at": "2026-11-04"
+}

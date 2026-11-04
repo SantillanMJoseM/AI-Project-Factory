@@ -1,0 +1,11 @@
+{
+  "deployment_id": "DEP-0001",
+  "project_id": "PROJECT-001",
+  "version": "0.4.0",
+  "commit": "26a5af6dc3baca5b37183911fcece7066e2ec467",
+  "artifact": "artifact.zip",
+  "environment": "staging-local",
+  "strategy": "in_place",
+  "rollback_plan": "RB-0001",
+  "created_by": "AG-017"
+}

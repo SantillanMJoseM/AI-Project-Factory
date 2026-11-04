@@ -1,0 +1,6 @@
+{
+  "manifest_id": "DOCMAN-0001",
+  "project_id": "PROJECT-001",
+  "documents": ["RUNBOOK.md", "RELEASE_MANIFEST.json"],
+  "owner": "AG-018"
+}

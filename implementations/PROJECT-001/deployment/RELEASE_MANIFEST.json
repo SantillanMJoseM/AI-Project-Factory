@@ -1,0 +1,9 @@
+{
+  "release_id": "REL-0001",
+  "project_id": "PROJECT-001",
+  "version": "0.4.0",
+  "commit": "26a5af6dc3baca5b37183911fcece7066e2ec467",
+  "artifact": "artifact.zip",
+  "quality_certificate": "implementations/PROJECT-001/quality/QUALITY_CERTIFICATE.json",
+  "created_by": "AG-016"
+}

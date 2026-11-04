@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EnvironmentDefinition",
+  "type": "object",
+  "required": ["environment_id","name","type","configuration","secrets_reference"],
+  "properties": {
+    "environment_id": { "type": "string", "pattern": "^ENV-[0-9]{4}$" },
+    "name": { "type": "string", "minLength": 1 },
+    "type": { "type": "string", "enum": ["development","testing","staging","production"] },
+    "configuration": { "type": "object" },
+    "secrets_reference": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.6.0 - 2026-11-04
+
+### Added
+
+- F5 DevOps & Deployment Engine: AG-016 to AG-018.
+- DevOps contracts and schemas.
+- F5 workflow and Quality Gates.
+- Demo pipeline, rollback, release manifest, runbook.
+- F5 final audit PASS.
+
 ## 0.5.0 - 2026-11-04
 
 ### Added

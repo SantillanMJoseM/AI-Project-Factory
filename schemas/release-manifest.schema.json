@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseManifest",
+  "type": "object",
+  "required": ["release_id","project_id","version","commit","artifact","quality_certificate","created_by"],
+  "properties": {
+    "release_id": { "type": "string", "pattern": "^REL-[0-9]{4}$" },
+    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
+    "version": { "type": "string", "minLength": 1 },
+    "commit": { "type": "string", "minLength": 1 },
+    "artifact": { "type": "string", "minLength": 1 },
+    "quality_certificate": { "type": "string", "minLength": 1 },
+    "created_by": { "type": "string", "pattern": "^AG-[0-9]{3}$" }
+  },
+  "additionalProperties": false
+}

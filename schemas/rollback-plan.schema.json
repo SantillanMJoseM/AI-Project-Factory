@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RollbackPlan",
+  "type": "object",
+  "required": ["rollback_id","deployment_id","trigger_conditions","steps","estimated_time","owner"],
+  "properties": {
+    "rollback_id": { "type": "string", "pattern": "^RB-[0-9]{4}$" },
+    "deployment_id": { "type": "string", "pattern": "^DEP-[0-9]{4}$" },
+    "trigger_conditions": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "steps": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "estimated_time": { "type": "string", "minLength": 1 },
+    "owner": { "type": "string", "pattern": "^AG-[0-9]{3}$" }
+  },
+  "additionalProperties": false
+}

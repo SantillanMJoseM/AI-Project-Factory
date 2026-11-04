@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OperationalRunbook",
+  "type": "object",
+  "required": ["runbook_id","project_id","procedures","rollback","recovery","owner"],
+  "properties": {
+    "runbook_id": { "type": "string", "pattern": "^RUNBOOK-[0-9]{4}$" },
+    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
+    "procedures": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "rollback": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "recovery": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "owner": { "type": "string", "pattern": "^AG-[0-9]{3}$" }
+  },
+  "additionalProperties": false
+}

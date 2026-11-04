@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BuildPlan",
+  "type": "object",
+  "required": ["build_id","project_id","version","commit","technology","build_steps","artifact_name","created_by"],
+  "properties": {
+    "build_id": { "type": "string", "pattern": "^BUILD-[0-9]{4}$" },
+    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
+    "version": { "type": "string", "minLength": 1 },
+    "commit": { "type": "string", "minLength": 1 },
+    "technology": { "type": "string", "minLength": 1 },
+    "build_steps": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "artifact_name": { "type": "string", "minLength": 1 },
+    "created_by": { "type": "string", "pattern": "^AG-[0-9]{3}$" }
+  },
+  "additionalProperties": false
+}

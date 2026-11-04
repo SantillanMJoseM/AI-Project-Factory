@@ -54,3 +54,14 @@
 - Incidents: model timeout; split runs.
 - Commit related: v0.5.0-f4
 - Next activities: merge and tag v0.5.0-f4.
+
+## 2026-11-04 - F5 - DevOps & Deployment Engine
+
+- Phase: F5
+- Sprint: S5.1-S5.9
+- Activities: Implemented AG-016 to AG-018; added DevOps contracts and schemas; F5 workflow and Quality Gates; demo pipeline, rollback, release manifest, runbook; F5 integration tests; independent audit.
+- Tests executed: `python3 tests/run_all.py` (PASS); pipeline BUILD/DEPLOY/HEALTH/SMOKE PASS; rollback PASS; TEST-F5-001 to TEST-F5-022 (PASS).
+- Results: F5 audit PASS.
+- Incidents: model timeout; split runs.
+- Commit related: v0.6.0-f5
+- Next activities: merge and tag v0.6.0-f5.
