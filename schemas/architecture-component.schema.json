@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ArchitectureComponent",
+  "type": "object",
+  "required": ["id", "name", "responsibility", "interfaces", "dependencies", "requirements"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^COMP-[0-9]{4}$" },
+    "name": { "type": "string", "minLength": 1 },
+    "responsibility": { "type": "string", "minLength": 1 },
+    "interfaces": { "type": "array", "items": { "type": "string" } },
+    "dependencies": { "type": "array", "items": { "type": "string" } },
+    "requirements": { "type": "array", "items": { "type": "string", "pattern": "^REQ-[0-9]{4}$" }, "minItems": 1 }
+  },
+  "additionalProperties": false
+}

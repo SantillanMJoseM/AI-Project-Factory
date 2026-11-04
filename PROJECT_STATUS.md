@@ -1,14 +1,14 @@
 # PROJECT_STATUS
 
-- Version: 0.2.0
-- Active phase: F1 - Agent control core
-- Active sprint: F1 closure
-- Last completed task: F1 integration tests and independent audit
+- Version: 0.3.0
+- Active phase: F2 - Intelligence & Architecture Engine
+- Active sprint: F2 closure
+- Last completed task: F2 integration tests and independent audit
 - Task in progress: none
 - Pending tasks:
-  - None for F1
+  - None for F2
 - Blockers: none
-- Last Quality Gate: QG-03 PASS (tests)
-- Last audit: F1_FINAL_AUDIT PASS
-- Last validated commit: v0.2.0-f1
-- Next recommended step: merge feature/f1-agent-control-core to main and tag v0.2.0-f1
+- Last Quality Gate: QG-F2-06 PASS (audit)
+- Last audit: F2_FINAL_AUDIT PASS
+- Last validated commit: v0.3.0-f2
+- Next recommended step: merge feature/f2-intelligence-architecture to main and tag v0.3.0-f2

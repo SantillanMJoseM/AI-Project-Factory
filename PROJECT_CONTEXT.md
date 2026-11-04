@@ -3,7 +3,7 @@
 ## Identity
 
 - Name: AI-Project-Factory
-- Version: 0.2.0
+- Version: 0.3.0
 - Runtime: OpenCode
 - Autonomy: supervised
 - Scope: universal
@@ -25,14 +25,15 @@ See `PROJECT_MAP.md`.
 
 - Persistent context files (root).
 - OpenCode integration (`.opencode/`, `integrations/opencode/`).
-- Normative agent catalog (`agents/`).
-- Contracts (`contracts/`) and JSON Schemas (`schemas/`).
+- Normative agent catalog (`agents/`), including AG-004 to AG-007.
+- Contracts (`contracts/`) and JSON Schemas (`schemas/`), including F2 schemas.
 - Orchestration (`orchestration/`).
 - Standards (`standards/`).
 - Quality Gates (`quality-gates/`).
 - Templates (`templates/`).
 - Tests (`tests/`).
 - Documentation (`docs/`).
+- Generated projects (`projects/`).
 
 ## Agent catalog
 

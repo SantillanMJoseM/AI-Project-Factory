@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 0.3.0 - 2026-11-04
+
+### Added
+
+- F2 Intelligence & Architecture Engine: AG-004 to AG-007.
+- 7 F2 JSON Schemas.
+- F2 workflow, Quality Gates, project template.
+- Sample project deliverables.
+- F2 tests and integration tests.
+- F2 final audit PASS.
+
 ## 0.2.0 - 2026-11-04
 
 ### Added

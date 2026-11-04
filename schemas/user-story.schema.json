@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UserStory",
+  "type": "object",
+  "required": ["id", "actor", "story", "acceptance_criteria", "priority", "related_requirement"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^US-[0-9]{4}$" },
+    "actor": { "type": "string", "minLength": 1 },
+    "story": { "type": "string", "minLength": 1 },
+    "acceptance_criteria": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "priority": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+    "related_requirement": { "type": "string", "pattern": "^REQ-[0-9]{4}$" }
+  },
+  "additionalProperties": false
+}
