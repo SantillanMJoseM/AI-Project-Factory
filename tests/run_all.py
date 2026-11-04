@@ -8,7 +8,7 @@ tests = [
     "contracts/test_state_transitions.py",
     "policies/test_policy_files.py",
     "contracts/test_f5_schemas.py",
-    "orchestration/test_f5_structure.py",
+    "orchestration/test_quality_gate_runtime.py",
 ]
 
 failed = False

@@ -37,3 +37,4 @@
 - Quality Gates: `quality-gates/`
 - `projects/`: generated project deliverables.
 - `quality-gates/f2/`: F2 Quality Gates.
+- Quality Gate runtime: `orchestration/validators/`

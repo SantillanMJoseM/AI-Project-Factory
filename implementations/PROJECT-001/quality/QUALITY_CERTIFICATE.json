@@ -14,5 +14,6 @@
   "authorized_exceptions": [],
   "evidence": ["implementations/PROJECT-001/quality/CODE_REVIEW_REPORT.md", "implementations/PROJECT-001/quality/PERFORMANCE_REPORT.md", "implementations/PROJECT-001/quality/SECURITY_AUDIT_REPORT.md", "implementations/PROJECT-001/tests/test_backend.py"],
   "final_verdict": "PASS_WITH_OBSERVATIONS",
-  "gatekeeper": "AG-002"
+  "gatekeeper": "AG-002",
+  "evaluation_id": "EVAL-PROJECT001-001"
 }

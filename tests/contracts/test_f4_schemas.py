@@ -28,7 +28,7 @@ def test_security_finding_example():
     validate({"finding_id":"SEC-0001","category":"config","component":"app","evidence":["x"],"impact":"y","probability":"low","severity":"LOW","recommendation":"r","status":"open"}, load_json(SCHEMAS/"security-finding.schema.json"))
 
 def test_quality_certificate_example():
-    validate({"certificate_id":"QCERT-0001","project_id":"PROJECT-001","version":"0.4.0","commit":"abc","date":"2026-11-04","technologies":["python"],"qa_result":"pass","code_review_result":"pass","performance_result":"pass","security_result":"pass","open_defects":[],"remediated_defects":[],"authorized_exceptions":[],"evidence":["log"],"final_verdict":"PASS","gatekeeper":"AG-002"}, load_json(SCHEMAS/"quality-certificate.schema.json"))
+    validate({"certificate_id":"QCERT-0001","project_id":"PROJECT-001","version":"0.4.0","commit":"abc","date":"2026-11-04","technologies":["python"],"qa_result":"pass","code_review_result":"pass","performance_result":"pass","security_result":"pass","open_defects":[],"remediated_defects":[],"authorized_exceptions":[],"evidence":["log"],"final_verdict":"PASS","gatekeeper":"AG-002","evaluation_id":"EVAL-0001"}, load_json(SCHEMAS/"quality-certificate.schema.json"))
 
 if __name__ == "__main__":
     for fn in [test_test_plan_example,test_test_case_example,test_test_execution_example,test_defect_example,test_code_review_example,test_performance_report_example,test_security_finding_example,test_quality_certificate_example]:

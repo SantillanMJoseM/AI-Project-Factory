@@ -36,6 +36,7 @@ See `PROJECT_MAP.md`.
 - Orchestration (`orchestration/`).
 - Standards (`standards/`).
 - Quality Gates (`quality-gates/`).
+- Quality Gate runtime (`orchestration/validators/`).
 - Templates (`templates/`).
 - Tests (`tests/`).
 - Documentation (`docs/`).

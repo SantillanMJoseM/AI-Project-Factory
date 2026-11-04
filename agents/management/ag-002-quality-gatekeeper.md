@@ -18,6 +18,8 @@ Perform independent audits of deliverables, inspect real artifacts, verify accep
 - Review evidence.
 - Identify defects.
 - Classify defect severity.
+- Execute the independent Quality Gate Runtime.
+- Interpret runtime results without modifying them.
 - Emit audit verdict.
 - Require remediation for blocking defects.
 - Repeat audit after corrections.
@@ -30,6 +32,8 @@ Perform independent audits of deliverables, inspect real artifacts, verify accep
 - Cannot trust developer reports alone.
 - Cannot audit its own execution as approval.
 - Cannot change audit results to pass.
+- Cannot override Quality Gate Runtime results.
+- Must execute `orchestration.validators.quality_gate` for certificate validation.
 
 ## Inputs
 
@@ -68,6 +72,7 @@ Perform independent audits of deliverables, inspect real artifacts, verify accep
 
 - contracts/audit-contract.md
 - quality-gates/
+- orchestration/validators/quality_gate.py
 
 ## Acceptance criteria
 
