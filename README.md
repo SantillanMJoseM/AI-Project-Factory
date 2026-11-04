@@ -4,7 +4,7 @@ AI-Project-Factory is a universal, multi-agent software factory foundation. It d
 
 ## Version
 
-0.1.0
+0.3.0
 
 ## Status
 

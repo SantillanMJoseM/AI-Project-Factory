@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DatabaseEntity",
+  "type": "object",
+  "required": ["id", "description", "attributes", "relationships", "constraints", "indexes", "requirements"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^ENT-[0-9]{4}$" },
+    "description": { "type": "string", "minLength": 1 },
+    "attributes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "key"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "minLength": 1 },
+          "key": { "type": "string", "enum": ["none", "primary", "foreign", "unique"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "relationships": { "type": "array", "items": { "type": "string" } },
+    "constraints": { "type": "array", "items": { "type": "string" } },
+    "indexes": { "type": "array", "items": { "type": "string" } },
+    "requirements": { "type": "array", "items": { "type": "string", "pattern": "^REQ-[0-9]{4}$" }, "minItems": 1 }
+  },
+  "additionalProperties": false
+}

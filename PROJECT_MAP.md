@@ -35,4 +35,5 @@
 - Schemas: `schemas/`
 - Workflows: `orchestration/workflows/`
 - Quality Gates: `quality-gates/`
-- OpenCode integration: `integrations/opencode/`
+- `projects/`: generated project deliverables.
+- `quality-gates/f2/`: F2 Quality Gates.

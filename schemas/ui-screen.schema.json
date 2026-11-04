@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UIScreen",
+  "type": "object",
+  "required": ["id", "objective", "user_profile", "displayed_info", "actions", "validations", "states", "errors", "navigation", "related_requirements"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^SCR-[0-9]{4}$" },
+    "objective": { "type": "string", "minLength": 1 },
+    "user_profile": { "type": "string", "minLength": 1 },
+    "displayed_info": { "type": "array", "items": { "type": "string" } },
+    "actions": { "type": "array", "items": { "type": "string" } },
+    "validations": { "type": "array", "items": { "type": "string" } },
+    "states": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "navigation": { "type": "array", "items": { "type": "string" } },
+    "related_requirements": { "type": "array", "items": { "type": "string", "pattern": "^REQ-[0-9]{4}$" }, "minItems": 1 }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TraceabilityMatrix",
+  "type": "object",
+  "required": ["project_id", "entries"],
+  "properties": {
+    "project_id": { "type": "string", "pattern": "^PROJECT-[0-9]{3,}$" },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["requirement_id", "user_story", "component", "screen", "entity", "acceptance_criteria", "dev_task"],
+        "properties": {
+          "requirement_id": { "type": "string", "pattern": "^REQ-[0-9]{4}$" },
+          "user_story": { "type": "string" },
+          "component": { "type": "string" },
+          "screen": { "type": "string" },
+          "entity": { "type": "string" },
+          "acceptance_criteria": { "type": "string" },
+          "dev_task": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
