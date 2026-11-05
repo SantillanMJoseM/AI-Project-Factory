@@ -131,3 +131,12 @@
 - Results: R5.1 audit PASS.
 - Commit related: v0.6.5-r5.1
 - Next activities: merge and create remediation tag.
+
+## 2026-11-05 - R5.2A - Security Blockers and ProjectDesk Pilot
+
+- Phase: R5.2A
+- Activities: Removed `--auto`, implemented private OpenCode server sandbox, restricted AG-001 delegation and denied `execute` for all factory agents, made migration 4 atomic/idempotent, fixed test traceability, created install scripts/docs, piloted ProjectDesk through 10 agent tasks, produced review reports.
+- Tests executed: Factory `python3 tests/run_all.py` (PASS); ProjectDesk `pytest tests/` (30 PASS).
+- Results: PILOT_SUCCESS_WITH_LIMITATIONS.
+- Commit related: 6b28655 (feature/r5.2a-implementation); ProjectDesk 9c5ecf7 (projectdesk branch).
+- Next activities: fresh LXC install on second container; reconcile normative agent permissions; merge feature branch after review.

@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## R5.2A - 2026-11-05
+
+### Added
+
+- Atomic/idempotent migration 4 for R5.2A execution integrity.
+- `OpenCodeSandbox` with private `opencode serve` inside `unshare -Urm`.
+- Fail-closed `OpenCodeAdapter` without `--auto`, with env allowlist and explicit PWD.
+- Agent permission restrictions: AG-001 delegates only to `ag-*`; all factory agents deny `execute`.
+- R5.2A test traceability fixes (AC-027, AC-028, AC-to-test mapping).
+- Installation scripts and documentation under `install/`.
+- ProjectDesk pilot execution and `orchestration/pilot_runner.py`.
+- Pilot report: `docs/pilot/FACTORY_FIRST_INSTALL_AND_PROJECTDESK_REPORT.md`.
+
+### Changed
+
+- Development agents use `write: allow` for non-interactive pilot execution.
+- `orchestration/preflight/r5_preflight.py` no longer uses `--auto`.
+
+### Pilot result
+
+- PILOT_SUCCESS_WITH_LIMITATIONS.
+- Factory tests: PASS; ProjectDesk tests: 30 PASS.
+- ProjectDesk branch pushed to `AI-Project-Factory-Pilot`.
+
 ## R5.1 - 2026-11-04
 
 ### Added
