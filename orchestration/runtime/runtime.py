@@ -1034,6 +1034,20 @@ def evaluate_gate(conn, project_id, certificate_path=None, evidence_dir=None, ta
     return result
 
 
+def _resolve_opencode_agent_id(adapter, agent_id):
+    """Map AG-XXX or ag-xxx-role identifiers to an available OpenCode agent id."""
+    if adapter.validate_agent(agent_id):
+        return agent_id
+    prefix = agent_id.lower().split("-")[:2]
+    if len(prefix) == 2 and prefix[0] == "ag":
+        needle = f"{prefix[0]}-{prefix[1]}-"
+        for a in adapter.list_agents():
+            oc_id = a.get("id", "")
+            if oc_id.startswith(needle):
+                return oc_id
+    return None
+
+
 def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None):
     from orchestration.runtime.opencode_adapter import OpenCodeAdapter
     if adapter is None:
@@ -1043,9 +1057,10 @@ def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None)
     repo_path = Path(project["repo_path"])
     if not repo_path.is_dir():
         raise ValueError(f"Project repository not found: {repo_path}")
-    agent_id = task["agent_id"]
-    if not adapter.validate_agent(agent_id):
-        raise ValueError(f"Agent not available in OpenCode: {agent_id}")
+    raw_agent_id = task["agent_id"]
+    opencode_agent_id = _resolve_opencode_agent_id(adapter, raw_agent_id)
+    if not opencode_agent_id:
+        raise ValueError(f"Agent not available in OpenCode: {raw_agent_id}")
     # Idempotency: do not duplicate completed/review executions.
     latest = conn.execute("SELECT * FROM executions WHERE task_id=? ORDER BY started_at DESC", (task_id,)).fetchone()
     current = get_task(conn, task_id)
@@ -1056,21 +1071,21 @@ def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None)
     if current["status"] in {"PENDING", "BLOCKED", "FAILED", "REJECTED"}:
         if not task_dependencies_complete(conn, current):
             raise ValueError("Task dependencies are not complete")
-        assign_task(conn, task_id, agent_id)
+        assign_task(conn, task_id, raw_agent_id)
         current = get_task(conn, task_id)
     if current["status"] not in {"ASSIGNED", "RUNNING"}:
         raise ValueError(f"Task cannot run from state {current['status']}")
-    update_task_status(conn, task_id, "RUNNING", actor=agent_id)
-    eid = create_execution(conn, task["project_id"], task_id, agent_id, commit=project.get("initial_commit"), context=prompt, inputs=[prompt])
-    result = adapter.invoke(agent_id, prompt, cwd=repo_path, factory_root=Path(__file__).resolve().parents[2], model=model)
+    update_task_status(conn, task_id, "RUNNING", actor=raw_agent_id)
+    eid = create_execution(conn, task["project_id"], task_id, raw_agent_id, commit=project.get("initial_commit"), context=prompt, inputs=[prompt])
+    result = adapter.invoke(opencode_agent_id, prompt, cwd=repo_path, factory_root=Path(__file__).resolve().parents[2], model=model)
     outputs = [result.get("output", "")]
     evidence = [result.get("output", "")]
     if result["status"] == "COMPLETED":
         complete_execution(conn, eid, "COMPLETED", result="completed", evidence=evidence, outputs=outputs, tools_used=["opencode.run"])
-        update_task_status(conn, task_id, "REVIEW_REQUIRED", actor=agent_id, evidence=evidence)
+        update_task_status(conn, task_id, "REVIEW_REQUIRED", actor=raw_agent_id, evidence=evidence)
     else:
         complete_execution(conn, eid, "FAILED", result="failed", evidence=evidence, errors=[result.get("error") or "unknown"], outputs=outputs, tools_used=["opencode.run"])
-        update_task_status(conn, task_id, "FAILED", actor=agent_id, evidence=evidence)
+        update_task_status(conn, task_id, "FAILED", actor=raw_agent_id, evidence=evidence)
     conn.commit()
     return eid, result
 
