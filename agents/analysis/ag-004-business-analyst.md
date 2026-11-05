@@ -60,8 +60,8 @@ Transform user needs into complete, verifiable, structured functional and non-fu
 ## Permissions
 
 - read: allow
-- write: ask
-- edit: ask
+- write: allow
+- edit: allow
 - bash: deny
 - task: deny
 - execute: deny

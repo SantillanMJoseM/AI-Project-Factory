@@ -59,8 +59,8 @@ Prepare, validate, coordinate, verify, and document controlled deployments.
 ## Permissions
 
 - read: allow
-- write: ask
-- edit: ask
+- write: allow
+- edit: allow
 - bash: ask
 - task: deny
 - execute: deny

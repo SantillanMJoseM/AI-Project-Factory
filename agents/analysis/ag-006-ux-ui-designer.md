@@ -56,8 +56,8 @@ Transform functional requirements into a coherent user experience and implementa
 ## Permissions
 
 - read: allow
-- write: ask
-- edit: ask
+- write: allow
+- edit: allow
 - bash: deny
 - task: deny
 - execute: deny

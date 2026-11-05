@@ -58,8 +58,8 @@ Design and implement build, packaging, CI/CD, environment, infrastructure, and o
 ## Permissions
 
 - read: allow
-- write: ask
-- edit: ask
+- write: allow
+- edit: allow
 - bash: ask
 - task: deny
 - execute: deny

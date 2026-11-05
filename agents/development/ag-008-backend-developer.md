@@ -59,8 +59,8 @@ Implement business logic, services, APIs, and backend tests for assigned modules
 ## Permissions
 
 - read: allow
-- write: ask
-- edit: ask
+- write: allow
+- edit: allow
 - bash: ask
 - task: deny
 - execute: deny

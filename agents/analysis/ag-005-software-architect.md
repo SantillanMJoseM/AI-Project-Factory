@@ -54,8 +54,8 @@ Design a technical architecture that responds to approved requirements.
 ## Permissions
 
 - read: allow
-- write: ask
-- edit: ask
+- write: allow
+- edit: allow
 - bash: deny
 - task: deny
 - execute: deny

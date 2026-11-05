@@ -53,8 +53,8 @@ Automate functional and technical verification of generated projects.
 ## Permissions
 
 - read: allow
-- write: ask
-- edit: ask
+- write: allow
+- edit: allow
 - bash: ask
 - task: deny
 - execute: deny

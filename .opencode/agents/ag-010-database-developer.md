@@ -6,8 +6,8 @@ permission:
   glob: allow
   grep: allow
   bash: ask
-  edit: ask
-  write: ask
+  edit: allow
+  write: allow
   task: deny
   execute: deny
   webfetch: deny

@@ -56,8 +56,8 @@ Implement communication between components and external systems.
 ## Permissions
 
 - read: allow
-- write: ask
-- edit: ask
+- write: allow
+- edit: allow
 - bash: ask
 - task: deny
 - execute: deny

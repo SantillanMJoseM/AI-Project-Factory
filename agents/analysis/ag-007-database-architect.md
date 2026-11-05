@@ -56,8 +56,8 @@ Design the data model and persistence strategy for the project.
 ## Permissions
 
 - read: allow
-- write: ask
-- edit: ask
+- write: allow
+- edit: allow
 - bash: deny
 - task: deny
 - execute: deny
