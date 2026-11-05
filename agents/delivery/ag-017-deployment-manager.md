@@ -63,6 +63,7 @@ Prepare, validate, coordinate, verify, and document controlled deployments.
 - edit: ask
 - bash: ask
 - task: deny
+- execute: deny
 
 ## Dependencies
 

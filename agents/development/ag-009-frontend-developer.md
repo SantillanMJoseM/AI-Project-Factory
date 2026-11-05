@@ -60,6 +60,7 @@ Implement user interfaces according to approved UX/UI specifications.
 - edit: ask
 - bash: ask
 - task: deny
+- execute: deny
 
 ## Dependencies
 

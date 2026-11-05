@@ -64,6 +64,7 @@ Transform user needs into complete, verifiable, structured functional and non-fu
 - edit: ask
 - bash: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

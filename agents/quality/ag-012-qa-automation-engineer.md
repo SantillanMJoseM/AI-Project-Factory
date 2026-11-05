@@ -57,6 +57,7 @@ Automate functional and technical verification of generated projects.
 - edit: ask
 - bash: ask
 - task: deny
+- execute: deny
 
 ## Dependencies
 

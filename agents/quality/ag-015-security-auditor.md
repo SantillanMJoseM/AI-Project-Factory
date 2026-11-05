@@ -65,6 +65,7 @@ Audit application security and detect vulnerabilities before release.
 - edit: deny
 - write: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

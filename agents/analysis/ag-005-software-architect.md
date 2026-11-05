@@ -58,6 +58,7 @@ Design a technical architecture that responds to approved requirements.
 - edit: ask
 - bash: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

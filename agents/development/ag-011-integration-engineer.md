@@ -60,6 +60,7 @@ Implement communication between components and external systems.
 - edit: ask
 - bash: ask
 - task: deny
+- execute: deny
 
 ## Dependencies
 

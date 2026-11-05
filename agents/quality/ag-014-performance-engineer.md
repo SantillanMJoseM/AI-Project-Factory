@@ -58,6 +58,7 @@ Evaluate performance, scalability, and resource consumption.
 - edit: deny
 - write: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

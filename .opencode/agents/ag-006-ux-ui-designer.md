@@ -9,6 +9,7 @@ permission:
   edit: ask
   write: ask
   task: deny
+  execute: deny
   webfetch: deny
   websearch: deny
 ---

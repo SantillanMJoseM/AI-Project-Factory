@@ -67,6 +67,7 @@ Perform independent audits of deliverables, inspect real artifacts, verify accep
 - edit: deny
 - write: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

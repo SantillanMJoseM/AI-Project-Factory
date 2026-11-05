@@ -58,6 +58,7 @@ Produce and maintain technical, operational, and release documentation.
 - edit: ask
 - bash: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

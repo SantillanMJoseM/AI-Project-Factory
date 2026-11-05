@@ -76,6 +76,7 @@ Evaluate task risk, classify operations, verify permissions, detect sensitive op
 - edit: deny
 - write: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

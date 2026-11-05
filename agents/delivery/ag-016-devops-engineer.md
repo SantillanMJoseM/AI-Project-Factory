@@ -62,6 +62,7 @@ Design and implement build, packaging, CI/CD, environment, infrastructure, and o
 - edit: ask
 - bash: ask
 - task: deny
+- execute: deny
 
 ## Dependencies
 

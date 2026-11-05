@@ -59,6 +59,7 @@ Evaluate technical quality, maintainability, and standards compliance.
 - edit: deny
 - write: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

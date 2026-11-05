@@ -60,6 +60,7 @@ Design the data model and persistence strategy for the project.
 - edit: ask
 - bash: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

@@ -60,6 +60,7 @@ Implement approved data models physically.
 - edit: ask
 - bash: ask
 - task: deny
+- execute: deny
 
 ## Dependencies
 

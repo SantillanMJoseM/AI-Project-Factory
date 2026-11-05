@@ -60,6 +60,7 @@ Transform functional requirements into a coherent user experience and implementa
 - edit: ask
 - bash: deny
 - task: deny
+- execute: deny
 
 ## Dependencies
 

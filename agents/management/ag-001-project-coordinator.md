@@ -66,9 +66,19 @@ Receive requirements, analyze objectives, classify projects, decompose work into
 - write: ask for critical files
 - edit: ask for critical files
 - bash: ask
-- task: allow
+- task:
+  - `ag-*`: allow
+  - `*`: deny
+- execute: deny
 - webfetch: deny
 - websearch: deny
+
+## Delegation rules
+
+- Delegate ONLY to factory agents whose IDs start with `ag-` (AG-001 through AG-018).
+- NEVER delegate to OpenCode built-in agents such as `build`, `general`, `explore`, or `plan`.
+- A restricted agent cannot gain extra privileges through delegation.
+- Record every delegation request, target agent, task, and evidence.
 
 ## Dependencies
 

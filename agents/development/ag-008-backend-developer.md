@@ -63,6 +63,7 @@ Implement business logic, services, APIs, and backend tests for assigned modules
 - edit: ask
 - bash: ask
 - task: deny
+- execute: deny
 
 ## Dependencies
 
