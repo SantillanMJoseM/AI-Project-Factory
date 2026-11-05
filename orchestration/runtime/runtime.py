@@ -150,6 +150,108 @@ def migrate(conn):
         if conn.execute("SELECT COUNT(*) FROM schema_version WHERE version=3").fetchone()[0] == 0:
             conn.execute("INSERT INTO schema_version(version, applied_at) VALUES (3, ?)", (now(),))
 
+    # Migration 4: R5.2A execution integrity.
+    # Wrapped in a single transaction so partial failure is rolled back.
+    version = conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0]
+    if version < 4:
+        _run_migration_4(conn)
+
+
+def _run_migration_4(conn):
+    """Apply R5.2A migration atomically and idempotently.
+
+    If called from init_db we may already be inside an implicit transaction.
+    Commit any pending work first so migration 4 runs in its own explicit
+    transaction and can be rolled back atomically on failure.
+    """
+    conn.commit()
+    conn.execute("BEGIN IMMEDIATE")
+    try:
+        # Idempotent column additions.
+        for table, col, ddl in [
+            ("tasks", "description", "TEXT"),
+            ("tasks", "assigned_agent", "TEXT"),
+            ("tasks", "cancellation_reason", "TEXT"),
+            ("tasks", "lease_owner", "TEXT"),
+            ("tasks", "lease_heartbeat", "TEXT"),
+            ("executions", "changed_files", "TEXT NOT NULL DEFAULT '[]'"),
+            ("executions", "file_hashes", "TEXT NOT NULL DEFAULT '{}'"),
+            ("executions", "working_directory", "TEXT"),
+            ("executions", "permission_decisions", "TEXT NOT NULL DEFAULT '[]'"),
+            ("executions", "before_commit", "TEXT"),
+            ("executions", "after_commit", "TEXT"),
+            ("audits", "prev_hash", "TEXT"),
+            ("audits", "row_hash", "TEXT"),
+            ("events", "prev_hash", "TEXT"),
+            ("events", "row_hash", "TEXT"),
+        ]:
+            if col not in _columns(conn, table):
+                conn.execute(f"ALTER TABLE {table} ADD COLUMN {col} {ddl}")
+
+        # New tables.
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS delegations (
+                delegation_id TEXT PRIMARY KEY,
+                task_id TEXT NOT NULL,
+                from_agent TEXT NOT NULL,
+                to_agent TEXT NOT NULL,
+                session_id TEXT,
+                child_session_id TEXT,
+                requested_at TEXT NOT NULL,
+                completed_at TEXT,
+                result TEXT,
+                evidence TEXT NOT NULL DEFAULT '[]',
+                FOREIGN KEY(task_id) REFERENCES tasks(task_id)
+            )
+        """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS leases (
+                lease_id TEXT PRIMARY KEY,
+                execution_id TEXT NOT NULL,
+                owner_pid INTEGER NOT NULL,
+                acquired_at TEXT NOT NULL,
+                heartbeat_at TEXT NOT NULL,
+                expires_at TEXT NOT NULL,
+                FOREIGN KEY(execution_id) REFERENCES executions(execution_id)
+            )
+        """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS id_sequences (
+                entity TEXT PRIMARY KEY,
+                last_id INTEGER NOT NULL DEFAULT 0
+            )
+        """)
+
+        # Indexes.
+        conn.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_exec_running ON executions(task_id) WHERE status = 'RUNNING'")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_executions_task ON executions(task_id)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_events_project ON events(project_id)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_audits_project ON audits(project_id)")
+
+        # Event immutability triggers.
+        conn.execute("""
+            CREATE TRIGGER IF NOT EXISTS events_no_update
+                BEFORE UPDATE ON events
+                BEGIN
+                    SELECT RAISE(ABORT, 'events are immutable');
+                END
+        """)
+        conn.execute("""
+            CREATE TRIGGER IF NOT EXISTS events_no_delete
+                BEFORE DELETE ON events
+                BEGIN
+                    SELECT RAISE(ABORT, 'events are immutable');
+                END
+        """)
+
+        # Record schema version.
+        conn.execute("INSERT INTO schema_version(version, applied_at) VALUES (4, ?)", (now(),))
+        conn.execute("COMMIT")
+    except Exception:
+        conn.execute("ROLLBACK")
+        raise
+
 
 def init_db(conn):
     conn.executescript("""

@@ -103,7 +103,7 @@ def run():
             binary = shutil.which("opencode")
             if not binary:
                 return False, "opencode not found"
-            r = subprocess.run([binary, "run", "--agent", "ag-001-project-coordinator", "--model", "opencode-go/qwen3.8-flash", "--auto", "Respond with exactly: R5_PREFLIGHT_OK"], capture_output=True, text=True, timeout=120)
+            r = subprocess.run([binary, "run", "--agent", "ag-001-project-coordinator", "--model", "opencode-go/qwen3.8-flash", "Respond with exactly: R5_PREFLIGHT_OK"], capture_output=True, text=True, timeout=120)
             return r.returncode == 0 and "R5_PREFLIGHT_OK" in r.stdout, r.stdout[-200:]
         results.append(check("controlled_invocation", invoke_check))
     else:

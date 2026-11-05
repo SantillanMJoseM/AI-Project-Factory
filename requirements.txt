@@ -1,0 +1,3 @@
+# AI-Project-Factory Python dependencies
+# The runtime uses only the Python standard library.
+# Additional dependencies for ProjectDesk will be managed in the project worktree.

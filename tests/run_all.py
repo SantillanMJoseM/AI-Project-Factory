@@ -9,6 +9,7 @@ tests = [
     "policies/test_policy_files.py",
     "contracts/test_f5_schemas.py",
     "orchestration/test_runtime.py",
+    "orchestration/test_sandbox.py",
 ]
 
 failed = False
