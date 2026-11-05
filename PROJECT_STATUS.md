@@ -1,14 +1,28 @@
 # PROJECT_STATUS
 
-- Version: 0.6.5 (R5.1 remediation)
-- Active phase: R5.1 - Agent Runtime Integration
-- Active sprint: R5.1 closure
-- Last completed task: R5.1 integration tests and independent audit
-- Task in progress: none
+- Version: 0.6.6 (R5.2A implementation)
+- Active phase: R5.2A - Security & Execution Integrity Implementation
+- Active sprint: R5.2A implementation and pilot preparation
+- Last completed task: R5.2A final readiness gate audit
+- Task in progress: Implement security blockers B-01 to B-04
 - Pending tasks:
-  - None for R5.1
-- Blockers: none
+  - Remove `--auto` from OpenCode adapter
+  - Implement environment allowlist and PWD setting
+  - Implement private OpenCode server sandbox
+  - Restrict `subagent`/`execute` delegation to prevent permission bypass
+  - Make migration 4 atomic and idempotent
+  - Correct test plan traceability defects
+  - Create installation scripts and documentation
+  - Prepare pilot repository AI-Project-Factory-Pilot
+  - Execute ProjectDesk pilot
+- Blockers:
+  - B-01: subagent/execute delegation bypass
+  - B-02: shared OpenCode server breaks sandbox isolation
+  - B-03: migration 4 not atomic/idempotent
+  - B-04: test plan traceability defects
+  - B-05: LLM quota exhausted (external, blocks 20× canary verification)
 - Last Quality Gate: R5.1 runtime tests PASS
-- Last audit: R5.1_FINAL_AUDIT PASS
-- Last validated commit: v0.6.5-r5.1
-- Next recommended step: merge feature/r5.1-agent-runtime-integration to main and create remediation tag
+- Last audit: R5.2A_FINAL_READINESS_GATE.md (NOT_READY)
+- Last validated commit: 5bd7187 (feature/r5.2-workflow-integrity)
+- Working branch: feature/r5.2a-implementation
+- Next recommended step: resolve B-01 to B-04 and re-run tests
