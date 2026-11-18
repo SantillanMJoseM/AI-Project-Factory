@@ -15,9 +15,11 @@ import json
 import os
 import shutil
 import subprocess
+import time
 from pathlib import Path
 
 from orchestration.runtime.sandbox import OpenCodeSandbox
+from orchestration.runtime.model_fallback import ModelFallbackManager, FallbackStatus
 
 
 DEFAULT_ALLOWED_ENV = {
@@ -40,12 +42,13 @@ def _filter_env(allowlist):
 
 
 class OpenCodeAdapter:
-    def __init__(self, binary="opencode", timeout=120, use_sandbox=True, allowed_env_vars=None, factory_root=None):
+    def __init__(self, binary="opencode", timeout=120, use_sandbox=True, allowed_env_vars=None, factory_root=None, fallback_manager=None):
         self.binary = binary or os.environ.get("OPENCODE_BIN", "opencode")
         self.timeout = timeout
         self.use_sandbox = use_sandbox
         self.allowed_env_vars = set(allowed_env_vars or DEFAULT_ALLOWED_ENV)
         self.factory_root = Path(factory_root) if factory_root else Path(__file__).resolve().parents[2]
+        self.fallback_manager = fallback_manager or ModelFallbackManager(factory_root=self.factory_root)
 
     def available(self):
         return shutil.which(self.binary) is not None
@@ -107,7 +110,7 @@ class OpenCodeAdapter:
         except subprocess.TimeoutExpired:
             return {"status": "FAILED", "output": "", "error": "timeout", "command": cmd, "cwd": workdir}
 
-    def invoke(self, agent_id, prompt, context_files=None, model=None, cwd=None, factory_root=None):
+    def invoke(self, agent_id, prompt, context_files=None, model=None, cwd=None, factory_root=None, task_id=None, execution_id=None, max_retries=3):
         if not self.available():
             return {"status": "BLOCKED", "output": "", "error": "opencode binary not available", "command": None}
         if not self.validate_agent(agent_id):
@@ -115,6 +118,73 @@ class OpenCodeAdapter:
         if factory_root:
             self.factory_root = Path(factory_root).resolve()
 
-        if self.use_sandbox and cwd:
-            return self._invoke_sandbox(agent_id, prompt, context_files=context_files, model=model, cwd=cwd)
-        return self._invoke_direct(agent_id, prompt, context_files=context_files, model=model, cwd=cwd)
+        # If explicit model provided, use it directly (no fallback).
+        if model:
+            if self.use_sandbox and cwd:
+                return self._invoke_sandbox(agent_id, prompt, context_files=context_files, model=model, cwd=cwd)
+            return self._invoke_direct(agent_id, prompt, context_files=context_files, model=model, cwd=cwd)
+
+        # Use fallback manager for automatic model selection and recovery.
+        fm = self.fallback_manager
+        primary = fm.get_primary(agent_id)
+        effective = fm.select_model(agent_id)
+        if effective is None:
+            fm.log_change(agent_id, task_id, primary, primary, None, "quota_exhausted",
+                          FallbackStatus.WAITING_QUOTA_RESET, wait_seconds=3600,
+                          error_message="all models unavailable", execution_id=execution_id)
+            return {"status": "WAITING_QUOTA_RESET", "output": "", "error": "all models unavailable", "command": None}
+
+        retries = 0
+        while retries <= max_retries:
+            if self.use_sandbox and cwd:
+                result = self._invoke_sandbox(agent_id, prompt, context_files=context_files, model=effective, cwd=cwd)
+            else:
+                result = self._invoke_direct(agent_id, prompt, context_files=context_files, model=effective, cwd=cwd)
+
+            if result["status"] == "COMPLETED":
+                fm.log_change(agent_id, task_id, primary, effective,
+                              effective if effective != primary else None,
+                              None if effective == primary else "quota_exhausted",
+                              FallbackStatus.COMPLETED, retries=retries, execution_id=execution_id)
+                return result
+
+            error_text = result.get("error") or ""
+            decision = fm.handle_error(agent_id, effective, error_text)
+            action = decision["action"]
+            status = decision["status"]
+
+            if action == "fallback":
+                next_model = decision["next_model"]
+                fm.log_change(agent_id, task_id, primary, effective, next_model,
+                              decision["error_class"], status, retries=retries,
+                              error_message=error_text, execution_id=execution_id)
+                effective = next_model
+                retries += 1
+                continue
+            elif action == "wait":
+                wait = decision["wait_seconds"]
+                fm.log_change(agent_id, task_id, primary, effective, None,
+                              decision["error_class"], status, wait_seconds=wait,
+                              retries=retries, error_message=error_text, execution_id=execution_id)
+                if wait > 0:
+                    time.sleep(min(wait, 5))  # cap sleep for responsiveness; real wait handled by orchestrator
+                effective = decision.get("next_model") or effective
+                retries += 1
+                continue
+            elif action == "retry":
+                retries += 1
+                time.sleep(min(2 ** retries, 30))
+                continue
+            elif action == "intervention":
+                fm.log_change(agent_id, task_id, primary, effective, None,
+                              decision["error_class"], status, retries=retries,
+                              error_message=error_text, execution_id=execution_id)
+                result["status"] = "NEEDS_INTERVENTION"
+                return result
+            else:  # abort / ambiguous
+                fm.log_change(agent_id, task_id, primary, effective, None,
+                              decision["error_class"], status, retries=retries,
+                              error_message=error_text, execution_id=execution_id)
+                return result
+
+        return result
