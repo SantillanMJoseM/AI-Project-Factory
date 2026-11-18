@@ -367,6 +367,23 @@ def init_db(conn):
         created_at TEXT NOT NULL,
         FOREIGN KEY(project_id) REFERENCES projects(project_id)
     );
+    CREATE TABLE IF NOT EXISTS model_fallback_log (
+        log_id TEXT PRIMARY KEY,
+        execution_id TEXT,
+        task_id TEXT,
+        agent_id TEXT NOT NULL,
+        primary_model TEXT NOT NULL,
+        effective_model TEXT NOT NULL,
+        fallback_model TEXT,
+        reason TEXT,
+        provider TEXT NOT NULL DEFAULT 'opencode-go',
+        started_at TEXT,
+        wait_seconds REAL NOT NULL DEFAULT 0,
+        retries INTEGER NOT NULL DEFAULT 0,
+        status TEXT NOT NULL,
+        error_message TEXT,
+        created_at TEXT NOT NULL
+    );
     """)
     if conn.execute("SELECT COUNT(*) FROM schema_version").fetchone()[0] == 0:
         conn.execute("INSERT INTO schema_version(version, applied_at) VALUES (1, ?)", (now(),))
@@ -1446,6 +1463,41 @@ def dispatch(conn, args):
         render({"recovered_executions": recovered}, args.json)
         return 0
     raise ValueError("Unknown command")
+
+
+def save_fallback_log(conn, entry):
+    """Persist a model fallback log entry."""
+    conn.execute("""
+        INSERT OR REPLACE INTO model_fallback_log
+        (log_id, execution_id, task_id, agent_id, primary_model, effective_model,
+         fallback_model, reason, provider, started_at, wait_seconds, retries,
+         status, error_message, created_at)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    """, (
+        entry["log_id"], entry.get("execution_id"), entry.get("task_id"),
+        entry["agent_id"], entry["primary_model"], entry["effective_model"],
+        entry.get("fallback_model"), entry.get("reason"), entry.get("provider", "opencode-go"),
+        entry.get("started_at"), entry.get("wait_seconds", 0), entry.get("retries", 0),
+        entry["status"], entry.get("error_message"), entry["created_at"],
+    ))
+    conn.commit()
+
+
+def get_fallback_log(conn, task_id=None, agent_id=None):
+    """Retrieve fallback log entries, optionally filtered."""
+    q = "SELECT * FROM model_fallback_log"
+    params = []
+    clauses = []
+    if task_id:
+        clauses.append("task_id=?")
+        params.append(task_id)
+    if agent_id:
+        clauses.append("agent_id=?")
+        params.append(agent_id)
+    if clauses:
+        q += " WHERE " + " AND ".join(clauses)
+    q += " ORDER BY created_at DESC"
+    return [dict(r) for r in conn.execute(q, params).fetchall()]
 
 
 if __name__ == "__main__":
