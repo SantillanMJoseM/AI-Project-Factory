@@ -1,6 +1,7 @@
 ---
 description: Design data models, constraints, indexes, audit, and migration strategies from requirements and architecture.
 mode: subagent
+model: opencode-go/kimi-k2.7-code
 permission:
   read: allow
   glob: allow

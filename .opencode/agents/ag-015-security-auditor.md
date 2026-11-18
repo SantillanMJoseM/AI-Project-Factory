@@ -1,6 +1,7 @@
 ---
 description: Audit application security and detect vulnerabilities before release.
 mode: subagent
+model: opencode-go/qwen4-max
 permission:
   read: allow
   glob: allow

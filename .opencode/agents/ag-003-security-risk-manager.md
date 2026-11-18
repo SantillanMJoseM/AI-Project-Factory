@@ -1,6 +1,7 @@
 ---
 description: Evaluate risk, classify operations as LEVEL A, B, or C, verify permissions, and block unauthorized or unsafe operations.
 mode: subagent
+model: opencode-go/qwen4-max
 permission:
   read: allow
   glob: allow

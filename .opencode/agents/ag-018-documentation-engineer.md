@@ -1,6 +1,7 @@
 ---
 description: Produce and maintain technical, operational, and release documentation.
 mode: subagent
+model: opencode-go/qwen3.8-flash
 permission:
   read: allow
   glob: allow

@@ -1,6 +1,7 @@
 ---
 description: Implement user interfaces according to approved UX/UI specifications.
 mode: subagent
+model: opencode-go/kimi-k2.7-code
 permission:
   read: allow
   glob: allow

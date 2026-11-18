@@ -1,6 +1,7 @@
 ---
 description: Automate functional and technical verification of generated projects.
 mode: subagent
+model: opencode-go/qwen3.8-flash
 permission:
   read: allow
   glob: allow

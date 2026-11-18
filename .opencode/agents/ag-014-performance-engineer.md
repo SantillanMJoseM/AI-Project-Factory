@@ -1,6 +1,7 @@
 ---
 description: Evaluate performance, scalability, and resource consumption.
 mode: subagent
+model: opencode-go/qwen3.8-flash
 permission:
   read: allow
   glob: allow

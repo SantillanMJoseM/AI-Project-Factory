@@ -1,6 +1,7 @@
 ---
 description: Implement business logic, services, APIs, and backend tests for assigned modules.
 mode: subagent
+model: opencode-go/kimi-k2.7-code
 permission:
   read: allow
   glob: allow

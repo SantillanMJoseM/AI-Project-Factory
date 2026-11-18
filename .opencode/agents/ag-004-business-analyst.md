@@ -1,6 +1,7 @@
 ---
 description: Transform user needs into complete, verifiable, structured functional and non-functional requirements.
 mode: subagent
+model: opencode-go/qwen3.8-flash
 permission:
   read: allow
   glob: allow

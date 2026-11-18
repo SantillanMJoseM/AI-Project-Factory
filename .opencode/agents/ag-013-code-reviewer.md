@@ -1,6 +1,7 @@
 ---
 description: Evaluate code quality, maintainability, and standards compliance.
 mode: subagent
+model: opencode-go/qwen4-max
 permission:
   read: allow
   glob: allow

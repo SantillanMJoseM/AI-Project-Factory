@@ -1,6 +1,7 @@
 ---
 description: Design technical architecture responding to approved requirements, with justified technology decisions and traceability.
 mode: subagent
+model: opencode-go/qwen4-max
 permission:
   read: allow
   glob: allow

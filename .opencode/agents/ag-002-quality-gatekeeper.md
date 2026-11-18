@@ -1,6 +1,7 @@
 ---
 description: Independently audit deliverables, inspect real artifacts, verify acceptance criteria, and issue PASS, PASS_WITH_OBSERVATIONS, FAIL, or BLOCKED verdicts.
 mode: subagent
+model: opencode-go/qwen3.8-flash
 permission:
   read: allow
   glob: allow

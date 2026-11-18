@@ -1,6 +1,7 @@
 ---
 description: Implement communication between components and external systems with adapters and integration tests.
 mode: subagent
+model: opencode-go/kimi-k2.7-code
 permission:
   read: allow
   glob: allow

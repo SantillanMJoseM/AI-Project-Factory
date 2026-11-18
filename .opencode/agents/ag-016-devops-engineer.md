@@ -1,6 +1,7 @@
 ---
 description: Analyze technology and design build, packaging, CI/CD, environments, infrastructure, and observability.
 mode: subagent
+model: opencode-go/qwen3.8-flash
 permission:
   read: allow
   glob: allow

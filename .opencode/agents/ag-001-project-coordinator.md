@@ -1,6 +1,7 @@
 ---
 description: Receive requirements, decompose work into tasks, delegate to subagents, track states, request audits, and report results.
 mode: primary
+model: opencode-go/qwen4-max
 permission:
   read: allow
   edit: ask

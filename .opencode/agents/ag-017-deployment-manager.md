@@ -1,6 +1,7 @@
 ---
 description: Prepare, validate, coordinate, verify, and document controlled deployments.
 mode: subagent
+model: opencode-go/qwen3.8-flash
 permission:
   read: allow
   glob: allow
