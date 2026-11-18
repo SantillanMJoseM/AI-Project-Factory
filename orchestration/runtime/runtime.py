@@ -1094,12 +1094,23 @@ def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None)
         raise ValueError(f"Task cannot run from state {current['status']}")
     update_task_status(conn, task_id, "RUNNING", actor=raw_agent_id)
     eid = create_execution(conn, task["project_id"], task_id, raw_agent_id, commit=project.get("initial_commit"), context=prompt, inputs=[prompt])
-    result = adapter.invoke(opencode_agent_id, prompt, cwd=repo_path, factory_root=Path(__file__).resolve().parents[2], model=model)
+    result = adapter.invoke(opencode_agent_id, prompt, cwd=repo_path, factory_root=Path(__file__).resolve().parents[2], model=model, task_id=task_id, execution_id=eid)
+    # Persist fallback log entries from the adapter's manager
+    if hasattr(adapter, "fallback_manager"):
+        for entry in adapter.fallback_manager.get_log():
+            if entry.get("task_id") == task_id or entry.get("execution_id") == eid:
+                save_fallback_log(conn, entry)
     outputs = [result.get("output", "")]
     evidence = [result.get("output", "")]
     if result["status"] == "COMPLETED":
         complete_execution(conn, eid, "COMPLETED", result="completed", evidence=evidence, outputs=outputs, tools_used=["opencode.run"])
         update_task_status(conn, task_id, "REVIEW_REQUIRED", actor=raw_agent_id, evidence=evidence)
+    elif result["status"] in {"WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT"}:
+        complete_execution(conn, eid, result["status"], result="waiting", evidence=evidence, errors=[result.get("error") or "waiting"], outputs=outputs, tools_used=["opencode.run"])
+        update_task_status(conn, task_id, "BLOCKED", actor=raw_agent_id, evidence=evidence)
+    elif result["status"] == "NEEDS_INTERVENTION":
+        complete_execution(conn, eid, "FAILED", result="needs_intervention", evidence=evidence, errors=[result.get("error") or "intervention"], outputs=outputs, tools_used=["opencode.run"])
+        update_task_status(conn, task_id, "BLOCKED", actor=raw_agent_id, evidence=evidence)
     else:
         complete_execution(conn, eid, "FAILED", result="failed", evidence=evidence, errors=[result.get("error") or "unknown"], outputs=outputs, tools_used=["opencode.run"])
         update_task_status(conn, task_id, "FAILED", actor=raw_agent_id, evidence=evidence)
