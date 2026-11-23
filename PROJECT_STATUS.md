@@ -1,9 +1,9 @@
 # PROJECT_STATUS
 
-- Version: 1.8.0 (Mission integral complete)
-- Active phase: Mission integral — complete
+- Version: 2.8.0 (Permissions reconciliation complete)
+- Active phase: Permissions reconciliation — complete
 - Active sprint: none (awaiting user decision on commit/merge)
-- Last completed task: Mission integral report (078)
+- Last completed task: LXC deployment guide (096)
 - Task in progress: none
 - Pending tasks:
   - AG-003 further identity changes (user authorization)
@@ -12,7 +12,7 @@
   - Fresh LXC install
 - Blockers: none active
 - Last Quality Gate: Factory `python3 tests/run_all.py` PASS (all suites)
-- Last audit: 078_FINAL_IMPLEMENTATION_REPORT.md — no critical regressions
+- Last audit: 096_LXC_DEPLOYMENT_GUIDE.md — no critical regressions
 - Last validated commit: 10e2ebe20248893a2bc915c4c81bd66d58703b01 (feature/model-fallback-manager, published)
 - Branch: feature/model-fallback-manager
 - Model policy: BEAM_FREE_ONLY (`opencode-go/beam-free`) for all agents and sessions

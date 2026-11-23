@@ -10,14 +10,9 @@ AI-Project-Factory uses OpenCode v2.2.5. The provider and model are configured t
 export OPENCODE_API_KEY="your-api-key"
 ```
 
-### Other providers
+### Model policy (BEAM_FREE_ONLY)
 
-OpenCode supports multiple providers. Set the variable required by yours, for example:
-
-```bash
-export OPENAI_API_KEY="..."
-export ANTHROPIC_API_KEY="..."
-```
+AI-Project-Factory uses exclusively `opencode-go/beam-free`. No other providers or models are authorized. Do not set OPENAI_API_KEY, ANTHROPIC_API_KEY, or other provider keys for this project.
 
 ## Runtime configuration
 

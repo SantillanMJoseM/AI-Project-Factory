@@ -61,7 +61,7 @@ export OPENCODE_API_KEY="your-key"
 
 ```bash
 cd /opt
-curl -L -o install.sh https://raw.githubusercontent.com/SantillanMJoseM/AI-Project-Factory/feature/r5.2a-implementation/install/scripts/install.sh
+curl -L -o install.sh https://raw.githubusercontent.com/SantillanMJoseM/AI-Project-Factory/main/install/scripts/install.sh
 bash install.sh /opt/ai-project-factory
 ```
 

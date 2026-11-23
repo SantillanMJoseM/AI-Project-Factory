@@ -7,7 +7,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FACTORY_DIR="${1:-/opt/ai-project-factory}"
 REPO_URL="${APF_REPO_URL:-https://github.com/SantillanMJoseM/AI-Project-Factory.git}"
-BRANCH="${APF_BRANCH:-feature/r5.2a-implementation}"
+BRANCH="${APF_BRANCH:-main}"
 
 echo "=== AI-Project-Factory installer ==="
 echo "Target directory: $FACTORY_DIR"
@@ -57,11 +57,11 @@ if ! command -v opencode >/dev/null 2>&1; then
 fi
 opencode --version
 
-# 4. Provider configuration
+# 4. Provider configuration (BEAM_FREE_ONLY)
 echo "[4/8] Provider configuration..."
-if [[ -z "${OPENCODE_API_KEY:-}" && -z "${OPENAI_API_KEY:-}" && -z "${ANTHROPIC_API_KEY:-}" ]]; then
-    echo "WARNING: No provider API key detected in environment."
-    echo "Set OPENCODE_API_KEY, OPENAI_API_KEY, or ANTHROPIC_API_KEY before running agents."
+if [[ -z "${OPENCODE_API_KEY:-}" ]]; then
+    echo "WARNING: OPENCODE_API_KEY not detected in environment."
+    echo "Set OPENCODE_API_KEY before running agents (BEAM_FREE_ONLY policy)."
 fi
 
 # 5. Python dependencies
