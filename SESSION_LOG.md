@@ -329,3 +329,13 @@
 - No critical findings. No regressions.
 - 17 total executions (EXEC-0001..0017), all beam-free.
 - Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+
+## Session 2026-11-23 - Fase L (Git checkpoint)
+
+- Commit: 10e2ebe20248893a2bc915c4c81bd66d58703b01
+- Message: checkpoint: preserve verified progress through Stage 2Q
+- 386 files, 71630 insertions(+), 344 deletions(-).
+- Push: SUCCESS (new branch feature/model-fallback-manager on origin).
+- Remote verified: 10e2ebe20248893a2bc915c4c81bd66d58703b01.
+- Backup: backups/AI-Project-Factory-pre-2q-20261123142517.tar.gz (SHA256: 8a141738...)
+- Evidence: docs/execution/048_STAGE2Q_GIT_CHECKPOINT.md

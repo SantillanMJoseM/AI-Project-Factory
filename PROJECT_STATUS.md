@@ -13,7 +13,7 @@
 - Blockers: none active
 - Last Quality Gate: Factory `python3 tests/run_all.py` PASS (all suites)
 - Last audit: 047_STAGE2Q_FINAL_REPORT.md — no critical regressions
-- Last validated commit: f676d7116dcbf252dd5da0bb19c42e0b657a6e14 (feature/model-fallback-manager)
+- Last validated commit: 10e2ebe20248893a2bc915c4c81bd66d58703b01 (feature/model-fallback-manager, published)
 - Branch: feature/model-fallback-manager
 - Model policy: BEAM_FREE_ONLY (`opencode-go/beam-free`) for all agents and sessions
 - Executions recorded: 17 (EXEC-0001..0017), all beam-free
