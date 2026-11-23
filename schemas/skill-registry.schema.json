@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-project-factory.local/schemas/skill-registry.schema.json",
+  "title": "AI-Project-Factory Skills Registry",
+  "description": "Plane B registry envelope. Cross-field rules X-1..X-12 are enforced by the in-house lint, not by this schema alone. Source: docs/skills/SKILLS_REGISTRY_SCHEMA.md section 7.",
+  "type": "object",
+  "required": ["schema_version", "skills"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "registry_version": { "type": "string", "minLength": 1 },
+    "updated_at": { "$ref": "#/$defs/dateOrTBD" },
+    "skills": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "skillId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "agentId": { "type": "string", "pattern": "^AG-[0-9]{3}$" },
+    "dateOrTBD": {
+      "anyOf": [
+        { "type": "string", "format": "date" },
+        { "const": "TBD" }
+      ]
+    },
+    "rule": { "enum": ["allow", "ask", "deny"] },
+    "riskClass": { "enum": ["A", "B", "C"] },
+    "entry": {
+      "type": "object",
+      "required": [
+        "skill_id", "tier", "category", "library_path", "enabled_in",
+        "source", "license", "integrity", "verdicts", "permissions",
+        "assignment", "versioning", "lifecycle", "reaudit_triggers"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "skill_id": { "$ref": "#/$defs/skillId" },
+        "tier": { "enum": ["global", "shared", "specialty", "project"] },
+        "category": {
+          "enum": [
+            "agent-process", "architecture-design", "backend-api", "code-quality-review",
+            "database-data", "debugging-performance", "devops-delivery", "docs-knowledge",
+            "git-vcs", "quality-gate", "requirements-engineering", "security-compliance",
+            "testing", "ui-ux-accessibility"
+          ],
+          "$comment": "Provisional until OQ-1 ratification (ES-1)"
+        },
+        "library_path": { "type": "string", "pattern": "^skills-library/" },
+        "enabled_in": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^\\.opencode/skills/[a-z0-9]+(-[a-z0-9]+)*$"
+          }
+        },
+        "source": {
+          "type": "object",
+          "required": ["type"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "enum": ["vendored-upstream", "adapted", "in-house", "http-catalog"] },
+            "repo": { "type": ["string", "null"] },
+            "canonical_url": { "type": ["string", "null"] },
+            "upstream_path": { "type": ["string", "null"] },
+            "commit_sha": { "type": ["string", "null"] },
+            "cloned": { "$ref": "#/$defs/dateOrTBD" },
+            "approval": {
+              "type": "object",
+              "required": ["approved_by", "adr", "date"],
+              "additionalProperties": false,
+              "properties": {
+                "approved_by": { "type": "string", "minLength": 1 },
+                "adr": { "type": "string", "minLength": 1 },
+                "date": { "$ref": "#/$defs/dateOrTBD" }
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "type": { "enum": ["vendored-upstream", "adapted", "http-catalog"] }
+                }
+              },
+              "then": { "required": ["repo", "canonical_url", "upstream_path", "commit_sha"] }
+            },
+            {
+              "if": { "properties": { "type": { "const": "http-catalog" } } },
+              "then": { "required": ["approval"] }
+            }
+          ]
+        },
+        "license": {
+          "type": "object",
+          "required": ["scope", "spdx", "notice_files", "verified_by", "verified_at"],
+          "additionalProperties": false,
+          "properties": {
+            "scope": { "enum": ["per-file-verified", "repo-level-claim", "unverified", "in-house"] },
+            "spdx": { "type": "string", "minLength": 1 },
+            "notice_files": { "type": "array", "items": { "type": "string" } },
+            "verified_by": { "type": "string", "minLength": 1 },
+            "verified_at": { "$ref": "#/$defs/dateOrTBD" }
+          }
+        },
+        "integrity": {
+          "type": "object",
+          "required": ["file_hashes", "complete_directory", "local_modifications"],
+          "additionalProperties": false,
+          "properties": {
+            "file_hashes": {
+              "type": "object",
+              "minProperties": 1,
+              "required": ["SKILL.md"],
+              "additionalProperties": { "$ref": "#/$defs/sha256" }
+            },
+            "complete_directory": { "type": "boolean" },
+            "local_modifications": { "type": "string", "minLength": 1 }
+          }
+        },
+        "verdicts": {
+          "type": "object",
+          "required": ["compatibility", "security", "behavior_review"],
+          "additionalProperties": false,
+          "properties": {
+            "compatibility": {
+              "type": "object",
+              "required": ["verdict", "doc", "row"],
+              "additionalProperties": false,
+              "properties": {
+                "verdict": {
+                  "enum": ["COMPATIBLE", "COMPATIBLE-AFTER-ADAPTATION", "INCOMPATIBLE", "PENDING"],
+                  "$comment": "Provisional vocabulary — AG-011 to freeze (ES-5)"
+                },
+                "doc": { "type": "string", "minLength": 1 },
+                "row": { "type": "string", "minLength": 1 }
+              }
+            },
+            "security": {
+              "type": "object",
+              "required": ["verdict", "risk_class", "doc", "conditions_closed"],
+              "additionalProperties": false,
+              "properties": {
+                "verdict": { "enum": ["ACCEPT", "ACCEPT-CONDITIONAL", "HOLD", "REJECT", "PENDING"] },
+                "risk_class": { "$ref": "#/$defs/riskClass" },
+                "doc": { "type": "string", "minLength": 1 },
+                "conditions_closed": { "type": "array", "items": { "type": "string" } }
+              }
+            },
+            "behavior_review": {
+              "type": "object",
+              "required": ["verdict", "gate"],
+              "additionalProperties": false,
+              "properties": {
+                "verdict": { "enum": ["PASS", "FAIL", "PENDING"] },
+                "gate": { "const": "G5" }
+              }
+            }
+          }
+        },
+        "permissions": {
+          "type": "object",
+          "required": ["risk_class", "rule", "per_agent_overrides", "autoinvoke"],
+          "additionalProperties": false,
+          "properties": {
+            "risk_class": { "$ref": "#/$defs/riskClass" },
+            "rule": { "$ref": "#/$defs/rule" },
+            "per_agent_overrides": {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/$defs/rule" }
+            },
+            "autoinvoke": { "type": "boolean" }
+          }
+        },
+        "assignment": {
+          "type": "object",
+          "required": ["agents", "scope"],
+          "additionalProperties": false,
+          "properties": {
+            "agents": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "scope": { "enum": ["factory-agents", "generated-project"] }
+          },
+          "if": { "properties": { "scope": { "const": "factory-agents" } } },
+          "then": { "properties": { "agents": { "items": { "$ref": "#/$defs/agentId" } } } }
+        },
+        "versioning": {
+          "type": "object",
+          "required": ["upstream_pin", "local_rev", "registry_version", "history"],
+          "additionalProperties": false,
+          "properties": {
+            "upstream_pin": { "type": ["string", "null"] },
+            "local_rev": { "type": "integer", "minimum": 0 },
+            "registry_version": { "type": "string", "minLength": 1 },
+            "history": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["event", "date"],
+                "additionalProperties": false,
+                "properties": {
+                  "event": {
+                    "enum": [
+                      "registered", "adopted-via-ADR", "promoted", "staged", "activated",
+                      "suspended", "retired", "re-pinned", "adapted", "permission-change",
+                      "verdict-change", "re-audited"
+                    ]
+                  },
+                  "date": { "$ref": "#/$defs/dateOrTBD" },
+                  "gates": { "type": "array", "items": { "type": "string", "pattern": "^G[0-8]$" } },
+                  "adr": { "type": "string" },
+                  "actor": { "type": "string" },
+                  "evidence": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "lifecycle": {
+          "enum": ["CANDIDATE", "REVIEWED", "APPROVED", "STAGED", "ACTIVE", "SUSPENDED", "RETIRED"]
+        },
+        "reaudit_triggers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "upstream-drift", "opencode-version-bump", "permission-change",
+              "content-edit", "security-reclassification", "config-drift"
+            ]
+          }
+        },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

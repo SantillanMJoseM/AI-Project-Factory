@@ -58,6 +58,10 @@ Evaluate task risk, classify operations, verify permissions, detect sensitive op
 - Security decision.
 - Approval request.
 - Block record.
+
+## Related specialization
+
+- `.opencode/agents/ag-003-security-risk-assessor.md` — Security Risk Assessor (vulnerability assessment, compliance, security requirements). Distinct specialization under AG-003; same identity, complementary scope. Formalized Stage 2J.
 - Remediation guidance.
 
 ## Tools

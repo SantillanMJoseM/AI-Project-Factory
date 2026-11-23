@@ -7,10 +7,20 @@ All models are restricted to the opencode-go provider.
 
 import re
 import time
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-from orchestration.runtime.model_hierarchies import FALLBACK_ALTERNATIVES, PROVIDER
+from orchestration.runtime.model_hierarchies import (
+    AUTHORIZED_MODEL,
+    AUTHORIZED_MODELS,
+    FALLBACK_ALTERNATIVES,
+    PROVIDER,
+)
+
+
+def is_authorized_model(model: str) -> bool:
+    return model in AUTHORIZED_MODELS
 
 
 class ErrorClass:
@@ -97,38 +107,34 @@ class ModelFallbackManager:
                 continue
             aid = m.group(1)
             primary = self._read_primary_model(agent_file)
-            alts = FALLBACK_ALTERNATIVES.get(aid, [])
-            # Build ordered list: primary first, then alternatives (dedup)
-            seen = {primary}
-            hierarchy = [primary]
-            for alt in alts:
-                if alt not in seen:
-                    hierarchy.append(alt)
-                    seen.add(alt)
-            self._hierarchies[aid] = hierarchy
+            # BEAM_FREE_ONLY: hierarchy is exactly the authorized model.
+            self._hierarchies[aid] = [AUTHORIZED_MODEL]
 
     def _read_primary_model(self, agent_file: Path) -> str:
         """Read model: from agent front-matter."""
         try:
             text = agent_file.read_text(encoding="utf-8")
         except OSError:
-            return "opencode-go/qwen3.8-flash"
+            return AUTHORIZED_MODEL
         if text.startswith("---"):
             parts = text.split("---", 2)
             if len(parts) >= 3:
                 fm = parts[1]
                 m = re.search(r"^model:\s*(\S+)", fm, re.MULTILINE)
                 if m:
-                    return m.group(1)
-        return "opencode-go/qwen3.8-flash"
+                    candidate = m.group(1)
+                    # Policy: only the authorized model is ever accepted.
+                    if candidate in AUTHORIZED_MODELS:
+                        return candidate
+        return AUTHORIZED_MODEL
 
     def get_hierarchy(self, agent_id: str) -> list[str]:
         """Return ordered model list for agent (short id like ag-001)."""
         short = self._short_id(agent_id)
-        return list(self._hierarchies.get(short, ["opencode-go/qwen3.8-flash"]))
+        return [AUTHORIZED_MODEL]
 
     def get_primary(self, agent_id: str) -> str:
-        return self.get_hierarchy(agent_id)[0]
+        return AUTHORIZED_MODEL
 
     def _short_id(self, agent_id: str) -> str:
         m = re.match(r"(ag-\d{3})", agent_id.lower())
@@ -149,11 +155,19 @@ class ModelFallbackManager:
         self._unavailable[model] = time.time() + seconds
 
     def select_model(self, agent_id: str) -> str | None:
-        """Select the best available model for agent. Returns None if all unavailable."""
-        for model in self.get_hierarchy(agent_id):
-            if self.is_available(model):
-                return model
-        return None
+        """Select the best available model for agent. Returns None if unavailable.
+
+        BEAM_FREE_ONLY: only the authorized model may be selected.
+        """
+        if not self.is_available(AUTHORIZED_MODEL):
+            return None
+        return AUTHORIZED_MODEL
+
+    def is_authorized(self, model: str) -> bool:
+        return model in AUTHORIZED_MODELS
+
+    def verify_effective_model(self, model: str) -> bool:
+        return model == AUTHORIZED_MODEL
 
     def handle_error(self, agent_id: str, current_model: str, error_text: str) -> dict:
         """Classify error and decide next action.
@@ -165,6 +179,16 @@ class ModelFallbackManager:
           error_class: classification
           status: FallbackStatus
         """
+        # Policy guard: never handle a non-authorized model.
+        if current_model not in AUTHORIZED_MODELS:
+            return {
+                "error_class": ErrorClass.AUTH,
+                "action": "intervention",
+                "next_model": None,
+                "wait_seconds": 0,
+                "status": FallbackStatus.NEEDS_INTERVENTION,
+            }
+
         ec = classify_error(error_text)
         result = {
             "error_class": ec,
@@ -174,14 +198,11 @@ class ModelFallbackManager:
             "status": FallbackStatus.FAILED,
         }
         if ec == ErrorClass.QUOTA_EXHAUSTED:
-            self.mark_unavailable(current_model, seconds=3600)
-            next_model = self.select_model(agent_id)
-            if next_model and next_model != current_model:
-                result.update(action="fallback", next_model=next_model,
-                              status=FallbackStatus.FALLBACK_ACTIVE)
-            else:
-                result.update(action="wait", wait_seconds=3600,
-                              status=FallbackStatus.WAITING_QUOTA_RESET)
+            self.mark_unavailable(AUTHORIZED_MODEL, seconds=3600)
+            # No fallback: wait for Beam Free to recover.
+            result.update(action="wait", wait_seconds=3600,
+                          status=FallbackStatus.WAITING_QUOTA_RESET,
+                          next_model=AUTHORIZED_MODEL)
         elif ec == ErrorClass.RATE_LIMIT:
             wait = extract_retry_after(error_text) or 60
             result.update(action="wait", next_model=current_model,
@@ -200,7 +221,7 @@ class ModelFallbackManager:
                    status: str, wait_seconds: float = 0, retries: int = 0,
                    error_message: str | None = None, execution_id: str | None = None):
         entry = {
-            "log_id": f"mfl-{len(self._log)+1:06d}",
+            "log_id": f"mfl-{uuid.uuid4().hex[:12]}",
             "execution_id": execution_id,
             "task_id": task_id,
             "agent_id": agent_id,

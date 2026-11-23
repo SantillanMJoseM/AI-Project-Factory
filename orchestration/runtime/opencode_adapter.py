@@ -20,6 +20,7 @@ from pathlib import Path
 
 from orchestration.runtime.sandbox import OpenCodeSandbox
 from orchestration.runtime.model_fallback import ModelFallbackManager, FallbackStatus
+from orchestration.runtime.model_hierarchies import AUTHORIZED_MODEL, AUTHORIZED_MODELS
 
 
 DEFAULT_ALLOWED_ENV = {
@@ -118,11 +119,13 @@ class OpenCodeAdapter:
         if factory_root:
             self.factory_root = Path(factory_root).resolve()
 
-        # If explicit model provided, use it directly (no fallback).
-        if model:
-            if self.use_sandbox and cwd:
-                return self._invoke_sandbox(agent_id, prompt, context_files=context_files, model=model, cwd=cwd)
-            return self._invoke_direct(agent_id, prompt, context_files=context_files, model=model, cwd=cwd)
+        # BEAM_FREE_ONLY policy: reject any non-authorized model request.
+        if model is not None and model not in AUTHORIZED_MODELS:
+            return {"status": "BLOCKED", "output": "", "error": f"policy violation: model {model!r} not authorized (BEAM_FREE_ONLY)", "command": None, "model_effective": None}
+
+        # Normalize: never pass an explicit model that bypasses the fallback manager's
+        # quota handling; the authorized model is selected by the manager.
+        model = None
 
         # Use fallback manager for automatic model selection and recovery.
         fm = self.fallback_manager
@@ -132,7 +135,7 @@ class OpenCodeAdapter:
             fm.log_change(agent_id, task_id, primary, primary, None, "quota_exhausted",
                           FallbackStatus.WAITING_QUOTA_RESET, wait_seconds=3600,
                           error_message="all models unavailable", execution_id=execution_id)
-            return {"status": "WAITING_QUOTA_RESET", "output": "", "error": "all models unavailable", "command": None}
+            return {"status": "WAITING_QUOTA_RESET", "output": "", "error": "all models unavailable", "command": None, "model_effective": None}
 
         retries = 0
         while retries <= max_retries:
@@ -140,6 +143,10 @@ class OpenCodeAdapter:
                 result = self._invoke_sandbox(agent_id, prompt, context_files=context_files, model=effective, cwd=cwd)
             else:
                 result = self._invoke_direct(agent_id, prompt, context_files=context_files, model=effective, cwd=cwd)
+
+            # Tag result with effective model for evidence/audit.
+            result["model_effective"] = effective
+            result["model_provider"] = "opencode-go"
 
             if result["status"] == "COMPLETED":
                 fm.log_change(agent_id, task_id, primary, effective,
@@ -158,7 +165,7 @@ class OpenCodeAdapter:
                 fm.log_change(agent_id, task_id, primary, effective, next_model,
                               decision["error_class"], status, retries=retries,
                               error_message=error_text, execution_id=execution_id)
-                effective = next_model
+                effective = next_model if next_model in AUTHORIZED_MODELS else AUTHORIZED_MODEL
                 retries += 1
                 continue
             elif action == "wait":
@@ -169,6 +176,8 @@ class OpenCodeAdapter:
                 if wait > 0:
                     time.sleep(min(wait, 5))  # cap sleep for responsiveness; real wait handled by orchestrator
                 effective = decision.get("next_model") or effective
+                if effective not in AUTHORIZED_MODELS:
+                    effective = AUTHORIZED_MODEL
                 retries += 1
                 continue
             elif action == "retry":

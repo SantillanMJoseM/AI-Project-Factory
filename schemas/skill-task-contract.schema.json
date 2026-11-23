@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-project-factory.local/schemas/skill-task-contract.schema.json",
+  "title": "AI-Project-Factory Skill Task Contract",
+  "description": "Formal execution contract for one skill invocation. Eleven mandatory fields bind the skill/version, the executor agent, the objective, inputs, authorized files, allowed tools, restrictions, expected result, acceptance criteria and evidence. Cross-field safety rules TC-1..TC-6 are enforced by orchestration/skills/task_contract.py, not by this schema alone.",
+  "type": "object",
+  "required": [
+    "skill",
+    "version",
+    "executor_agent",
+    "objective",
+    "inputs",
+    "authorized_files",
+    "allowed_tools",
+    "restrictions",
+    "expected_result",
+    "acceptance_criteria",
+    "evidence"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "contract_id": { "type": "string", "minLength": 1 },
+    "skill": { "$ref": "#/$defs/skillId" },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$",
+      "$comment": "Semantic version of the skill being executed (Stage 0 registry_version convention)."
+    },
+    "executor_agent": { "$ref": "#/$defs/agentId" },
+    "objective": { "type": "string", "minLength": 1 },
+    "inputs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "authorized_files": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "allowed_tools": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "restrictions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "expected_result": { "type": "string", "minLength": 1 },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "skillId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "agentId": {
+      "type": "string",
+      "pattern": "^AG-[0-9]{3}$"
+    }
+  }
+}

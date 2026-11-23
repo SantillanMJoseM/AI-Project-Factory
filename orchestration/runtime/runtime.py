@@ -888,6 +888,77 @@ def recover_interrupted(conn):
     return recovered
 
 
+def resume_interrupted_task(conn, task_id, adapter=None, model=None):
+    """Resume a previously interrupted/blocked task without duplicating work.
+
+    Returns (new_execution_id, result) or (None, error_dict).
+    """
+    from orchestration.runtime.opencode_adapter import OpenCodeAdapter
+    from orchestration.runtime.model_hierarchies import AUTHORIZED_MODELS
+    if adapter is None:
+        adapter = OpenCodeAdapter()
+    if model is not None and model not in AUTHORIZED_MODELS:
+        raise ValueError(f"policy violation: model {model!r} not authorized (BEAM_FREE_ONLY)")
+    model = None
+
+    task = get_task(conn, task_id)
+    if task["status"] not in {"BLOCKED", "FAILED"}:
+        return None, {"status": "BLOCKED", "error": f"task not resumable from state {task['status']}"}
+
+    latest = conn.execute("SELECT * FROM executions WHERE task_id=? ORDER BY started_at DESC", (task_id,)).fetchone()
+    if not latest or latest["status"] not in {"INTERRUPTED", "FAILED", "BLOCKED", "WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT"}:
+        return None, {"status": "BLOCKED", "error": "no interrupted execution found"}
+
+    old_eid = latest["execution_id"]
+    # Recover prompt from the interrupted execution's context.
+    prompt = latest["context"] if "context" in latest.keys() and latest["context"] else (latest["inputs"] and json.loads(latest["inputs"])[0] if latest["inputs"] else "")
+    project = get_project(conn, task["project_id"])
+    repo_path = Path(project["repo_path"])
+    if not repo_path.is_dir():
+        return None, {"status": "BLOCKED", "error": f"repo not found: {repo_path}"}
+
+    raw_agent_id = task["agent_id"]
+    opencode_agent_id = _resolve_opencode_agent_id(adapter, raw_agent_id)
+    if not opencode_agent_id:
+        return None, {"status": "BLOCKED", "error": f"agent not available: {raw_agent_id}"}
+
+    if task["status"] == "BLOCKED":
+        update_task_status(conn, task_id, "RUNNING", actor=raw_agent_id)
+    task = get_task(conn, task_id)
+
+    eid = create_execution(conn, task["project_id"], task_id, raw_agent_id, commit=project.get("initial_commit"), context=prompt or "", inputs=[prompt or ""], resumed_from=old_eid)
+    conn.execute("UPDATE executions SET resumed_from=? WHERE execution_id=?", (old_eid, eid))
+    conn.commit()
+
+    factory_root = Path(__file__).resolve().parents[2]
+    _continuity_pre(factory_root, conn, task, project, eid, raw_agent_id, prompt or "", repo_path)
+
+    result = adapter.invoke(opencode_agent_id, prompt or "", cwd=repo_path, factory_root=factory_root, model=None, task_id=task_id, execution_id=eid)
+
+    if hasattr(adapter, "fallback_manager"):
+        for entry in adapter.fallback_manager.get_log():
+            if entry.get("task_id") == task_id or entry.get("execution_id") == eid:
+                save_fallback_log(conn, entry)
+
+    outputs = [result.get("output", "")]
+    evidence = [result.get("output", "")]
+    model_decisions = [{"model_effective": result.get("model_effective"), "model_provider": result.get("model_provider", "opencode-go"), "policy": "BEAM_FREE_ONLY", "resumed_from": old_eid}]
+
+    if result["status"] == "COMPLETED":
+        complete_execution(conn, eid, "COMPLETED", result="completed (resumed)", evidence=evidence, outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
+        update_task_status(conn, task_id, "REVIEW_REQUIRED", actor=raw_agent_id, evidence=evidence)
+    elif result["status"] in {"WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT"}:
+        complete_execution(conn, eid, result["status"], result="waiting", evidence=evidence, errors=[result.get("error") or "waiting"], outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
+        update_task_status(conn, task_id, "BLOCKED", actor=raw_agent_id, evidence=evidence)
+    else:
+        complete_execution(conn, eid, "FAILED", result="failed", evidence=evidence, errors=[result.get("error") or "unknown"], outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
+        update_task_status(conn, task_id, "FAILED", actor=raw_agent_id, evidence=evidence)
+
+    _continuity_post(factory_root, conn, task, project, eid, raw_agent_id, result, repo_path)
+    conn.commit()
+    return eid, result
+
+
 def seed_workflows(conn):
     if conn.execute("SELECT COUNT(*) FROM workflows").fetchone()[0] == 0:
         workflows = {
@@ -1065,10 +1136,98 @@ def _resolve_opencode_agent_id(adapter, agent_id):
     return None
 
 
+# BEAM_FREE_ONLY: the only authorized model.
+AUTHORIZED_MODEL = "opencode-go/beam-free"
+
+
+def _continuity_pre(factory_root, conn, task, project, eid, agent_id, prompt, repo_path):
+    """Best-effort pre-execution continuity: context manifest + snapshot + ledger."""
+    try:
+        from orchestration.execution.context import assemble_context
+        from orchestration.execution.snapshot import create_snapshot
+        from orchestration.execution.ledger import Ledger
+        from orchestration.execution.models import SnapshotReason
+        from pathlib import Path
+        pid = task["project_id"]
+        # Context manifest (T0 bootstrap from factory root; task ref optional)
+        try:
+            manifest = assemble_context(
+                factory_root,
+                project_id=pid,
+                execution_id=eid,
+                task_refs=[],
+                working_refs=[],
+                token_budget=None,
+                persist=True,
+            )
+        except Exception:
+            manifest = None
+        # Ledger
+        try:
+            ledger_dir = factory_root / "projects" / pid / "execution" / "ledger"
+            ledger_dir.mkdir(parents=True, exist_ok=True)
+            ledger_file = ledger_dir / ("LEDGER-" + eid.replace("-", "_") + ".jsonl")
+            if not ledger_file.exists():
+                Ledger.create(ledger_file, eid, actor_agent=agent_id, payload={"task_id": task["task_id"], "prompt": prompt[:200]})
+        except Exception:
+            pass
+        # Pre-execution snapshot
+        try:
+            create_snapshot(
+                factory_root,
+                project_id=pid,
+                execution_id=eid,
+                task_id=task["task_id"],
+                agent_id=agent_id,
+                reason="pre-operation",
+                files=[],
+                working_directory=str(repo_path),
+                context_manifest_hash=(manifest.manifest_hash if manifest else None),
+                model_binding={"provider": "opencode-go", "model": "opencode-go/beam-free"},
+                git_branch=project.get("git_branch") or "",
+                before_commit=project.get("initial_commit") or "",
+            )
+        except Exception:
+            pass
+    except Exception:
+        pass
+
+
+def _continuity_post(factory_root, conn, task, project, eid, agent_id, result, repo_path):
+    """Best-effort post-execution continuity: snapshot with result."""
+    try:
+        from orchestration.execution.snapshot import create_snapshot
+        from orchestration.execution.models import SnapshotReason
+        pid = task["project_id"]
+        create_snapshot(
+            factory_root,
+            project_id=pid,
+            execution_id=eid,
+            task_id=task["task_id"],
+            agent_id=agent_id,
+            reason="state-transition",
+            files=[],
+            working_directory=str(repo_path),
+            context_manifest_hash=None,
+            model_binding={"provider": "opencode-go", "model": "opencode-go/beam-free", "status": result.get("status")},
+            git_branch=project.get("git_branch") or "",
+            before_commit=project.get("initial_commit") or "",
+            after_commit=project.get("initial_commit") or "",
+        )
+    except Exception:
+        pass
+
+
 def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None):
     from orchestration.runtime.opencode_adapter import OpenCodeAdapter
+    from orchestration.runtime.model_hierarchies import AUTHORIZED_MODELS
     if adapter is None:
         adapter = OpenCodeAdapter()
+    # Policy: reject non-authorized model requests.
+    if model is not None and model not in AUTHORIZED_MODELS:
+        raise ValueError(f"policy violation: model {model!r} not authorized (BEAM_FREE_ONLY)")
+    # Never allow an explicit model to bypass the fallback manager's quota handling.
+    model = None
     task = get_task(conn, task_id)
     project = get_project(conn, task["project_id"])
     repo_path = Path(project["repo_path"])
@@ -1094,7 +1253,15 @@ def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None)
         raise ValueError(f"Task cannot run from state {current['status']}")
     update_task_status(conn, task_id, "RUNNING", actor=raw_agent_id)
     eid = create_execution(conn, task["project_id"], task_id, raw_agent_id, commit=project.get("initial_commit"), context=prompt, inputs=[prompt])
-    result = adapter.invoke(opencode_agent_id, prompt, cwd=repo_path, factory_root=Path(__file__).resolve().parents[2], model=model, task_id=task_id, execution_id=eid)
+
+    # Stage 2N: automatic continuity — assemble context manifest + create pre-execution snapshot + ledger.
+    factory_root = Path(__file__).resolve().parents[2]
+    _continuity_pre(factory_root, conn, task, project, eid, raw_agent_id, prompt, repo_path)
+
+    result = adapter.invoke(opencode_agent_id, prompt, cwd=repo_path, factory_root=factory_root, model=model, task_id=task_id, execution_id=eid)
+
+    # Stage 2N: post-execution snapshot.
+    _continuity_post(factory_root, conn, task, project, eid, raw_agent_id, result, repo_path)
     # Persist fallback log entries from the adapter's manager
     if hasattr(adapter, "fallback_manager"):
         for entry in adapter.fallback_manager.get_log():
@@ -1102,17 +1269,18 @@ def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None)
                 save_fallback_log(conn, entry)
     outputs = [result.get("output", "")]
     evidence = [result.get("output", "")]
+    model_decisions = [{"model_effective": result.get("model_effective"), "model_provider": result.get("model_provider", "opencode-go"), "policy": "BEAM_FREE_ONLY"}]
     if result["status"] == "COMPLETED":
-        complete_execution(conn, eid, "COMPLETED", result="completed", evidence=evidence, outputs=outputs, tools_used=["opencode.run"])
+        complete_execution(conn, eid, "COMPLETED", result="completed", evidence=evidence, outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
         update_task_status(conn, task_id, "REVIEW_REQUIRED", actor=raw_agent_id, evidence=evidence)
     elif result["status"] in {"WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT"}:
-        complete_execution(conn, eid, result["status"], result="waiting", evidence=evidence, errors=[result.get("error") or "waiting"], outputs=outputs, tools_used=["opencode.run"])
+        complete_execution(conn, eid, result["status"], result="waiting", evidence=evidence, errors=[result.get("error") or "waiting"], outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
         update_task_status(conn, task_id, "BLOCKED", actor=raw_agent_id, evidence=evidence)
     elif result["status"] == "NEEDS_INTERVENTION":
-        complete_execution(conn, eid, "FAILED", result="needs_intervention", evidence=evidence, errors=[result.get("error") or "intervention"], outputs=outputs, tools_used=["opencode.run"])
+        complete_execution(conn, eid, "FAILED", result="needs_intervention", evidence=evidence, errors=[result.get("error") or "intervention"], outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
         update_task_status(conn, task_id, "BLOCKED", actor=raw_agent_id, evidence=evidence)
     else:
-        complete_execution(conn, eid, "FAILED", result="failed", evidence=evidence, errors=[result.get("error") or "unknown"], outputs=outputs, tools_used=["opencode.run"])
+        complete_execution(conn, eid, "FAILED", result="failed", evidence=evidence, errors=[result.get("error") or "unknown"], outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
         update_task_status(conn, task_id, "FAILED", actor=raw_agent_id, evidence=evidence)
     conn.commit()
     return eid, result
@@ -1133,6 +1301,10 @@ def _save_workflow_results(conn, run_id, results):
 
 
 def run_workflow(conn, run_id, prompt, adapter=None, model=None):
+    from orchestration.runtime.model_hierarchies import AUTHORIZED_MODELS
+    if model is not None and model not in AUTHORIZED_MODELS:
+        raise ValueError(f"policy violation: model {model!r} not authorized (BEAM_FREE_ONLY)")
+    model = None
     run = workflow_status(conn, run_id)
     if run["status"] == "COMPLETED":
         return _workflow_results(conn, run_id)

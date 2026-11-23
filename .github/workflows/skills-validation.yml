@@ -1,0 +1,40 @@
+name: skills-validation
+
+# Stage 0.1 skills validation: full stdlib test suite plus a six-dimension
+# drift check on the checked-in skill fixture. Any unapproved change to the
+# fixture content/hash/permission/metadata/dependency/version blocks the PR.
+# This workflow is additive and does not modify or replace existing workflows.
+
+on:
+  pull_request:
+    paths:
+      - "orchestration/skills/**"
+      - "tests/skills/**"
+      - "tests/run_all.py"
+      - "tests/fixtures/skills/**"
+      - "schemas/skill-task-contract.schema.json"
+      - ".github/workflows/skills-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run full test suite
+        run: python tests/run_all.py
+
+      - name: Drift check (unapproved skill changes block the PR)
+        run: >-
+          python -m orchestration.skills.drift
+          --dir tests/fixtures/skills/valid-skill
+          --baseline tests/fixtures/skills/drift-baseline.json

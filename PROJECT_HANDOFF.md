@@ -2,57 +2,55 @@
 
 ## Current state
 
-R5.2A implementation and ProjectDesk pilot completed on branch `feature/r5.2a-implementation`.
+Stage 2G continuation completed on branch `feature/model-fallback-manager`. All agents restricted to `opencode-go/beam-free` (BEAM_FREE_ONLY). Real delegation, QA and independent audit demonstrated and persisted in SQLite.
 
 ## What was being done
 
-Resolved security blockers B-01 to B-04, prepared clean installation scripts and docs, executed a real ProjectDesk pilot using 18 agents, and produced the pilot report.
+Recovered project state, enforced beam-free-only model policy across config, agents, runtime and fallback manager, and executed one controlled live delegation (AG-018) with independent QA (AG-002) and audit (AG-015).
 
 ## Completed
 
-- Removed `--auto` from OpenCode adapter and preflight.
-- Implemented fail-closed permission model with env allowlist and explicit PWD.
-- Implemented `OpenCodeSandbox` with private `opencode serve` inside `unshare -Urm`.
-- Restricted AG-001 delegation to `ag-*` and denied `execute` for all factory agents.
-- Made migration 4 atomic, idempotent, and transactional.
-- Fixed test plan traceability (AC-027, AC-028, AC-to-test mapping).
-- Created installation scripts and documentation under `install/`.
-- Created private pilot repository `AI-Project-Factory-Pilot`.
-- Registered ProjectDesk (`PROJECT-001`) and executed all 10 pilot tasks.
-- ProjectDesk has 30 passing pytest tests and review reports.
-- Generated `docs/pilot/FACTORY_FIRST_INSTALL_AND_PROJECTDESK_REPORT.md`.
-- Pushed Factory branch and ProjectDesk branch to pilot repo.
+- opencode.json: model set to opencode-go/beam-free; Ollama provider removed.
+- All 19 executable agent definitions: model set to opencode-go/beam-free.
+- model_hierarchies.py: fallback alternatives removed; authorized set = {beam-free}.
+- model_fallback.py: single-model availability management; no model switching.
+- opencode_adapter.py: rejects non-authorized models; tags results with effective model.
+- runtime.py: run_task/run_workflow enforce BEAM_FREE_ONLY; records model in decisions.
+- tests/task_orchestration/test_coordination.py: adapted to beam-free-only policy.
+- Real live test: PROJECT-001 / TASK-0001 (AG-018) / EXEC-0001 COMPLETED, model_effective=beam-free.
+- QA: AV-0001 by AG-002; task COMPLETED.
+- Audit: AUDIT-0001 by AG-015, verdict PASS.
+- Documentation: ADR-007 recorded.
 
 ## Pending
 
-- Execute fresh LXC install on a second container when available.
-- Reconcile normative `agents/` permissions (pilot used `write: allow` for development agents; normative files may still say `ask`).
+- Independent AG-013 code review of Stage 2G changes (quota permitting).
+- Fresh LXC install on a second container when available.
+- Reconcile normative `agents/` permissions with `.opencode/agents/`.
 
 ## Modified files
 
-See Git history on `feature/r5.2a-implementation`.
+See Git diff on `feature/model-fallback-manager`.
 
 ## Decisions taken
 
-- ADR-001 to ADR-005 remain in force.
-- Development agents received `write: allow` for the non-interactive pilot; this must be reconciled with normative definitions before production use.
-- ProjectDesk backend was manually completed after AG-008 timeout; documented honestly.
+- ADR-001 to ADR-007 in force. ADR-007 establishes BEAM_FREE_ONLY.
+- No fallback to other models under any circumstance.
 
 ## Problems found
 
-- AG-008 backend and AG-013 first review timed out due to model quota/response time; mitigated with smaller prompts and manual completion.
-- Fresh LXC not executed due to no second container being provisioned.
-- Sandbox does not use a network namespace; documented as a limitation.
+- None blocking; quota respected (single controlled live test).
 
 ## Tests executed and results
 
 - Factory: `python3 tests/run_all.py` — ALL TESTS PASSED.
-- ProjectDesk: `pytest tests/ -v` — 30 passed.
+- install/scripts/verify.sh — ALL CHECKS PASSED.
+- SQLite integrity_check — ok.
 
 ## Last valid commit
 
-6b28655 (feature/r5.2a-implementation)
+f676d7116dcbf252dd5da0bb19c42e0b657a6e14 (feature/model-fallback-manager)
 
 ## Instructions to continue
 
-Review pilot report and decide whether to merge `feature/r5.2a-implementation` to main.
+Review changes, decide on commit/merge. Keep beam-free-only policy.

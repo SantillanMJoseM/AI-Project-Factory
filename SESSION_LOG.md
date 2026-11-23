@@ -202,3 +202,130 @@
 - Result: R5.1 audit PASS.
 - Commit generated: v0.6.5-r5.1
 - Next step: merge and create remediation tag.
+
+## Delegation DELEG-2026-11-20-001
+
+- Delegation ID: DELEG-2026-11-20-001
+- Delegator: AG-001 Project Coordinator
+- Target agent: ag-018-documentation-engineer (mode: subagent, model: opencode-go/qwen3.8-flash)
+- Date: 2026-11-20
+- Request: Delegate a task to AG-018 to reply HELLO.
+- Task: Reply with exactly "HELLO"; no file read/write permitted for this task.
+- Mechanism: `opencode run --agent ag-018-documentation-engineer` (no `task` tool available in the coordinator session; OpenCode CLI subagent invocation per orchestration/workflows/agent-delegation.md).
+- Evidence: CLI output header `> ag-018-documentation-engineer · qwen3.8-flash`; response body: `HELLO`.
+- Result: PASS — exact expected output returned to delegator.
+- Next step: none (ad hoc smoke test).
+
+## Session 2026-11-23 - Stage 2G continuation (BEAM_FREE_ONLY)
+
+- Model policy: BEAM_FREE_ONLY (`opencode-go/beam-free`) enforced for all agents.
+- Changes: opencode.json, all 19 agent definitions, model_hierarchies.py, model_fallback.py, opencode_adapter.py, runtime.py.
+- Real delegation: PROJECT-001 / TASK-0001 (AG-018) / EXEC-0001 COMPLETED.
+- model_effective: opencode-go/beam-free (persisted in executions.decisions and model_fallback_log).
+- QA: AV-0001 by AG-002; task COMPLETED.
+- Audit: AUDIT-0001 by AG-015, verdict PASS.
+- Tests: python3 tests/run_all.py PASS; install/scripts/verify.sh PASS; SQLite integrity_check ok.
+- Temp scripts removed; working tree contains only intended changes + untracked Stage 2G artifacts.
+
+## Session 2026-11-23 - Stage 2G.1 audit
+
+- Multi-agent delegation: PROJECT-003, EXEC-0003 (AG-005) + EXEC-0004 (AG-015), both COMPLETED, beam-free.
+- QA: AV-0002, AV-0003 by AG-002.
+- Audits: AUDIT-0002 (AG-015, PASS), AUDIT-0003 (AG-002, PASS).
+- Report: docs/execution/012_STAGE2G1_AUDIT_FINAL_REPORT.md.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 4 total executions (EXEC-0001..0004), all beam-free.
+
+## Session 2026-11-23 - Stage 2G.2 autonomy
+
+- Dynamic delegation: PROJECT-004, EXEC-0005 (AG-013) + EXEC-0006 (AG-012), both COMPLETED, beam-free.
+- QA: AV-0004, AV-0005 by AG-002.
+- Audits: AUDIT-0004 (AG-015, PASS), AUDIT-0005 (AG-002, PASS).
+- Report: docs/execution/013_STAGE2G2_AUTONOMY_FINAL_REPORT.md.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 6 total executions (EXEC-0001..0006), all beam-free.
+
+## Session 2026-11-23 - Stage 2H consolidation
+
+- Matrices: SKILLS_COVERAGE_MATRIX_2H.md, PERMISSIONS_MATRIX_2H.md.
+- LXC procedure: LXC_INSTALL_PROCEDURE_2H.md.
+- Report: docs/execution/014_STAGE2H_CONSOLIDATION_FINAL_REPORT.md.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 6 total executions (EXEC-0001..0006), all beam-free.
+
+## Session 2026-11-23 - Stage 2I final validation
+
+- Report: docs/execution/015_STAGE2I_FINAL_VALIDATION_REPORT.md.
+- Permissions reconciliation documented.
+- AG-003 proposal preserved (pending authorization).
+- LXC procedure reviewed (NOT_TESTED, documented).
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 6 total executions (EXEC-0001..0006), all beam-free.
+
+## Session 2026-11-23 - Stage 2J final
+
+- AG-003 formalized (documentation only, no identity change).
+- 2 more Skills LIVE_VERIFIED: architecture-patterns (EXEC-0007), code-review-excellence (EXEC-0008).
+- Report: docs/execution/016_STAGE2J_FINAL_REPORT.md.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 8 total executions (EXEC-0001..0008), all beam-free.
+
+## Session 2026-11-23 - Stage 2K final
+
+- Report: docs/execution/017_STAGE2K_FINAL_REPORT.md.
+- AG-003 documented (pending authorization).
+- LXC: BLOCKED (no container available).
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 8 total executions (EXEC-0001..0008), all beam-free.
+
+## Session 2026-11-23 - Stage 2L continuation
+
+- 2 more Skills LIVE_VERIFIED: python-testing-patterns (EXEC-0009), error-handling-patterns (EXEC-0010).
+- QA: AV-0006, AV-0007 by AG-002. Audits: AUDIT-0006, AUDIT-0007.
+- 10 total executions (EXEC-0001..0010), all beam-free.
+- Report: docs/execution/019_STAGE2L_FINAL_REPORT.md.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+
+## Session 2026-11-23 - Stage 2M final
+
+- Baseline: docs/execution/020_STAGE2M_BASELINE_REPORT.md.
+- Context design: docs/execution/021_STAGE2M_CONTEXT_DESIGN.md.
+- Recovery validation: docs/execution/022_STAGE2M_RECOVERY_VALIDATION.md.
+- Final report: docs/execution/023_STAGE2M_FINAL_REPORT.md.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 10 total executions (EXEC-0001..0010), all beam-free.
+
+## Session 2026-11-23 - Stage 2N final
+
+- Integrated continuity into run_task: context manifest + ledger + snapshots (pre+post).
+- LIVE verified: EXEC-0012 (AG-018, PROJECT-008), beam-free.
+- Snapshots: 2 (verify ok). Context: 1 (verify ok). Ledger: 1 (verify ok).
+- QA: AV-0008. Audit: AUDIT-0008 (PASS).
+- Reports: 024, 025, 026, 027.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 12 total executions (EXEC-0001..0012), all beam-free.
+
+## Session 2026-11-23 - Stage 2O final
+
+- Recovery implementation: resume_interrupted_task() in runtime.py.
+- LIVE verified: EXEC-0016→EXEC-0017 (interruption + recovery, no duplication).
+- Snapshots/context/ledger auto-created in run_task (Stage 2N).
+- Reports: 028-035.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 17 total executions (EXEC-0001..0017), all beam-free.
+
+## Session 2026-11-23 - Stage 2P final
+
+- Reports: 036-042.
+- Independent audit: AG-002 + AG-015. All PASS.
+- Continuity validated: snapshots, context, ledger, recovery.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.
+- 17 total executions (EXEC-0001..0017), all beam-free.
+
+## Session 2026-11-23 - Stage 2Q final
+
+- Forensic audit: 043-047.
+- All claims verified against code/DB/logs.
+- No critical findings. No regressions.
+- 17 total executions (EXEC-0001..0017), all beam-free.
+- Tests: run_all PASS, verify.sh PASS, SQLite integrity ok.

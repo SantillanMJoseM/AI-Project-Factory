@@ -81,3 +81,13 @@
 - Justification: risk-matrix.md L12/L15 (Data deletion, Irreversible operations = LEVEL C, explicit human approval); approval-policy.md L12 ("Agents may prepare but not execute"); security-authorization-workflow.md L7 (LEVEL C: block and request human approval); AGENTS.md (delegation must not bypass security controls); ADR-002, ADR-004, ADR-005.
 - Impact: Repeat requests of the same blocked scope do not constitute approval. Unblock path unchanged: (1) recorded explicit human approval naming the verdict ID and enumerated paths, (2) evidence preservation of defect.txt with checksum first, (3) correctly scoped executor (human or appropriately gated agent, never AG-008 as proxy). Recommend relocating scratch work to /tmp/opencode.
 - Status: vigente
+## ADR-007 - BEAM_FREE_ONLY model policy (Stage 2G continuation)
+
+- ID: ADR-007
+- Date: 2026-11-23
+- Context: User mandated that every agent, subagent, session, workflow and auxiliary process use exclusively `opencode-go/beam-free`, to avoid exhausting the OpenCode Go plan. No fallback to other models is permitted.
+- Problem: Prior configuration used multiple models (qwen, kimi, glm, mimo) across agent definitions and the fallback manager, plus an Ollama provider in opencode.json. This violated the single-model policy and risked quota exhaustion.
+- Decision: Enforce `BEAM_FREE_ONLY`. Authorized models set = {opencode-go/beam-free}. Removed Ollama provider from opencode.json. Set all 19 executable agent definitions to beam-free. Emptied fallback alternatives. Runtime rejects any non-authorized model request (adapter, run_task, run_workflow). Fallback manager now only manages Beam Free availability, waits, and recovery; never switches models.
+- Justification: User instruction; quota protection; auditability of effective model.
+- Impact: model_fallback_manager behavior changed from multi-model fallback to single-model availability management. Tests updated to reflect policy. Real delegation verified with beam-free (PROJECT-001 / TASK-0001 / EXEC-0001).
+- Status: vigente

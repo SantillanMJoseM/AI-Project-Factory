@@ -1,0 +1,5313 @@
+{
+  "registry_version": "0.1.0",
+  "schema_version": "1.0",
+  "skills": [
+    {
+      "assignment": {
+        "agents": [
+          "AG-013",
+          "AG-012",
+          "AG-008",
+          "AG-009",
+          "AG-010",
+          "AG-011"
+        ],
+        "scope": "shared"
+      },
+      "category": "code-quality-review",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/verification-before-completion",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "allow",
+          "AG-009": "allow",
+          "AG-010": "allow",
+          "AG-011": "allow",
+          "AG-012": "allow",
+          "AG-013": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "verification-before-completion",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/verification-before-completion"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "verification-before-completion",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-005",
+          "AG-001"
+        ],
+        "scope": "shared"
+      },
+      "category": "architecture-design",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:79059f17da8b20cdf27327f6de0ea005c73c2c442f48f70688abca4c77cb6f8f",
+          "references/decision-templates.md": "sha256:22cf12aafcad223597451c91c8590f325aad8f1a7c83c1c0690dbfef151f5823",
+          "references/deprecation-rfc-templates.md": "sha256:942320bdb31f835ffa4eacf009dae4857472056754dbc9478062c9c82d19741d"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/architecture-decision-records",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-001": "allow",
+          "AG-005": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "architecture-decision-records",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/documentation-generation/skills/architecture-decision-records"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "architecture-decision-records",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-013",
+          "AG-002"
+        ],
+        "scope": "shared"
+      },
+      "category": "code-quality-review",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:1e264e04e7d2db9f4de3d34576f444650233752ba79396ea96c1f8dc8df486ea",
+          "references/review-patterns.md": "sha256:c3841a3a0e0a21103de5e3ad23d073b565e87b8f54b07b2b56db23c8c94040c6",
+          "references/review-techniques.md": "sha256:3a6486a255659ec98a4b88299a498a63e4a7d17395327d95d84b74d27b205f5e"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/code-review-excellence",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-002": "allow",
+          "AG-013": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "code-review-excellence",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/developer-essentials/skills/code-review-excellence"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "code-review-excellence",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-013",
+          "AG-008",
+          "AG-009",
+          "AG-010",
+          "AG-011"
+        ],
+        "scope": "shared"
+      },
+      "category": "code-quality-review",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/receiving-code-review",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "allow",
+          "AG-009": "allow",
+          "AG-010": "allow",
+          "AG-011": "allow",
+          "AG-013": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "receiving-code-review",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/receiving-code-review"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "receiving-code-review",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-008",
+          "AG-009",
+          "AG-011"
+        ],
+        "scope": "shared"
+      },
+      "category": "backend-api",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:5fb7f4d995fc05386a8c04b045f96fd3cb652cbd31fd52d78966f86323b373b8",
+          "references/details.md": "sha256:705db82352df6a5f7d6d0a96bf848aecef734ca8dc3446904ddceead6aaf91d2"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/error-handling-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "allow",
+          "AG-009": "allow",
+          "AG-011": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "error-handling-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/developer-essentials/skills/error-handling-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "error-handling-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-018"
+        ],
+        "scope": "shared"
+      },
+      "category": "docs-knowledge",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:b9748be2063023ba754d47ab9e727bcfa053041fd6f83c524eb8ae4a257cb6a1",
+          "references/details.md": "sha256:bb85b108b101f76ec02cd678e34e83181148a2bb49e240f23131c51288c76c32"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/changelog-automation",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-018": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "changelog-automation",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/documentation-generation/skills/changelog-automation"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "changelog-automation",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-018",
+          "AG-008"
+        ],
+        "scope": "shared"
+      },
+      "category": "backend-api",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:8071736973f8a99cbe8644e21f638493ac062c77d650d8fabc4a469285485d7e",
+          "references/code-first-and-tooling.md": "sha256:533398d65b933040d13e642414e6b9846adbe7d5c95947223beffdb3ebe1590f",
+          "references/details.md": "sha256:b7c681062118a47126662bc6463b9be9430a45b983ddde71d1bdaf7fd091ad51"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/openapi-spec-generation",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "allow",
+          "AG-018": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "openapi-spec-generation",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/documentation-generation/skills/openapi-spec-generation"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "openapi-spec-generation",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-018",
+          "AG-005"
+        ],
+        "scope": "shared"
+      },
+      "category": "docs-knowledge",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:8c646c8dd078029950f9d6292a1b79a8c97cb290c02c496d869c80c8089ae80b",
+          "references/details.md": "sha256:e15de64a884df2ae9569c77d2285c73be82dd2cb53f496148caf9ee95375c7ed"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/grounded-vault",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-005": "allow",
+          "AG-018": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "grounded-vault",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/documentation-standards/skills/grounded-vault"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "grounded-vault",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-018"
+        ],
+        "scope": "shared"
+      },
+      "category": "docs-knowledge",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:3b0940b0014a64aaff405f367e44241095c96856cabcd0a01adf0ec33bbc1a66",
+          "references/pattern-catalog.md": "sha256:e085c85213c5e903e370d2c97831e1829dffead8346d202267d1a54298fb9595",
+          "references/profiles.md": "sha256:701afb02c9788cdfa60696c0e3f7cb37485c5174cc269f7fb1f234daf5c6b810",
+          "references/word-tiers.md": "sha256:8a693aa10f61c55ce3f92945cdf1472079a6b8a07bc0ff906bd38315681362e4"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/avoid-ai-writing",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-018": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "avoid-ai-writing",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/avoid-ai-writing/skills/avoid-ai-writing"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "avoid-ai-writing",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-012",
+          "AG-014"
+        ],
+        "scope": "shared"
+      },
+      "category": "debugging-performance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:1c8a71ccf478690589b6c7fc9d375e774b77910a38d01c7ca35e1220c2873f7d",
+          "references/tools-and-techniques.md": "sha256:4d604ce42201f9a829d230732ae13b0542f8c7ce13b98e95df5d295eb946fd99"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/debugging-strategies",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-012": "allow",
+          "AG-014": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "debugging-strategies",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/developer-essentials/skills/debugging-strategies"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "debugging-strategies",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-003",
+          "AG-015"
+        ],
+        "scope": "shared"
+      },
+      "category": "security-compliance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:b7cfab85be4d04a81d22f79cc3b0e95aab8aa3ae4dfacbcf44de076dbeb16f1e",
+          "references/details.md": "sha256:c386eb04dacbbb52eaaed318e7681549c40bd4686cce2f0d17d24f1c03ae1049"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/stride-analysis-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-003": "allow",
+          "AG-015": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "stride-analysis-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/security-scanning/skills/stride-analysis-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "stride-analysis-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-003",
+          "AG-004"
+        ],
+        "scope": "shared"
+      },
+      "category": "security-compliance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:bf391927dc404280e0f4d8c0ec20513c579fc6c277dfd04ad5a8e0a730ce8dde",
+          "references/details.md": "sha256:e304b0e15e876dfc99e09302491fa1c635e0a509e5a04b91ed1047b6400f12da"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/security-requirement-extraction",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-003": "allow",
+          "AG-004": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "security-requirement-extraction",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/security-scanning/skills/security-requirement-extraction"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "security-requirement-extraction",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-012"
+        ],
+        "scope": "shared"
+      },
+      "category": "testing",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:a1020718f31629c2a5b20731cad1804dbb81b18800495c5cebdf16e6cac9c175",
+          "references/advanced-patterns.md": "sha256:f560ee8b3cffc0fe971e78269bed21dc74f541c2056eae58d34259d9e537176a",
+          "references/details.md": "sha256:39411069cafe265c7000e9a605aa3c17448981756799f3981137ed2d9cc24c20"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/python-testing-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-012": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "python-testing-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/python-development/skills/python-testing-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "python-testing-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-012",
+          "AG-009"
+        ],
+        "scope": "shared"
+      },
+      "category": "testing",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:d99e1d7344ca7b87395c7e49f6c635ea67fe16d57f4698d72c78d405020f5782",
+          "references/advanced-testing-patterns.md": "sha256:c7aece88f868bb54b57cc7ea2ca87d3df0868ab32f974c22af247bb047ea353f"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/javascript-testing-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-009": "allow",
+          "AG-012": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "javascript-testing-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/javascript-typescript/skills/javascript-testing-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "javascript-testing-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-012",
+          "AG-009"
+        ],
+        "scope": "shared"
+      },
+      "category": "testing",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:b59a3d80c852f41bb73d6941410cd0fc98bbdb63a61d2ed0da2415f8dde0e1c7",
+          "references/details.md": "sha256:1b46db6aafff0bdacadfcba48d3c834a0a590e500f28fb6b89bf7f4339267808"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/e2e-testing-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-009": "allow",
+          "AG-012": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "e2e-testing-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/developer-essentials/skills/e2e-testing-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "e2e-testing-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-012",
+          "AG-016"
+        ],
+        "scope": "shared"
+      },
+      "category": "testing",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:d7992dbf589789f1ae446161d86c1cab026b9dfc4acfed5491d552be97338e62",
+          "references/details.md": "sha256:b3a82965886d700debae915949a6eccd7768568d97c0d996d7354abb43fee4b5"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/bats-testing-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-012": "allow",
+          "AG-016": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "bats-testing-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/shell-scripting/skills/bats-testing-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "bats-testing-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-008",
+          "AG-009",
+          "AG-010",
+          "AG-011",
+          "AG-016"
+        ],
+        "scope": "shared"
+      },
+      "category": "git-vcs",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:8b912fe7d2ff010fd4f8947a61ecdb8058628dc8e4a7ff20b7675cde11c4e7dd",
+          "references/details.md": "sha256:66ef1df71f2fb9cb6a86bb24e33175a3b2a2889afa245c7e6fa9bea8ac10cd44"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/git-advanced-workflows",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1A core development skill. Vendored from upstream at pinned commit. No local modifications.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "allow",
+          "AG-009": "allow",
+          "AG-010": "allow",
+          "AG-011": "allow",
+          "AG-016": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "git-advanced-workflows",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/developer-essentials/skills/git-advanced-workflows"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "git-advanced-workflows",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1A incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-012",
+          "AG-008",
+          "AG-009",
+          "AG-010",
+          "AG-011"
+        ],
+        "scope": "shared"
+      },
+      "category": "testing",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:64b03fce4aee5a97a93160cea8111f3ba13a17b7c001db4bd5836d67fd10705d",
+          "writing-good-tests.md": "sha256:51471c853306ff92ca8bb41dcaea05f31c0e46b03651f8f3c99754b7172f4ae1"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/test-driven-development",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "allow",
+          "AG-009": "allow",
+          "AG-010": "allow",
+          "AG-011": "allow",
+          "AG-012": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "test-driven-development",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/test-driven-development"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "test-driven-development",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-012",
+          "AG-014"
+        ],
+        "scope": "shared"
+      },
+      "category": "debugging-performance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202",
+          "condition-based-waiting-example.ts": "sha256:40ae5ebe497fdf310200e43fe986552546d0a22837c0d39e855db1cfd33eb88e",
+          "condition-based-waiting.md": "sha256:e89fec8400d6cd50f43407cec9fab50976ba4d55d0ec2eb51c0bd68036b54c26",
+          "defense-in-depth.md": "sha256:1e175fb86fc357e58c6aebf5441e481e1b7868b4380c0456b63a17eefbd18ba7",
+          "find-polluter.sh": "sha256:dd7b8f13c4cc2a24b33ff87b18da9248f3e1c80a085c3316224f69ff0fa5c43c",
+          "root-cause-tracing.md": "sha256:75b933b6a8c40bdb2031b10f21654395b56ec6ab6bc7b018c18d3fe57aeb7fb8"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/systematic-debugging",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-012": "allow",
+          "AG-014": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "systematic-debugging",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/systematic-debugging"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "systematic-debugging",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-002",
+          "AG-013"
+        ],
+        "scope": "shared"
+      },
+      "category": "code-quality-review",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:2180e14a448e9410bec88e6646a2d1f0ce7fdd58de27388c1e052e929679d2bc",
+          "code-reviewer.md": "sha256:82e370be6b3447523816286195571e4216ba56ba1ad6ad0e87862294c4c78dcb"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/requesting-code-review",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-002": "allow",
+          "AG-013": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "requesting-code-review",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/requesting-code-review"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "requesting-code-review",
+          "verdict": "COMPATIBLE-AFTER-ADAPTATION"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-005",
+          "AG-001"
+        ],
+        "scope": "shared"
+      },
+      "category": "architecture-design",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:350caf22b856b7d2908a10a69a8cc13e743c757ba9838716051b4e29fc1d7595",
+          "references/advanced-patterns.md": "sha256:a3513435c141f177ae6603697e1fbbaeec404943ea89dab14c6b76a0b51b03e3",
+          "references/details.md": "sha256:a53411600b253b343247db9d86140f3136ee7bd26a67aa8411962bcc1f5ff981"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/architecture-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-001": "allow",
+          "AG-005": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "architecture-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/backend-development/skills/architecture-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "architecture-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-008",
+          "AG-018",
+          "AG-011"
+        ],
+        "scope": "shared"
+      },
+      "category": "backend-api",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:1f6166c23c0a0f32d703c19d84b3c30c2873daefb9e8732339a009934fa17013",
+          "assets/api-design-checklist.md": "sha256:ef98cb8910cdc555514198df7becc6de8b04e1a98e2291b1440bc62e14cd07e5",
+          "assets/rest-api-template.py": "sha256:ff594a173b353fd359a6d7e391a6e15324434a5754cc51ae9a90a2e3625dd0c9",
+          "references/details.md": "sha256:e8b19b192ab1e1e99a5d7fed285670c2cfc0f23877338efe68da56eeaeaf1649",
+          "references/graphql-schema-design.md": "sha256:918937ba5341e589458874f2c48a8a188af61741d5ee19977fcf029dfe160a67",
+          "references/rest-best-practices.md": "sha256:675fbafdd5a6d5ac2c17ab97e17c90aa0a10c2a5608860128a8be14764130fae"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/api-design-principles",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "ask",
+          "AG-011": "ask",
+          "AG-018": "ask"
+        },
+        "risk_class": "B",
+        "rule": "ask"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "api-design-principles",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/backend-development/skills/api-design-principles"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "api-design-principles",
+          "verdict": "COMPATIBLE-AFTER-ADAPTATION"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "B",
+          "verdict": "ACCEPT-CONDITIONAL"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-003",
+          "AG-008",
+          "AG-011"
+        ],
+        "scope": "shared"
+      },
+      "category": "security-compliance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:1fc61d6074ace3d3db9d527ef92a7188118ff305b6ea98e0f9356545c6e15996",
+          "references/details.md": "sha256:1243a4798f303f03e8c7977efd0f0cc594166b52c175d67a8169a5c2ba39efcc"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/auth-implementation-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-003": "allow",
+          "AG-008": "allow",
+          "AG-011": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "auth-implementation-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/developer-essentials/skills/auth-implementation-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "auth-implementation-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-005",
+          "AG-008",
+          "AG-011"
+        ],
+        "scope": "shared"
+      },
+      "category": "architecture-design",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:c9d34026de5eb5b9f730604d1979df9aaa58dd7fa40c022e071da5ca65d68759",
+          "references/details.md": "sha256:968c9446da2a61491f7c007a8fba6524268b09be995f9b340cc2b103583116c0"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/microservices-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-005": "allow",
+          "AG-008": "allow",
+          "AG-011": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "microservices-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/backend-development/skills/microservices-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "microservices-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-007",
+          "AG-010"
+        ],
+        "scope": "shared"
+      },
+      "category": "database-data",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:d388db68c9f86beba823247f910b6a91c2fe8e12ef9b30b6e49f4b1bf19f1ab1",
+          "references/details.md": "sha256:075f4fb3f511d93597c966c0d5fd86c7fb3797cb6cdc47e6b389fa0538b838d3"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/database-migration",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-007": "allow",
+          "AG-010": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "database-migration",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/framework-migration/skills/database-migration"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "database-migration",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-007",
+          "AG-010"
+        ],
+        "scope": "shared"
+      },
+      "category": "database-data",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:cfe8234323daaeb47577261c96933f519004fad2f45f1460f340b883af5d7354",
+          "references/details.md": "sha256:27034cb3c3bdddf8f5b9593c882e0be95c7e48289b2507c95d0df88850cf1c37"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/sql-optimization-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-007": "allow",
+          "AG-010": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "sql-optimization-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/developer-essentials/skills/sql-optimization-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "sql-optimization-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-003",
+          "AG-016",
+          "AG-017"
+        ],
+        "scope": "shared"
+      },
+      "category": "security-compliance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:293527164f627d889cebdf78a2b45455952cc402797236461644b376af8dfe53"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/secrets-management",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-003": "ask",
+          "AG-016": "ask",
+          "AG-017": "ask"
+        },
+        "risk_class": "B",
+        "rule": "ask"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "secrets-management",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/cicd-automation/skills/secrets-management"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "secrets-management",
+          "verdict": "COMPATIBLE-AFTER-ADAPTATION"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "B",
+          "verdict": "ACCEPT-CONDITIONAL"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-015",
+          "AG-003"
+        ],
+        "scope": "shared"
+      },
+      "category": "security-compliance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:9fdd58afb507f1256c7fde3b385e214deabad39874bb9511121915dbda935965"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/sast-configuration",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-003": "ask",
+          "AG-015": "ask"
+        },
+        "risk_class": "B",
+        "rule": "ask"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "sast-configuration",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/security-scanning/skills/sast-configuration"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "sast-configuration",
+          "verdict": "COMPATIBLE-AFTER-ADAPTATION"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "B",
+          "verdict": "ACCEPT-CONDITIONAL"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-003",
+          "AG-015"
+        ],
+        "scope": "shared"
+      },
+      "category": "security-compliance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:69021049bd4c57a1b65ea29b79f4770e2b546ba1d9797fcd5e61909a47375d91",
+          "references/details.md": "sha256:0d9f9efa4402a9e1846d2f922e44f9027e2d8c1ebc282f4326a9eb082cc9f5b3"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/attack-tree-construction",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-003": "allow",
+          "AG-015": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "attack-tree-construction",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/security-scanning/skills/attack-tree-construction"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "attack-tree-construction",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-003",
+          "AG-015"
+        ],
+        "scope": "shared"
+      },
+      "category": "security-compliance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:40cf933689b7783480fbf567c9b7573a9626977912acf7fcb808287934c7dfa8",
+          "references/details.md": "sha256:767e373e9a7b321095352f856499965a4abe999f247cde2415edcf2e038a045b"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/threat-mitigation-mapping",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-003": "allow",
+          "AG-015": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "threat-mitigation-mapping",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/security-scanning/skills/threat-mitigation-mapping"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "threat-mitigation-mapping",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-016",
+          "AG-017"
+        ],
+        "scope": "shared"
+      },
+      "category": "devops-delivery",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:fc3c06ddb2423804be275defbb8a2c35f1564ba28aaeb07dcf01ec9c4cc8f023"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/github-actions-templates",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-016": "ask",
+          "AG-017": "ask"
+        },
+        "risk_class": "B",
+        "rule": "ask"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "github-actions-templates",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/cicd-automation/skills/github-actions-templates"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "github-actions-templates",
+          "verdict": "COMPATIBLE-AFTER-ADAPTATION"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "B",
+          "verdict": "ACCEPT-CONDITIONAL"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-016",
+          "AG-017"
+        ],
+        "scope": "shared"
+      },
+      "category": "devops-delivery",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:9a56bd9401c1dc8ef5a15758d7234f211193097ddb3895d46d1ddcd730687b18",
+          "references/advanced-strategies.md": "sha256:d087f75554eed0e2b1beb9a2d7be98c19f0776285f21474806b9398e81dff6a7",
+          "references/details.md": "sha256:0de81a3e3d168fa301f9b49a6be321a247c3ef8be40c167a283df4a3ee0d5a3b"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/deployment-pipeline-design",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1B engineering quality and advanced testing skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-016": "allow",
+          "AG-017": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "deployment-pipeline-design",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/cicd-automation/skills/deployment-pipeline-design"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "deployment-pipeline-design",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1B incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-016",
+          "AG-017"
+        ],
+        "scope": "shared"
+      },
+      "category": "devops-delivery",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:4bf215264e4e485a47a57a72f56d0da6a3e207ec3160535f838f5b1d4ba771b3",
+          "references/aws-modules.md": "sha256:fdec33a85c9fc14107f482ae0d1d29920a965cd56d4c12e2aa41a4afc2461cf2",
+          "references/oci-modules.md": "sha256:f0cd599c2e2a1be54300033b52622a5f6d40b7e045bd9c1e9d515f5e599c14bc"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/terraform-module-library",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1C infrastructure security skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-016": "allow",
+          "AG-017": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "terraform-module-library",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/cloud-infrastructure/skills/terraform-module-library"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "terraform-module-library",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1C incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-016",
+          "AG-017"
+        ],
+        "scope": "shared"
+      },
+      "category": "devops-delivery",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:489acd7b8fef07286a9b7d37879252e340e297f51a718d1e4ff30cfaf3b5f262",
+          "assets/configmap-template.yaml": "sha256:d991cec7e5653ea24bdec1b0e76ec9de70cc0a7ac4e13c647cdfd893e31cb064",
+          "assets/deployment-template.yaml": "sha256:9cbaf979af9c66f8fb64e3430a6751820f8ff3161a3af351fa3728e4eddd1245",
+          "assets/service-template.yaml": "sha256:87f085b5502182b7503d332f7c62da69bb3f737cb8f38f65ceb520d7e5557711",
+          "references/deployment-spec.md": "sha256:e86131be416480baa0a4dc2b2bb99d0da4b5f361f5616bd18556038013abc394",
+          "references/details.md": "sha256:69bf500ff981ab6b5aeb9c7bdb34a461c49f8bfd665e03c1311dafe9aa4b91b1",
+          "references/service-spec.md": "sha256:0fecd8ba3e8badca2dd58c2f0a81bf7aec70d7e1817e0fdda36602182a5f7b55"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/k8s-manifest-generator",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1C infrastructure security skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-016": "allow",
+          "AG-017": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "k8s-manifest-generator",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/kubernetes-operations/skills/k8s-manifest-generator"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "k8s-manifest-generator",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1C incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-016",
+          "AG-017"
+        ],
+        "scope": "shared"
+      },
+      "category": "devops-delivery",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:f9f620a4a4beb07c160794ecc0d471960a1aa98a18910d9096be018ffb34ec28",
+          "references/argocd-setup.md": "sha256:a3c40bac1613b7453856e01be9a263c05a83e24a2da709da8a4e147887f5385d",
+          "references/sync-policies.md": "sha256:abd386160b2e8c4d25ceea1e8a8bf142cae72f5587ddcb7c62851c9c6aaa81c7"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/gitops-workflow",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1C infrastructure security skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-016": "ask",
+          "AG-017": "ask"
+        },
+        "risk_class": "B",
+        "rule": "ask"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "gitops-workflow",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/kubernetes-operations/skills/gitops-workflow"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "gitops-workflow",
+          "verdict": "COMPATIBLE-AFTER-ADAPTATION"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "B",
+          "verdict": "ACCEPT-CONDITIONAL"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1C incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-001",
+          "AG-005"
+        ],
+        "scope": "shared"
+      },
+      "category": "agent-process",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:a6c67c1900064347c2a329990dd3c555657c51c3ec53b259a08aa01a2c26139a"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/writing-plans",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1D process engineering and workflow skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-001": "allow",
+          "AG-005": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "writing-plans",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/writing-plans"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "writing-plans",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1D incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-001",
+          "AG-008"
+        ],
+        "scope": "shared"
+      },
+      "category": "agent-process",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:deaf176fa179827e80f2ea3101db3ea90fdf562ebef340eba761e4687940f5f5",
+          "scripts/task-done": "sha256:ac0b5ebafc7d471507b7e94d88da77a11f187ba277c8d48fefaf8ff3e4fee50e",
+          "scripts/task-start": "sha256:4ae7ce3b6777c3240af786197836a6b4bbf3b0ee831c25f147c149ea8db54a21"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/executing-plans",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1D process engineering and workflow skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-001": "allow",
+          "AG-008": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "executing-plans",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/executing-plans"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "executing-plans",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1D incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-001"
+        ],
+        "scope": "shared"
+      },
+      "category": "agent-process",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:1968923066f3b707eb01d1992cdf4c42284c3855f70253b9cd5000ff45fca13c"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/dispatching-parallel-agents",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1D process engineering and workflow skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-001": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "dispatching-parallel-agents",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/dispatching-parallel-agents"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "dispatching-parallel-agents",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1D incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-001"
+        ],
+        "scope": "shared"
+      },
+      "category": "agent-process",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:1baf70e307bde682c462513c86116333f1f066168c6710f45145bf5f0b00828d",
+          "implementer-prompt.md": "sha256:81dd9d5a3fb0b09b96b5829f03b9796842f3199ef7591d1ba1c2db2a515f64d0",
+          "re-review-prompt.md": "sha256:ad54d0a10f1c2c8e656456e0a46e654af5dfe5ee6bcef63428cfd69b8dcd9311",
+          "references/batching.md": "sha256:b54dc7e23dbfb90db89bcb2fb3af591aabf6a271a165fbc0da4c6f9439980eac",
+          "references/cannot-verify.md": "sha256:e698713a15e0eabf1a2ab26ffe1bb04bf70c9d6d2e2060d44a0f9a1bdd4408bf",
+          "references/final-review.md": "sha256:6c9e12093e46c4ad0a203bc07709c17e3470f855f1b78e55c5e7b722a012a32c",
+          "references/fix-loop.md": "sha256:1938ce707915efc44021e563ebc29666329e20ad861b6c50b89f305b8f4e8d8b",
+          "references/handling-reports.md": "sha256:8f759cdd4936220c38aab05b6d6c48c6df8ac8f146b0f37a6d2facbf87133c67",
+          "references/preflight.md": "sha256:3ea21c5fc1af1a190ac8a9d19ceb0849b47bf2ffe27b87dffcc21b6a0539776c",
+          "references/resuming.md": "sha256:ff6e38bde2276faa2a7e93513086caded0ea10edbf2ec7f349a7e3b0d7c668c4",
+          "scripts/review-package": "sha256:aed7c6e09fc660417d28898ed975e84651cb9f18f4675141cd475edfb7037f3d",
+          "scripts/sdd-repo": "sha256:6f8256a776968d394bae679572e41ce572fd45c72074b98f9a8eb8b4f160e06f",
+          "scripts/sdd-workspace": "sha256:de3af5252fa595fc2000ba05cf69e06187d5c8aae9d283cced4c167ad1813061",
+          "scripts/task-brief": "sha256:0f244a12e146393c552ba62069d3eedcc85cb3f76de67b01f4e11219e5ebbcd8",
+          "task-reviewer-prompt.md": "sha256:61a04c2fb29907887d8babee1594f5e35ae26d461e7e584f5b7c283215165e08"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/subagent-driven-development",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1D process engineering and workflow skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-001": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "subagent-driven-development",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/subagent-driven-development"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "subagent-driven-development",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1D incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-008",
+          "AG-016"
+        ],
+        "scope": "shared"
+      },
+      "category": "git-vcs",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:8cfb86f121269e8f7f12361e6795c4f6738828340e28964c9229d365666c9edd"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/using-git-worktrees",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1D process engineering and workflow skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "ask",
+          "AG-016": "ask"
+        },
+        "risk_class": "B",
+        "rule": "ask"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "using-git-worktrees",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/using-git-worktrees"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "using-git-worktrees",
+          "verdict": "COMPATIBLE-AFTER-ADAPTATION"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "B",
+          "verdict": "ACCEPT-CONDITIONAL"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1D incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-016",
+          "AG-017"
+        ],
+        "scope": "shared"
+      },
+      "category": "devops-delivery",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:152b2b89bbbb14eebe2a78517d80ee7d52b6052345beea631ca9658d34e614ea"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/gitlab-ci-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1D process engineering and workflow skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-016": "allow",
+          "AG-017": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "gitlab-ci-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/cicd-automation/skills/gitlab-ci-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "gitlab-ci-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1D incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-018"
+        ],
+        "scope": "shared"
+      },
+      "category": "docs-knowledge",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:02e8fab07e66768e32eb5c20afccd00c2c1ed52d142ec533fbe608a0037edba1"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/hads",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1D process engineering and workflow skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-018": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "hads",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/documentation-standards/skills/hads"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "hads",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1D incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-014",
+          "AG-008"
+        ],
+        "scope": "shared"
+      },
+      "category": "debugging-performance",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:807aa725cc2b46b4d68a11a52e5b345be0449e80b7f4b60c32bfd2c35345afb5",
+          "references/advanced-patterns.md": "sha256:3109ef651c7591017505aeed1d171fbf9000ee522c1b4dac35f90192974b20f0",
+          "references/details.md": "sha256:8643031fabcbaf555ae1b4e702f1b5159689a31a4b286280d4df2822c9731281"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/python-performance-optimization",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "allow",
+          "AG-014": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "python-performance-optimization",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/python-development/skills/python-performance-optimization"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "python-performance-optimization",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-008",
+          "AG-009",
+          "AG-011"
+        ],
+        "scope": "shared"
+      },
+      "category": "backend-api",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:d52e1150accdc27e916f0962c9ba0872fcbe8a7d849d905dcc795c0f9d05aeae",
+          "references/advanced-patterns.md": "sha256:f5f0036b4990badcd241263298b4f9ef3d358d94e3db5d08307d5b80369ed584",
+          "references/details.md": "sha256:d3cf1ec64b36bd3cbaa130430870fe3dcf1b346f5016242719f2f29bb44452b8"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/nodejs-backend-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-008": "allow",
+          "AG-009": "allow",
+          "AG-011": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "nodejs-backend-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/javascript-typescript/skills/nodejs-backend-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "nodejs-backend-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-007",
+          "AG-010"
+        ],
+        "scope": "shared"
+      },
+      "category": "database-data",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:1e27b0fac6d88a710cd925b831608ca202c40ade4f4e285a8e027dcf2f9a44ea",
+          "references/details.md": "sha256:fac8b43c75ed30d95f2ab12886021f26bb8b03f8fed0cea2929b8de18953023a"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/postgresql-table-design",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-007": "allow",
+          "AG-010": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "postgresql-table-design",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/database-design/skills/postgresql-table-design"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "postgresql-table-design",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-006",
+          "AG-009"
+        ],
+        "scope": "shared"
+      },
+      "category": "ui-ux-accessibility",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:618355f0e6c6ba8ca5d231035c9da18302fe6894aedce565743e9181b6c928ee",
+          "references/component-architecture.md": "sha256:84dc16ed581c1ad72e34b93ba84bcfa9223d30f9c42eb7e36654bbbe8daefc61",
+          "references/design-tokens.md": "sha256:44bd27e26f072a3facd6cd841140d403805106c9c5d5e39fc33bf6ffccf8af64",
+          "references/details.md": "sha256:1f1792e8b20c24c2be2acd46e7da85928578d108006594f3ae35d93f9108ff6d",
+          "references/theming-architecture.md": "sha256:24c9efec7c809a4d6797e6a11bc66ce08c5d708211caac14266ce5754c83cc75"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/design-system-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-006": "allow",
+          "AG-009": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "design-system-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/ui-design/skills/design-system-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "design-system-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-006",
+          "AG-009"
+        ],
+        "scope": "shared"
+      },
+      "category": "ui-ux-accessibility",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:c8bd56f8fc0f122c4ff392b02617f0e6bb4a353b2d0189235c6ee77cdcfe8690",
+          "references/breakpoint-strategies.md": "sha256:d086c14641856aacdd38fd8aebf2988fb0055b7ed1b8773feb3104e69c7d1506",
+          "references/container-queries.md": "sha256:67b1697186a531751ec2aa364506919b9ae44680744603613c511d5132eb5a24",
+          "references/details.md": "sha256:6b8d84250249319719fc5d4a545628267edd16b8763c107536cf7341d37740b4",
+          "references/fluid-layouts.md": "sha256:d67ad19e57b015101da5d4c4a9208015909f60b89db5b7922d0bf9ca17673860"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/responsive-design",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-006": "allow",
+          "AG-009": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "responsive-design",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/ui-design/skills/responsive-design"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "responsive-design",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-006",
+          "AG-009"
+        ],
+        "scope": "shared"
+      },
+      "category": "ui-ux-accessibility",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:3ad0fbcb0a69b69e70652641a8eeb59f168cceb4bc9d9b9c8b47154072b9e1a2",
+          "references/aria-patterns.md": "sha256:72e2f2cb2d168bb5d82260b703be863a6371284ba3cf4ac22da28a309728c14a",
+          "references/details.md": "sha256:1789504a4268186e62126059da48d8deb95d36631fac6263b368e715df2ca2fb",
+          "references/mobile-accessibility.md": "sha256:b293d6c2b0a44c7f6ebb4848f7fe09d33713e91bbb1b97d88a561e7360b90201",
+          "references/wcag-guidelines.md": "sha256:09bf683d0e15c7100bd9d1bc4a5e7bf019c580fd447bceccdd0ee30d4ccc01ce"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/accessibility-compliance",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-006": "allow",
+          "AG-009": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "accessibility-compliance",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/ui-design/skills/accessibility-compliance"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "accessibility-compliance",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-006",
+          "AG-009"
+        ],
+        "scope": "shared"
+      },
+      "category": "ui-ux-accessibility",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:87f2765ed1deeef3f1c06f9e4338ff103c391c6c4adcdffc885f3516b7c34ff2",
+          "references/animation-libraries.md": "sha256:92da251d881a6a0647f09b83c9cf8cbdfb5d408d54e1098097bb0eda336e6d0f",
+          "references/microinteraction-patterns.md": "sha256:c276b03468bacacf7a7d8d95c70114d9724854ac2e084ad63f0b6e1ef00a948a",
+          "references/scroll-animations.md": "sha256:34f32ef74c4f44bf57a721f95cd523b63dd1d02711f16ccb8472d1d7a4f78a35"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/interaction-design",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-006": "allow",
+          "AG-009": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "interaction-design",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/ui-design/skills/interaction-design"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "interaction-design",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-006"
+        ],
+        "scope": "shared"
+      },
+      "category": "ui-ux-accessibility",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:0c6970d14f5d5df55c63d1be995205d140489e2d0c39896657fabee6f6a5df84",
+          "references/color-systems.md": "sha256:9ba288fbead974f0b6424ca04acee68e6ede07be62c5121142084e6afa82f871",
+          "references/spacing-iconography.md": "sha256:04835fad7ba356d9d10b46a9f6911a6b535095964a238f39f100b0dd1c4d90b5",
+          "references/typography-systems.md": "sha256:93be8eeb9c2a5e26205f657ea13a34bb832ba686c0458ee3db2877e6b4b066fc"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/visual-design-foundations",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-006": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "visual-design-foundations",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/ui-design/skills/visual-design-foundations"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "visual-design-foundations",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-009",
+          "AG-006"
+        ],
+        "scope": "shared"
+      },
+      "category": "ui-ux-accessibility",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:a7978f5e9e3fa7129cf3eb8d607cedece4e207011321893d9a3c5dd92cf32603",
+          "references/accessibility-patterns.md": "sha256:cecf82569bb7cbe89c96bd1d00ac0bee91d121515f19908a26e15634d13d3e3b",
+          "references/component-patterns.md": "sha256:a258c10793aae4b2628ff291fc7557d5605c73821d4946b98b923d6ef014c787",
+          "references/css-styling-approaches.md": "sha256:fe34ea85c3c3116982783c9148217c5642a15fcb73207458326ed91de05e592e"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/web-component-design",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-006": "allow",
+          "AG-009": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "web-component-design",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/ui-design/skills/web-component-design"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "web-component-design",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-006",
+          "AG-009"
+        ],
+        "scope": "shared"
+      },
+      "category": "ui-ux-accessibility",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:b6577edb7b7f71a6954f68b80c7eea1748ccdf31862759f864bce558fb2bcf83",
+          "references/advanced-patterns.md": "sha256:40a4a9fa931f4bc95213870ea1fe7c32ce50aacf3531af07954b660c4f51e1a2",
+          "references/details.md": "sha256:06db0dc31dabeced9ea5ee27dfe2f98fd1783756a3930e6aeacf09ab4fc6562a"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/tailwind-design-system",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-006": "allow",
+          "AG-009": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "tailwind-design-system",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/frontend-mobile-development/skills/tailwind-design-system"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "tailwind-design-system",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-006",
+          "AG-013"
+        ],
+        "scope": "shared"
+      },
+      "category": "ui-ux-accessibility",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:db263a3405deb95a63175f33da4a9d82d8595599fbee4a81979059b35a7cec40",
+          "references/details.md": "sha256:0a61237ccb4e1b2cba4291f83e0747ad64ac9ba81b37427ee0e648537c9c78d6"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/wcag-audit-patterns",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-006": "allow",
+          "AG-013": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "wcag-audit-patterns",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/wshobson/agents",
+        "cloned": "2026-11-19",
+        "commit_sha": "42203085cfc5736204bf0f6d436dff7e1da0bf3f",
+        "repo": "wshobson/agents",
+        "type": "vendored-upstream",
+        "upstream_path": "plugins/accessibility-compliance/skills/wcag-audit-patterns"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "wcag-audit-patterns",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "wshobson@42203085cfc5"
+      }
+    },
+    {
+      "assignment": {
+        "agents": [
+          "AG-001",
+          "AG-017"
+        ],
+        "scope": "shared"
+      },
+      "category": "code-quality-review",
+      "enabled_in": [
+        ".opencode/skills"
+      ],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:8db5a922b242dd4e1bf824cb91c13b3e8d8e8a86d6ceaf7f0774eb9cce909d65"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": ".opencode/skills/finishing-a-development-branch",
+      "license": {
+        "notice_files": [],
+        "scope": "repo-level-claim",
+        "spdx": "MIT",
+        "verified_at": "2026-11-19",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "ACTIVE",
+      "notes": "Stage 1E advanced engineering and specialized capabilities skill. Vendored from upstream at pinned commit.",
+      "permissions": {
+        "autoinvoke": true,
+        "per_agent_overrides": {
+          "AG-001": "allow",
+          "AG-017": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "upstream-drift",
+        "content-edit",
+        "security-reclassification"
+      ],
+      "skill_id": "finishing-a-development-branch",
+      "source": {
+        "approval": {
+          "by": "AG-015",
+          "date": "2026-11-19",
+          "gate": "G4"
+        },
+        "canonical_url": "https://github.com/obra/superpowers",
+        "cloned": "2026-11-19",
+        "commit_sha": "22f0b463e7a5e579904dd6211a520321035526f7",
+        "repo": "obra/superpowers",
+        "type": "vendored-upstream",
+        "upstream_path": "skills/finishing-a-development-branch"
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "docs/skills/SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "finishing-a-development-branch",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "docs/skills/SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-19",
+            "event": "registered",
+            "evidence": "Stage 1E incorporation",
+            "gates": [
+              "G0",
+              "G1",
+              "G2",
+              "G3",
+              "G4"
+            ]
+          }
+        ],
+        "local_rev": 1,
+        "registry_version": "0.1.0",
+        "upstream_pin": "obra@22f0b463e7a5"
+      }
+    }
+  ],
+  "updated_at": "2026-11-19"
+}

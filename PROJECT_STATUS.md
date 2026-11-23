@@ -1,18 +1,20 @@
 # PROJECT_STATUS
 
-- Version: 0.6.6 (R5.2A implementation)
-- Active phase: R5.2A - Security & Execution Integrity Implementation
-- Active sprint: R5.2A implementation and ProjectDesk pilot
-- Last completed task: ProjectDesk pilot delivery and report
+- Version: 1.6.0 (Stage 2Q final report complete)
+- Active phase: Stage 2Q — complete
+- Active sprint: none (awaiting user decision on commit/merge)
+- Last completed task: Stage 2Q final report (047)
 - Task in progress: none
 - Pending tasks:
-  - Execute fresh LXC install on a second container when available
-  - Reconcile normative `agents/` permissions with `.opencode/agents/` after pilot (development agents used `write: allow` for non-interactive execution)
-- Blockers:
-  - B-05: LLM quota exhausted (external, mitigated; no longer blocks pilot)
-- Last Quality Gate: Factory `python3 tests/run_all.py` PASS; ProjectDesk `pytest tests/` 30 PASS
-- Last audit: AG-013 code review PASS_WITH_OBSERVATIONS; AG-015 security audit PASS_WITH_OBSERVATIONS
-- Last validated commit: 6b28655 (feature/r5.2a-implementation)
-- Pilot repo: https://github.com/SantillanMJoseM/AI-Project-Factory-Pilot
-- ProjectDesk branch: projectdesk @ 9c5ecf7
-- Next recommended step: review pilot report and decide whether to merge feature/r5.2a-implementation to main
+  - AG-003 further identity changes (user authorization)
+  - Individual LIVE verification of remaining 53 Skills (quota)
+  - Normative agents/ permission reconciliation
+  - Fresh LXC install
+- Blockers: none active
+- Last Quality Gate: Factory `python3 tests/run_all.py` PASS (all suites)
+- Last audit: 047_STAGE2Q_FINAL_REPORT.md — no critical regressions
+- Last validated commit: f676d7116dcbf252dd5da0bb19c42e0b657a6e14 (feature/model-fallback-manager)
+- Branch: feature/model-fallback-manager
+- Model policy: BEAM_FREE_ONLY (`opencode-go/beam-free`) for all agents and sessions
+- Executions recorded: 17 (EXEC-0001..0017), all beam-free
+- Next recommended step: review changes, decide on commit/merge
