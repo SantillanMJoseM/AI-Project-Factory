@@ -7,7 +7,7 @@ HEAD: f676d7116dcbf252dd5da0bb19c42e0b657a6e14
 ## 1. Inventario
 
 - 18 agentes V2 + assessor (19 ejecutables), todos beam-free, todos cargan en OpenCode.
-- 56 Skills en .opencode/skills/.
+- 54 Skills en .opencode/skills/.
 - 10 ejecuciones (EXEC-0001..0010), todas COMPLETED, todas beam-free.
 - 6 acceptance verifications (AV-0001..0006), 5 audits (AUDIT-0001..0005).
 - SQLite: integrity ok.

@@ -320,7 +320,7 @@ def test_real_opencode_adapter_invocation():
     with tempfile.TemporaryDirectory() as td:
         repo = Path(td) / "project"
         repo.mkdir()
-        result = adapter.invoke("ag-001-project-coordinator", "Respond with exactly: RUNTIME_OK", cwd=repo, model="opencode-go/qwen3.8-flash", factory_root=ROOT)
+        result = adapter.invoke("ag-001-project-coordinator", "Respond with exactly: RUNTIME_OK", cwd=repo, model="opencode-go/beam-free", factory_root=ROOT)
     if result["status"] != "COMPLETED":
         return
     assert "RUNTIME_OK" in result.get("output", "")

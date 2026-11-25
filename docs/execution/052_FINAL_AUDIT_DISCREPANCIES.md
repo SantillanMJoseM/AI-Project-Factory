@@ -12,7 +12,7 @@ Branch: feature/model-fallback-manager
 - Severity: MEDIUM.
 
 ### D2: 51 Skills NOT_TESTED
-- Only 5/56 LIVE_VERIFIED. 51 ASSIGNED/NOT_TESTED.
+- Only 5/54 LIVE_VERIFIED. 49 ASSIGNED/NOT_TESTED.
 - Reason: quota protection.
 - Severity: LOW (by design).
 

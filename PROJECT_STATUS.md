@@ -1,6 +1,6 @@
 # PROJECT_STATUS
 
-- Version: 2.8.0 (Permissions reconciliation complete)
+- Version: 0.6.6 (R5.2A + Stage 2G continuation, in progress)
 - Active phase: Permissions reconciliation — complete
 - Active sprint: none (awaiting user decision on commit/merge)
 - Last completed task: LXC deployment guide (096)
@@ -13,8 +13,9 @@
 - Blockers: none active
 - Last Quality Gate: Factory `python3 tests/run_all.py` PASS (all suites)
 - Last audit: 096_LXC_DEPLOYMENT_GUIDE.md — no critical regressions
-- Last validated commit: 10e2ebe20248893a2bc915c4c81bd66d58703b01 (feature/model-fallback-manager, published)
-- Branch: feature/model-fallback-manager
+- Last documentation reconciliation: RECON-018-DOCS-003 (2026-11-23) — AG-003 identity, BEAM_FREE_ONLY fallback design, version 0.6.6, reconciliation summary
+- Last validated commit: 5f63b74ca0f54596ff83b1cdd5df02480b7a34da (main, published)
+- Branch: main
 - Model policy: BEAM_FREE_ONLY (`opencode-go/beam-free`) for all agents and sessions
 - Executions recorded: 17 (EXEC-0001..0017), all beam-free
 - Next recommended step: review changes, decide on commit/merge

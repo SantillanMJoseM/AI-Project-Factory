@@ -36,7 +36,7 @@
 - Impact: Provider/model can change without losing definitions.
 - Status: vigente
 
-## ADR-005 - PROJECT-001 uses SQLite for local implementation
+## ADR-004 - PROJECT-001 uses SQLite for local implementation
 
 - ID: ADR-005
 - Date: 2026-11-04
@@ -90,4 +90,24 @@
 - Decision: Enforce `BEAM_FREE_ONLY`. Authorized models set = {opencode-go/beam-free}. Removed Ollama provider from opencode.json. Set all 19 executable agent definitions to beam-free. Emptied fallback alternatives. Runtime rejects any non-authorized model request (adapter, run_task, run_workflow). Fallback manager now only manages Beam Free availability, waits, and recovery; never switches models.
 - Justification: User instruction; quota protection; auditability of effective model.
 - Impact: model_fallback_manager behavior changed from multi-model fallback to single-model availability management. Tests updated to reflect policy. Real delegation verified with beam-free (PROJECT-001 / TASK-0001 / EXEC-0001).
+- Status: vigente
+
+## ADR-009 - MODEL_ROUTING_V2 policy (Stage 039)
+
+- ID: ADR-009
+- Date: 2026-11-24
+- Context: User authorized migration from BEAM_FREE_ONLY to multi-model routing using OpenCode Go Plus subscription ($40/month). Need to use different models per task complexity while preserving budget and rollback.
+- Decision: Implement MODEL_ROUTING_V2 as opt-in policy via env var `APF_MODEL_POLICY`. Authorized models expanded to 30 opencode-go models. Agent-to-model assignment matrix created. Fallback hierarchies per agent (primary → alternatives → beam-free). BEAM_FREE_ONLY remains default and rollback option. Consumption tracking blocked pending Go API key.
+- Justification: User authorization; quality/cost optimization; budget protection.
+- Impact: model_routing.py created; model_hierarchies.py dual-policy; model_fallback.py routing-aware; adapter/runtime use authorized_models(). Agent files unchanged (routing overrides at runtime). No commits performed.
+- Status: vigente (implementation in progress; consumption tracking BLOCKED)
+
+## ADR-008 - Durable model fallback persistence and resumption (Stage 2G remediation)
+
+- ID: ADR-008
+- Date: 2026-11-24
+- Context: Under BEAM_FREE_ONLY, quota exhaustion blocks all execution until Beam Free recovers. In-memory state alone loses decisions on interruption.
+- Decision: Persist every fallback attempt in `model_fallback_log` (additive migration 5: attempt_number, error_class, http_status, retry_after, reset_timestamp, wait_until, completed_at). Adapter returns WAITING immediately without in-process sleep/retry. Tasks transition to WAITING_QUOTA_RESET/WAITING_RATE_LIMIT and are resumable via `resume_interrupted_task` / `task waiting` CLI when wait_until is reached. No model switching; recovery is over the same authorized model.
+- Justification: Durability, idempotency, no duplicate execution, no artificial retry, traceability.
+- Impact: model_fallback_log schema extended additively; save_fallback_log persists new fields; adapter no longer retries in-process on wait.
 - Status: vigente

@@ -74,10 +74,10 @@ def test_migration_4_idempotent_on_clean_db():
     with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
         db_path = f.name
     conn = rt.get_conn(db_path)
-    assert conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0] == 4
+    assert conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0] == 6
     conn.close()
     conn = rt.get_conn(db_path)
-    assert conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0] == 4
+    assert conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0] == 6
     assert "description" in rt._columns(conn, "tasks")
     assert conn.execute("SELECT 1 FROM sqlite_master WHERE name='delegations'").fetchone()
     conn.close()

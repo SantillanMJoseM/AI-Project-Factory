@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "registry_version": "0.1.0",
+  "skills": [
+    {
+      "assignment": {
+        "agents": [
+          "AG-008"
+        ],
+        "scope": "factory-agents"
+      },
+      "category": "testing",
+      "enabled_in": [],
+      "integrity": {
+        "complete_directory": true,
+        "file_hashes": {
+          "SKILL.md": "sha256:c0b200f11c11a0fbedf81598ad6e64292884ae0dd07193fa3f4da2dee617801c",
+          "references/guide.md": "sha256:620814d798dfb0a7b756028804be02a04257277cbbf2515858c5760bc0c686e1"
+        },
+        "local_modifications": "none"
+      },
+      "library_path": "skills-library/shared/valid-skill",
+      "license": {
+        "notice_files": [],
+        "scope": "in-house",
+        "spdx": "TBD",
+        "verified_at": "2026-11-23",
+        "verified_by": "AG-015"
+      },
+      "lifecycle": "CANDIDATE",
+      "notes": "Test fixture skill (minimal, benign).",
+      "permissions": {
+        "autoinvoke": false,
+        "per_agent_overrides": {
+          "AG-008": "allow"
+        },
+        "risk_class": "A",
+        "rule": "allow"
+      },
+      "reaudit_triggers": [
+        "content-edit"
+      ],
+      "skill_id": "valid-skill",
+      "source": {
+        "approval": {
+          "approved_by": "AG-015",
+          "adr": "ADR-007",
+          "date": "2026-11-23"
+        },
+        "canonical_url": null,
+        "cloned": "2026-11-23",
+        "commit_sha": null,
+        "repo": null,
+        "type": "in-house",
+        "upstream_path": null
+      },
+      "tier": "shared",
+      "verdicts": {
+        "behavior_review": {
+          "gate": "G5",
+          "verdict": "PASS"
+        },
+        "compatibility": {
+          "doc": "SKILLS_COMPATIBILITY_MATRIX.md",
+          "row": "valid-skill",
+          "verdict": "COMPATIBLE"
+        },
+        "security": {
+          "conditions_closed": [],
+          "doc": "SKILLS_SECURITY_AUDIT.md",
+          "risk_class": "A",
+          "verdict": "ACCEPT"
+        }
+      },
+      "versioning": {
+        "history": [
+          {
+            "actor": "AG-001",
+            "date": "2026-11-23",
+            "event": "registered",
+            "evidence": "test fixture",
+            "gates": [
+              "G0"
+            ]
+          }
+        ],
+        "local_rev": 0,
+        "registry_version": "0.1.0",
+        "upstream_pin": null
+      }
+    }
+  ]
+}

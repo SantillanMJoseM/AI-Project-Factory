@@ -6,12 +6,12 @@ HEAD: b11da60cfeffc6e77f8da721654b05de6534fc37
 
 ## 1. Inventario
 
-- 56 Skills present in .opencode/skills/.
+- 54 Skills present in .opencode/skills/.
 - Matrix: docs/execution/SKILLS_COVERAGE_MATRIX_2H.md.
 
 ## 2. Asignación
 
-- All 56 Skills assigned to agents per specialization (documented in each agent file under "## Assigned skills").
+- All 54 Skills assigned to agents per specialization (documented in each agent file under "## Assigned skills").
 - Assignment matrix in SKILLS_COVERAGE_MATRIX_2H.md.
 
 ## 3. Verificación
@@ -23,6 +23,6 @@ HEAD: b11da60cfeffc6e77f8da721654b05de6534fc37
 
 | Requisito | Clasificación |
 |---|---|
-| 56 Skills integradas | IMPLEMENTED (assigned) |
+| 54 Skills integradas | IMPLEMENTED (assigned) |
 | Skills utilizables | LIVE_VERIFIED (5) |
 | 51 Skills pendientes | NOT_TESTED (quota) |

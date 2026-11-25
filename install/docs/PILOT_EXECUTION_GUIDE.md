@@ -52,13 +52,13 @@ Create tasks for:
 
 ```bash
 python3 -m orchestration.runtime workflow start --project PROJECT-001 --workflow standard-delivery
-python3 -m orchestration.runtime workflow run --run-id RUN-XXXX --model opencode-go/qwen3.8-flash
+python3 -m orchestration.runtime workflow run --run-id RUN-XXXX --model opencode-go/beam-free
 ```
 
 Or run tasks individually:
 
 ```bash
-python3 -m orchestration.runtime task run --task TASK-0001 --model opencode-go/qwen3.8-flash
+python3 -m orchestration.runtime task run --task TASK-0001 --model opencode-go/beam-free
 ```
 
 ## 5. Quality Gates

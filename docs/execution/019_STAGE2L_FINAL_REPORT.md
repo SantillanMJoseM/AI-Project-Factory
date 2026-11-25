@@ -88,7 +88,7 @@ Stage 2L avanzó desde Stage 2K. Se verificaron 2 Skills adicionales LIVE (total
 |---|---|
 | 18 agentes V2 | LIVE_VERIFIED (19/19) |
 | AG-003 (propuesta) | IMPLEMENTED (pendiente autorización) |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (5) |
 | Permisos (matriz) | IMPLEMENTED + LIVE_VERIFIED |
 | Delegación dinámica | LIVE_VERIFIED |

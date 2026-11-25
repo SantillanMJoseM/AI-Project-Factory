@@ -36,7 +36,7 @@ Stage 2O implementó y validó la recuperación automática entre sesiones. Se d
 | Snapshots automáticos | LIVE_VERIFIED (EXEC-0012) |
 | Context assembly automático | LIVE_VERIFIED (EXEC-0012) |
 | AG-003 (propuesta) | IMPLEMENTED (pendiente autorización) |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (5) |
 | Permisos (matriz) | IMPLEMENTED + LIVE_VERIFIED |
 | Instalación LXC | BLOCKED (no contenedor) |

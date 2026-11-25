@@ -21,6 +21,7 @@ from pathlib import Path
 from orchestration.runtime.sandbox import OpenCodeSandbox
 from orchestration.runtime.model_fallback import ModelFallbackManager, FallbackStatus
 from orchestration.runtime.model_hierarchies import AUTHORIZED_MODEL, AUTHORIZED_MODELS
+from orchestration.runtime.model_fallback import _authorized_models as _rt_authorized_models
 
 
 DEFAULT_ALLOWED_ENV = {
@@ -111,7 +112,7 @@ class OpenCodeAdapter:
         except subprocess.TimeoutExpired:
             return {"status": "FAILED", "output": "", "error": "timeout", "command": cmd, "cwd": workdir}
 
-    def invoke(self, agent_id, prompt, context_files=None, model=None, cwd=None, factory_root=None, task_id=None, execution_id=None, max_retries=3):
+    def invoke(self, agent_id, prompt, context_files=None, model=None, cwd=None, factory_root=None, task_id=None, execution_id=None, max_retries=4):
         if not self.available():
             return {"status": "BLOCKED", "output": "", "error": "opencode binary not available", "command": None}
         if not self.validate_agent(agent_id):
@@ -119,9 +120,9 @@ class OpenCodeAdapter:
         if factory_root:
             self.factory_root = Path(factory_root).resolve()
 
-        # BEAM_FREE_ONLY policy: reject any non-authorized model request.
-        if model is not None and model not in AUTHORIZED_MODELS:
-            return {"status": "BLOCKED", "output": "", "error": f"policy violation: model {model!r} not authorized (BEAM_FREE_ONLY)", "command": None, "model_effective": None}
+        # Model policy: reject any non-authorized model request.
+        if model is not None and model not in _rt_authorized_models():
+            return {"status": "BLOCKED", "output": "", "error": f"policy violation: model {model!r} not authorized ({__import__('orchestration.runtime.model_routing', fromlist=['get_policy']).get_policy()})", "command": None, "model_effective": None}
 
         # Normalize: never pass an explicit model that bypasses the fallback manager's
         # quota handling; the authorized model is selected by the manager.
@@ -156,7 +157,7 @@ class OpenCodeAdapter:
                 return result
 
             error_text = result.get("error") or ""
-            decision = fm.handle_error(agent_id, effective, error_text)
+            decision = fm.handle_error(agent_id, effective, error_text, retries=retries)
             action = decision["action"]
             status = decision["status"]
 
@@ -165,25 +166,34 @@ class OpenCodeAdapter:
                 fm.log_change(agent_id, task_id, primary, effective, next_model,
                               decision["error_class"], status, retries=retries,
                               error_message=error_text, execution_id=execution_id)
-                effective = next_model if next_model in AUTHORIZED_MODELS else AUTHORIZED_MODEL
+                effective = next_model if next_model in _rt_authorized_models() else AUTHORIZED_MODEL
                 retries += 1
                 continue
             elif action == "wait":
                 wait = decision["wait_seconds"]
+                from datetime import datetime, timezone, timedelta
+                wait_until = (datetime.now(timezone.utc) + timedelta(seconds=wait)).isoformat()
                 fm.log_change(agent_id, task_id, primary, effective, None,
                               decision["error_class"], status, wait_seconds=wait,
-                              retries=retries, error_message=error_text, execution_id=execution_id)
-                if wait > 0:
-                    time.sleep(min(wait, 5))  # cap sleep for responsiveness; real wait handled by orchestrator
-                effective = decision.get("next_model") or effective
-                if effective not in AUTHORIZED_MODELS:
-                    effective = AUTHORIZED_MODEL
-                retries += 1
-                continue
+                              retries=retries, error_message=error_text, execution_id=execution_id,
+                              attempt_number=retries + 1, error_class=decision["error_class"],
+                              retry_after=decision.get("wait_seconds"), wait_until=wait_until)
+                # Do NOT sleep/retry in-process: persist the wait decision and
+                # return a WAITING state. Real resumption is handled by the
+                # scheduler / authorized re-check (no artificial retry loop).
+                result["status"] = status
+                result["model_effective"] = effective if effective in _rt_authorized_models() else None
+                return result
             elif action == "retry":
-                retries += 1
-                time.sleep(min(2 ** retries, 30))
-                continue
+                # Legacy path: convert to non-blocking wait for transient errors.
+                wait = decision.get("wait_seconds", 2)
+                fm.log_change(agent_id, task_id, primary, effective, None,
+                              decision["error_class"], FallbackStatus.WAITING_TRANSIENT_RETRY,
+                              wait_seconds=wait, retries=retries,
+                              error_message=error_text, execution_id=execution_id)
+                result["status"] = FallbackStatus.WAITING_TRANSIENT_RETRY
+                result["model_effective"] = effective if effective in _rt_authorized_models() else None
+                return result
             elif action == "intervention":
                 fm.log_change(agent_id, task_id, primary, effective, None,
                               decision["error_class"], status, retries=retries,

@@ -6,7 +6,7 @@ HEAD: f676d7116dcbf252dd5da0bb19c42e0b657a6e14
 
 ## 1. Initial state
 
-Recovered from Stage 2H. System functional: 18 agents V2, 56 Skills assigned, 6 executions (all beam-free), multi-agent delegation verified, SQLite intact, matrices generated, LXC procedure documented.
+Recovered from Stage 2H. System functional: 18 agents V2, 54 Skills assigned, 6 executions (all beam-free), multi-agent delegation verified, SQLite intact, matrices generated, LXC procedure documented.
 
 ## 2. Protection
 
@@ -84,7 +84,7 @@ Recovered from Stage 2H. System functional: 18 agents V2, 56 Skills assigned, 6 
 ## 15. Pending (require authorization)
 
 - AG-003 formalization (user authorization).
-- Individual LIVE verification of 56 Skills (quota).
+- Individual LIVE verification of 54 Skills (quota).
 - Normative permission reconciliation (agents/).
 - Fresh LXC install (second container).
 
@@ -98,7 +98,7 @@ Stage 2I validation complete. System functional for controlled use: multi-agent 
 |---|---|
 | 18 agentes V2 | LIVE_VERIFIED (19/19) |
 | Permisos (matriz) | IMPLEMENTED + LIVE_VERIFIED |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (hads) |
 | Selección dinámica | LIVE_VERIFIED |
 | Delegación multiagente | LIVE_VERIFIED |

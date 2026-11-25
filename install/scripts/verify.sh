@@ -29,7 +29,7 @@ check "Adapter module exists" test -f "$FACTORY_DIR/orchestration/runtime/openco
 echo "[2/6] Agent definitions..."
 check "Normative agents directory" test -d "$FACTORY_DIR/agents"
 check "OpenCode agents directory" test -d "$FACTORY_DIR/.opencode/agents"
-check "18 OpenCode agents" bash -c "test \$(ls -1 $FACTORY_DIR/.opencode/agents/*.md | wc -l) -ge 18"
+check "19 OpenCode agents" bash -c "test \$(ls -1 $FACTORY_DIR/.opencode/agents/*.md | wc -l) -ge 19"
 
 echo "[3/6] OpenCode..."
 check "OpenCode binary" command -v opencode

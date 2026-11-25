@@ -5,7 +5,7 @@ Branch: feature/model-fallback-manager
 
 ## 1. Inventario
 
-- 56 Skills present in .opencode/skills/.
+- 54 Skills present in .opencode/skills/.
 - Matrix: docs/execution/SKILLS_COVERAGE_MATRIX_2H.md.
 
 ## 2. LIVE_VERIFIED (5)

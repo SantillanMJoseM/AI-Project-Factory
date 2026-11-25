@@ -8,3 +8,16 @@ __pycache__/
 # Runtime state
 orchestration/runtime/*.db
 orchestration/runtime/*.db-*
+
+# Secrets and credentials
+*.key
+*.pem
+*.p12
+*.pfx
+credentials*.json
+secrets/*.json
+*.secret
+
+# Test workspaces (temporary)
+delegation-test-workspace/
+__pycache__/

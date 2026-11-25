@@ -11,7 +11,7 @@ Stage 2Q realizó una auditoría forense independiente de los avances declarados
 ## 2. Estado verificado
 
 - 18 agentes V2 + assessor (19), todos beam-free, todos cargan en OpenCode.
-- 56 Skills presentes, 5 LIVE_VERIFIED, 51 ASSIGNED/NOT_TESTED.
+- 54 Skills presentes, 5 LIVE_VERIFIED, 51 ASSIGNED/NOT_TESTED.
 - 17 ejecuciones (EXEC-0001..0017), todas beam-free.
 - 9 acceptance verifications (AV-0001..0009) by AG-002. All PASS.
 - 9 audits (AUDIT-0001..0009) by AG-015/AG-002. All PASS.
@@ -47,7 +47,7 @@ Sin discrepancias críticas. No data loss. No security vulnerabilities.
 |---|---|
 | 18 agentes V2 | VERIFIED (19/19) |
 | AG-003 (propuesta) | IMPLEMENTED (pendiente autorización) |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (5) |
 | Permisos (matriz) | VERIFIED |
 | Delegación dinámica | LIVE_VERIFIED |

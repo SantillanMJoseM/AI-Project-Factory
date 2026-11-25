@@ -1,15 +1,18 @@
-# MODEL FALLBACK MANAGER — DISEÑO TÉCNICO
+# MODEL FALLBACK MANAGER — DISEÑO TÉCNICO (BEAM_FREE_ONLY)
 
 ## 1. Objetivo
 
-Sistema centralizado de selección, sustitución y recuperación automática de modelos para los 18 agentes AG-001 a AG-018, integrado con `OpenCodeAdapter` y la orquestación existente.
+Gestionar la disponibilidad del único modelo autorizado (`opencode-go/beam-free`) para los
+18 agentes AG-001..AG-018, integrado con `OpenCodeAdapter` y la orquestación existente,
+sin cambiar de modelo en ningún caso.
 
-## 2. Principios
+## 2. Política (ADR-007)
 
-- Todos los modelos pertenecen a `opencode-go` (OpenCode Go).
-- No se utilizan modelos de pago adicional, proveedores externos ni créditos extra.
-- La continuidad nunca justifica costos adicionales.
-- No se duplica lógica de selección en cada agente.
+- Todos los agentes, sesiones, workflows y subprocesos usan exclusivamente
+  `opencode-go/beam-free`.
+- No existen modelos alternativos ni proveedores externos.
+- La continuidad nunca justifica costos adicionales ni cambio de modelo.
+- `FALLBACK_ALTERNATIVES` está vacío; `AUTHORIZED_MODELS = {opencode-go/beam-free}`.
 
 ## 3. Componentes
 
@@ -18,87 +21,87 @@ Sistema centralizado de selección, sustitución y recuperación automática de 
 Clase en `orchestration/runtime/model_fallback.py`.
 
 Responsabilidades:
-- Mantener jerarquías ordenadas de modelos por agente.
+- Mantener la disponibilidad del modelo autorizado (marcado no disponible por tiempo).
 - Clasificar errores (cuota agotada, límite temporal, transitorio, autenticación, ambiguo).
-- Seleccionar alternativas cuando el modelo principal no está disponible.
-- Administrar esperas (Retry-After, backoff exponencial).
-- Recuperar el modelo principal cuando vuelva a estar disponible.
-- Registrar cada cambio en un historial auditable.
+- Administrar esperas (Retry-After, backoff implícito por clasificación).
+- Recuperar el modelo autorizado cuando vuelva a estar disponible (por timestamp).
+- Registrar cada evento en un historial auditable (`model_fallback_log`).
+- Rechazar cualquier modelo no autorizado.
 
 ### 3.2 Integración con OpenCodeAdapter
 
 `OpenCodeAdapter.invoke` delega la selección de modelo al `ModelFallbackManager`:
-- Si no se pasa `model`, el manager devuelve el modelo principal del agente.
-- Si la invocación falla por cuota agotada, el manager selecciona la siguiente alternativa y reintenta.
-- Si falla por límite temporal, el manager espera y reintenta con el mismo modelo.
-- Si falla por error transitorio, aplica backoff exponencial.
-- Si falla por autenticación/configuración, registra y devuelve `NEEDS_INTERVENTION`.
+- El único modelo seleccionable es `opencode-go/beam-free` si está disponible.
+- Si no está disponible, `select_model` devuelve `None` (sin alternativa).
+- Si la invocación falla por cuota agotada, se marca no disponible y se espera
+  recuperación (no se cambia de modelo).
+- Si falla por límite temporal, se espera `Retry-After` y se reintenta el mismo modelo.
+- Si falla por error transitorio, se reintenta el mismo modelo.
+- Si falla por autenticación/configuración, se registra y devuelve `NEEDS_INTERVENTION`.
+- Si falla por error ambiguo, se registra y se aborta.
 
 ### 3.3 Persistencia
 
-Tabla `model_fallback_log` en `runtime.db`:
-- `log_id` (PK)
-- `execution_id` (FK a executions)
-- `task_id`
-- `agent_id`
-- `primary_model`
-- `effective_model`
-- `fallback_model` (si aplica)
-- `reason` (quota_exhausted, rate_limit, transient, auth, ambiguous)
-- `provider`
-- `started_at`
-- `wait_seconds`
-- `retries`
-- `status` (RUNNING, WAITING_RATE_LIMIT, WAITING_QUOTA_RESET, FALLBACK_ACTIVE, COMPLETED, FAILED, NEEDS_INTERVENTION)
-- `error_message`
-- `created_at`
+Tabla `model_fallback_log` en `runtime.db` (sin cambios de esquema en esta fase):
+- `log_id` (PK), `execution_id`, `task_id`, `agent_id`, `primary_model`,
+  `effective_model`, `fallback_model` (siempre `None` bajo esta política), `reason`,
+  `provider`, `started_at`, `wait_seconds`, `retries`, `status`, `error_message`,
+  `created_at`.
 
-### 3.4 Jerarquías por agente
+### 3.4 Modelos disponibles
 
-Definidas en `orchestration/runtime/model_hierarchies.py` (diccionario).
-
-Cada agente tiene una lista ordenada:
-1. Modelo principal (actualmente asignado).
-2. Segunda alternativa compatible con su especialidad.
-3. Tercera alternativa.
-4. Alternativas adicionales.
+- El catálogo de modelos disponibles se obtiene del proveedor mediante `opencode models`.
+- El factory no incrusta una lista de modelos alternativos.
+- El conjunto autorizado se define en `orchestration/runtime/model_hierarchies.py`
+  (`AUTHORIZED_MODEL`, `AUTHORIZED_MODELS`).
 
 ## 4. Clasificación de errores
 
 | Tipo | Indicadores | Acción |
 |---|---|---|
-| Cuota agotada | "quota", "usage limit reached", "free usage limit" | Marcar no disponible, seleccionar alternativa |
-| Límite temporal | "rate limit", "Retry-After", "hourly limit", "window" | Esperar Retry-After, reintentar mismo modelo |
-| Transitorio | timeout, 5xx, network, "unavailable" | Backoff exponencial, reintentar mismo modelo |
-| Autenticación | "auth", "invalid key", "unauthorized", "forbidden" | Registrar, NEEDS_INTERVENTION |
-| Ambiguo | no clasificable | Registrar, comprobación controlada, no cambiar modelo |
+| Cuota agotada | "quota", "usage limit reached", "free usage limit", "exhausted" | Marcar no disponible, esperar recuperación (sin cambio de modelo) |
+| Límite temporal | "rate limit", "Retry-After", "hourly limit", "429" | Esperar Retry-After, reintentar mismo modelo |
+| Transitorio | timeout, 5xx, network, "unavailable" | Reintentar mismo modelo |
+| Autenticación | "auth", "invalid key", "unauthorized", "401", "403" | Registrar, `NEEDS_INTERVENTION` |
+| Ambiguo | no clasificable | Registrar, abortar, sin cambio de modelo |
 
 ## 5. Flujo de ejecución
 
 1. `run_task` → `adapter.invoke(agent_id, prompt, model=None)`.
-2. Adapter consulta `ModelFallbackManager.get_model(agent_id)`.
-3. Si modelo principal disponible, lo usa.
-4. Si falla, clasifica error.
-5. Según clasificación:
-   - Cuota: selecciona alternativa, reintenta.
-   - Límite temporal: espera, reintenta mismo.
-   - Transitorio: backoff, reintenta mismo.
-   - Auth: NEEDS_INTERVENTION.
-6. Registra en `model_fallback_log`.
-7. Si todas las alternativas agotadas, tarea queda WAITING_QUOTA_RESET.
-8. Cola de pendientes reintenta periódicamente.
-9. Cuando principal se recupera, se prioriza en siguiente tarea.
+2. Adapter consulta `ModelFallbackManager.select_model(agent_id)` (solo modelo autorizado).
+3. Si está disponible, se usa `opencode-go/beam-free`.
+4. Si falla, se clasifica el error.
+5. Según clasificación: espera/reintento/abort/intervención (sin cambio de modelo).
+6. Se registra en `model_fallback_log`.
+7. Si no está disponible, la tarea queda `WAITING_QUOTA_RESET` hasta recuperación.
+8. La recuperación se detecta por timestamp; no hay consulta activa al proveedor.
 
 ## 6. Compatibilidad
 
 - No modifica responsabilidades normativas de los agentes.
 - No rompe contratos existentes.
-- Mantiene compatibilidad con los 18 agentes actuales.
-- Los agentes siguen usando `model:` en front-matter como fuente de verdad del modelo principal.
-- El manager lee el front-matter para construir la jerarquía (modelo principal + alternativas).
+- Mantiene compatibilidad con los 18 agentes (un modelo para todos).
+- Los agentes siguen usando `model: opencode-go/beam-free` en front-matter.
+- `run_task`/`run_workflow` rechazan cualquier modelo no autorizado.
 
-## 7. Pruebas
+## 7. Escape hatch (no implementado)
 
-- Unitarias: clasificación de errores, selección de alternativas, esperas.
-- Integración: mocks de OpenCodeAdapter con errores simulados.
-- No consumen cuotas reales.
+Cualquier cambio a la política de modelo único (modelos alternativos, proveedores adicionales,
+o desactivación de BEAM_FREE_ONLY) requiere autorización explícita del usuario y un nuevo ADR.
+No está implementado en esta fase.
+
+## 8. Limitaciones
+
+- La espera real (`time.sleep`) está capeada a 5s en el adapter para responsiveness.
+- La recuperación se detecta por timestamp; no hay consulta activa al proveedor de cuotas.
+- No hay cambio de modelo en ningún escenario.
+- El conjunto autorizado está fijo en código (`AUTHORIZED_MODELS`); cambiarlo requiere
+  autorización y ADR.
+
+## 9. Pruebas
+
+- Unitarias/integración de fallback existen en `tests/orchestration/test_model_fallback*.py`,
+  pero contienen aserciones heredadas del diseño multi-modelo anterior a BEAM_FREE_ONLY.
+  No forman parte de `tests/run_all.py` y no se modificaron en esta tarea.
+- La política se verifica indirectamente por `tests/run_all.py` (ALL TESTS PASSED) y por
+  la inspección de `model_hierarchies.py` / agent definitions.

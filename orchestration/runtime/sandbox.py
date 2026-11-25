@@ -57,6 +57,9 @@ SENSITIVE_HOME_DIRS = [
     ".npmrc",
     ".netrc",
     ".pgpass",
+    # OpenCode credential store (contains Go API key and account tokens).
+    ".local/share/opencode",
+    ".config/opencode",
 ]
 
 

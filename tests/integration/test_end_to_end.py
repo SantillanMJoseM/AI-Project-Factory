@@ -27,7 +27,7 @@ def test_e2e_snapshot_resume_context():
         (root/'projects'/proj/'execution').mkdir(parents=True)
         _git_repo(root)
         for bn in ['AI_START_HERE.md','PROJECT_CONTEXT.md','PROJECT_STATUS.md','PROJECT_HANDOFF.md','PROJECT_MAP.md']:
-            src=Path('/home/developer/AI-Project-Factory')/bn
+            src=Path(__file__).resolve().parents[2]/bn
             if src.exists(): (root/bn).write_text(src.read_text())
         subprocess.run(['git','add','.'],cwd=root,check=True)
         subprocess.run(['git','commit','-q','-m','bootstrap'],cwd=root,check=True)

@@ -19,7 +19,7 @@ AI-Project-Factory is functional for controlled use. BEAM_FREE_ONLY enforced acr
 
 - Model policy: BEAM_FREE_ONLY (opencode.json, all agents, runtime, adapter, fallback manager).
 - Agent V2 migration: 19 agents with V2 permissions array.
-- Skills integration: 56 skills assigned, 5 LIVE_VERIFIED.
+- Skills integration: 54 skills assigned, 5 LIVE_VERIFIED.
 - Continuity: snapshots, context manifests, ledger auto-created in run_task.
 - Recovery: resume_interrupted_task (LIVE_VERIFIED).
 - Model fallback: single-model availability management.
@@ -32,7 +32,7 @@ AI-Project-Factory is functional for controlled use. BEAM_FREE_ONLY enforced acr
 
 ## E. Skills
 
-- 56 present. 5 LIVE_VERIFIED (hads, architecture-patterns, code-review-excellence, python-testing-patterns, error-handling-patterns).
+- 54 present. 5 LIVE_VERIFIED (hads, architecture-patterns, code-review-excellence, python-testing-patterns, error-handling-patterns).
 - 51 ASSIGNED/NOT_TESTED (quota).
 
 ## F. Permisos
@@ -109,7 +109,7 @@ AI-Project-Factory is functional for controlled use. BEAM_FREE_ONLY enforced acr
 |---|---|
 | 18 agentes V2 | LIVE_VERIFIED (19/19) |
 | AG-003 (propuesta) | IMPLEMENTED (pendiente autorización) |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (5) |
 | Permisos (matriz) | IMPLEMENTED + LIVE_VERIFIED |
 | Delegación dinámica | LIVE_VERIFIED |

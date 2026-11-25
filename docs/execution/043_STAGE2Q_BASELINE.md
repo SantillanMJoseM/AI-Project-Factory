@@ -9,7 +9,7 @@ HEAD: f676d7116dcbf252dd5da0bb19c42e0b657a6e14
 - Rama: feature/model-fallback-manager. HEAD: f676d711.
 - Usuario: developer. Git status: modified tracked + untracked artifacts.
 - 18 agentes V2 + assessor (19 ejecutables), todos beam-free, todos cargan en OpenCode.
-- 56 Skills presentes, 5 LIVE_VERIFIED.
+- 54 Skills presentes, 5 LIVE_VERIFIED.
 - 17 ejecuciones (EXEC-0001..0017), todas beam-free.
 - 9 acceptance verifications (AV-0001..0009).
 - 9 audits (AUDIT-0001..0009).

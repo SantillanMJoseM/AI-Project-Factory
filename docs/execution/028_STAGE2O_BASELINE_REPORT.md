@@ -7,7 +7,7 @@ HEAD: f676d7116dcbf252dd5da0bb19c42e0b657a6e14
 ## 1. Estado real verificado
 
 - 18 agentes V2 + assessor (19 ejecutables), todos beam-free, todos cargan en OpenCode.
-- 56 Skills presentes, 5 LIVE_VERIFIED.
+- 54 Skills presentes, 5 LIVE_VERIFIED.
 - 12 ejecuciones (EXEC-0001..0012), todas COMPLETED, todas beam-free.
 - Continuidad infraestructura (Stage 2A): ledger, snapshot, context, resume. Tests pass.
 - Stage 2N integró snapshots/context/ledger automáticamente en run_task (EXEC-0012 verified).

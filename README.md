@@ -4,11 +4,11 @@ AI-Project-Factory is a universal, multi-agent software factory foundation. It d
 
 ## Version
 
-1.6.0 (Stage 2Q complete)
+0.6.6 (R5.2A + Stage 2G continuation, in progress)
 
 ## Status
 
-Multi-agent factory with V2 agents, 56 Skills, BEAM_FREE_ONLY model policy, continuity and recovery. Consolidated on main branch.
+Multi-agent factory with V2 agents, 54 Skills, BEAM_FREE_ONLY model policy, continuity and recovery. Consolidated on main branch.
 
 ## Entry points for AI agents
 

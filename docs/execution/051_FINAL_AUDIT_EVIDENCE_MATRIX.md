@@ -24,7 +24,7 @@ Branch: feature/model-fallback-manager
 
 | Afirmación | Clasificación | Razón |
 |---|---|---|
-| 56 Skills LIVE | NOT_TESTED (51) | Cuota. Solo 5 LIVE_VERIFIED. |
+| 54 Skills LIVE | NOT_TESTED (51) | Cuota. Solo 5 LIVE_VERIFIED. |
 | LXC install | BLOCKED | No segundo contenedor. |
 | AG-003 formalización | REQUIRES_USER_APPROVAL | Pendiente autorización. |
 | Permisos normativos reconciliados | NOT_TESTED | agents/ vs .opencode/agents/ drift. |

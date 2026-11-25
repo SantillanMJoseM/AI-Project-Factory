@@ -12,7 +12,7 @@ Stage 2K consolidó el estado final del proyecto. Todos los pendientes tienen re
 
 - Fase A: Inventario y validación del estado actual (completado).
 - Fase B: Formalización de AG-003 (propuesta documentada, sin cambios de identidad).
-- Fase C: Validación de 56 Skills (3 LIVE_VERIFIED, 53 ASSIGNED/NOT_TESTED).
+- Fase C: Validación de 54 Skills (3 LIVE_VERIFIED, 53 ASSIGNED/NOT_TESTED).
 - Fase D: Reconciliación de permisos (matriz generada, drift documentado).
 - Fase E: Instalación LXC (BLOCKED — no hay segundo contenedor disponible).
 - Fase F: QA y auditoría final (completado).
@@ -99,7 +99,7 @@ Stage 2K consolidó el estado final del proyecto. Todos los pendientes tienen re
 |---|---|
 | 18 agentes V2 | LIVE_VERIFIED (19/19) |
 | AG-003 (propuesta formalizada) | IMPLEMENTED (pendiente autorización) |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (3) |
 | Permisos (matriz) | IMPLEMENTED + LIVE_VERIFIED |
 | Delegación dinámica | LIVE_VERIFIED |

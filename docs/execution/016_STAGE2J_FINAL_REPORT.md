@@ -10,12 +10,12 @@ Stage 2J completó los pendientes identificados en Stage 2I: formalización docu
 
 ## 2. Estado inicial
 
-Recovered from Stage 2I. System functional: 18 agents V2, 56 Skills, 6 executions (all beam-free), multi-agent delegation, SQLite intact, matrices and LXC procedure documented.
+Recovered from Stage 2I. System functional: 18 agents V2, 54 Skills, 6 executions (all beam-free), multi-agent delegation, SQLite intact, matrices and LXC procedure documented.
 
 ## 3. Estado final
 
 - 18 agents V2 (+ assessor), all beam-free, all load in OpenCode.
-- 56 Skills present, 3 LIVE_VERIFIED (hads, architecture-patterns, code-review-excellence), rest ASSIGNED/NOT_TESTED.
+- 54 Skills present, 3 LIVE_VERIFIED (hads, architecture-patterns, code-review-excellence), rest ASSIGNED/NOT_TESTED.
 - AG-003 formalized: two distinct specializations documented (risk manager + security risk assessor), both preserved, no identity change without authorization (user authorized documentation only).
 - Permissions matrix generated and reconciled (normative vs executable drift documented).
 - LXC procedure documented (NOT_TESTED — no second container).
@@ -37,7 +37,7 @@ Recovered from Stage 2I. System functional: 18 agents V2, 56 Skills, 6 execution
 - Formalization: descriptions updated to clarify distinct specialization; normative doc updated with related specialization note. No file rename, no ID change, no deletion. Both preserved.
 - Requires user authorization for further identity changes.
 
-## 6. Matriz individual de 56 Skills
+## 6. Matriz individual de 54 Skills
 
 - File: `docs/execution/SKILLS_COVERAGE_MATRIX_2H.md` (updated: 3 LIVE_VERIFIED).
 - 56 present. Assigned per specialization. 3 LIVE_VERIFIED (hads, architecture-patterns, code-review-excellence). Rest ASSIGNED/NOT_TESTED.
@@ -104,7 +104,7 @@ Recovered from Stage 2I. System functional: 18 agents V2, 56 Skills, 6 execution
 |---|---|
 | 18 agentes V2 | LIVE_VERIFIED (19/19) |
 | AG-003 (propuesta formalizada) | IMPLEMENTED (pendiente autorización) |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (3: hads, architecture-patterns, code-review-excellence) |
 | Permisos (matriz) | IMPLEMENTED + LIVE_VERIFIED |
 | Delegación dinámica | LIVE_VERIFIED |

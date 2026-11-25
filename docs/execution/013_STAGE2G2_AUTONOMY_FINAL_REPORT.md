@@ -6,7 +6,7 @@ HEAD: f676d7116dcbf252dd5da0bb19c42e0b657a6e14
 
 ## 1. Initial state
 
-Recovered from 012 report. System functional: 18 agents V2, 56 Skills, multi-agent delegation, SQLite, beam-free-only.
+Recovered from 012 report. System functional: 18 agents V2, 54 Skills, multi-agent delegation, SQLite, beam-free-only.
 
 ## 2. Protection and backup
 
@@ -45,7 +45,7 @@ Per-agent declared permissions (V2, ordered array). All agents: execute deny, we
 
 ## 8. Skills matrix (56)
 
-- 56 Skills present in `.opencode/skills/`.
+- 54 Skills present in `.opencode/skills/`.
 - Assigned to agents per specialization (documented in each agent file under `## Assigned skills`).
 - LIVE_VERIFIED: hads (EXEC-0002, AG-018). Others: ASSIGNED + NOT_TESTED individually (quota protection; group tests possible).
 - No new Skills created or installed.
@@ -94,7 +94,7 @@ Per-agent declared permissions (V2, ordered array). All agents: execute deny, we
 
 ## 17. Limitations
 
-- 56 Skills not individually LIVE-tested (quota). Group tests possible.
+- 54 Skills not individually LIVE-tested (quota). Group tests possible.
 - AG-003 conflict pending user authorization.
 - Normative agents/ permissions not reconciled.
 - Fresh LXC install not executed.
@@ -119,7 +119,7 @@ Autonomy demonstrated: AG-001 dynamically selected specialists (AG-013, AG-012) 
 | AG-013 verificado (LIVE) | LIVE_VERIFIED (EXEC-0005) |
 | AG-003 conflicto propuesto | IMPLEMENTED (propuesta documentada) |
 | Permisos (matriz) | IMPLEMENTED + LIVE_VERIFIED |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (hads) |
 | AG-001 selección dinámica | LIVE_VERIFIED (EXEC-0005/0006) |
 | Delegación multiagente | LIVE_VERIFIED |

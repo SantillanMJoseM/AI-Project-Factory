@@ -1,0 +1,22 @@
+{
+  "version": "0.0.0",
+  "files": {
+    "SKILL.md": "sha256:c0b200f11c11a0fbedf81598ad6e64292884ae0dd07193fa3f4da2dee617801c",
+    "references/guide.md": "sha256:620814d798dfb0a7b756028804be02a04257277cbbf2515858c5760bc0c686e1"
+  },
+  "content": {
+    "SKILL.md": "---\nname: valid-skill\ndescription: A clean, minimal skill used as a test fixture.\nmetadata:\n  opencode:\n    disable-model-invocation: true\n---\n\n# Valid Skill\n\nThis is a benign fixture skill used by the test suite.\n\nSee [guide](references/guide.md) for supporting guidance.\n",
+    "references/guide.md": "# Guide\n\nBenign guidance content for the valid-skill fixture.\n"
+  },
+  "permissions": {},
+  "metadata": {
+    "name": "valid-skill",
+    "description": "A clean, minimal skill used as a test fixture.",
+    "metadata": {
+      "opencode": {
+        "disable-model-invocation": true
+      }
+    }
+  },
+  "dependencies": []
+}

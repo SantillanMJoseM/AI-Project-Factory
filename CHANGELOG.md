@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 0.6.6 - 2026-11-23 (Reconciliation phase)
+
+### Added
+
+- `tests/fixtures/skills/` tree (registry.json, valid-skill, invalid-skill, drift-baseline.json) enabling reproducible skill test execution.
+- `test_ag003_specialization_preserved` asserting AG-003 manager + assessor specializations and normative documentation.
+- Version reconciliation across README, PROJECT_CONTEXT, PROJECT_STATUS (0.6.6).
+
+### Changed
+
+- `tests/orchestration/test_structure.py`: executable agent expectation 18 -> 19 (documented AG-003 specialization).
+- `tests/integration/test_end_to_end.py`: replaced hard-coded `/home/developer/AI-Project-Factory` path with repository-root derivation.
+
+### Notes
+
+- No commits, merges, releases, or deployments performed.
+- Fallback remains BEAM_FREE_ONLY; design documented, activation pending authorization.
+
 ## R5.2A - 2026-11-05
 
 ### Added

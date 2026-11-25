@@ -6,7 +6,7 @@ HEAD: b11da60cfeffc6e77f8da721654b05de6534fc37
 
 ## 1. Inventario
 
-- 56 Skills present in .opencode/skills/.
+- 54 Skills present in .opencode/skills/.
 - Matrix: docs/execution/SKILLS_COVERAGE_MATRIX_2H.md (updated: 9 LIVE_VERIFIED).
 
 ## 2. LIVE_VERIFIED (9)

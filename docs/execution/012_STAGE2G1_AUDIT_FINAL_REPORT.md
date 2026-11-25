@@ -28,7 +28,7 @@ All 19 executable agents: ID correct, name preserved, role preserved, V2 format,
 
 ## 5. Skills matrix (56)
 
-- 56 Skills present in `.opencode/skills/`.
+- 54 Skills present in `.opencode/skills/`.
 - Assignment documented in each agent file.
 - Functional verification: hads (EXEC-0002, AG-018) LIVE_VERIFIED.
 - Others: ASSIGNED, NOT_TESTED individually (quota protection). Group tests possible but not run to save quota.
@@ -94,7 +94,7 @@ All 19 executable agents: ID correct, name preserved, role preserved, V2 format,
 
 ## 16. Pending issues
 
-- 56 Skills not individually LIVE-tested (quota). Group coverage possible.
+- 54 Skills not individually LIVE-tested (quota). Group coverage possible.
 - AG-013 live execution deferred (quota).
 - AG-003 conflict resolution pending user authorization.
 - Normative agents/ permissions not reconciled with .opencode/agents/.
@@ -123,7 +123,7 @@ Core functionality verified: multi-agent delegation, skills functional use, beam
 |---|---|
 | 18 agentes V2 inspeccionados | LIVE_VERIFIED (19/19 cargan) |
 | Permisos efectivos | LIVE_VERIFIED |
-| 56 Skills cobertura individual | NOT_TESTED (agrupado/asignado) |
+| 54 Skills cobertura individual | NOT_TESTED (agrupado/asignado) |
 | Skills utilizables | LIVE_VERIFIED (hads, EXEC-0002) |
 | AG-001 selecciona especialistas | LIVE_VERIFIED |
 | Delegación multiagente real | LIVE_VERIFIED (EXEC-0003, EXEC-0004) |

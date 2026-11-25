@@ -175,7 +175,7 @@ def evaluate(release_path, cert_path, repo=".", artifact=None, deployment_plan=N
     # R1 integration.
     if evidence_dir:
         try:
-            sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+            sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
             from orchestration.validators.quality_gate import evaluate as qg_evaluate
             qg_cert = dict(cert)
             result = qg_evaluate(qg_cert, evidence_dir)

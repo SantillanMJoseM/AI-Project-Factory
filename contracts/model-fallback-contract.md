@@ -1,5 +1,7 @@
 # Model Fallback Contract
 
+> **SUPERSEDED in part by ADR-007 (BEAM_FREE_ONLY).** This contract describes an ordered multi-model fallback hierarchy that is no longer permitted. Under ADR-007 the only authorized model is `opencode-go/beam-free` and `FALLBACK_ALTERNATIVES` is empty. See `docs/architecture/MODEL_FALLBACK_DESIGN.md` and `orchestration/runtime/model_hierarchies.py`. Retained for historical reference.
+
 ## Purpose
 
 Define the contract for centralized model selection, fallback, and recovery for AI-Project-Factory agents.

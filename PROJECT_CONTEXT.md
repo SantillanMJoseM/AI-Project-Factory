@@ -4,12 +4,12 @@
 
 - Remote: https://github.com/SantillanMJoseM/AI-Project-Factory.git
 - Branch: main
-- Published commit: dbdc242018b1489806261b79f64fefd24bc64f58
+- Published commit: 5f63b74ca0f54596ff83b1cdd5df02480b7a34da
 
 ## Identity
 
 - Name: AI-Project-Factory
-- Version: 0.6.5 (R5.1 remediation)
+- Version: 0.6.6 (R5.2A + Stage 2G continuation, in progress)
 - Runtime: OpenCode
 - Autonomy: supervised
 - Scope: universal

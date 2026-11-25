@@ -156,6 +156,49 @@ def migrate(conn):
     if version < 4:
         _run_migration_4(conn)
 
+    # Migration 5: durable model fallback attempt persistence (BEAM_FREE_ONLY).
+    version = conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0]
+    if version < 5:
+        for col, ddl in [
+            ("attempt_number", "INTEGER NOT NULL DEFAULT 0"),
+            ("error_class", "TEXT"),
+            ("http_status", "INTEGER"),
+            ("retry_after", "REAL"),
+            ("reset_timestamp", "TEXT"),
+            ("wait_until", "TEXT"),
+            ("completed_at", "TEXT"),
+        ]:
+            if col not in _columns(conn, "model_fallback_log"):
+                conn.execute(f"ALTER TABLE model_fallback_log ADD COLUMN {col} {ddl}")
+        if conn.execute("SELECT COUNT(*) FROM schema_version WHERE version=5").fetchone()[0] == 0:
+            conn.execute("INSERT INTO schema_version(version, applied_at) VALUES (5, ?)", (now(),))
+        conn.commit()
+
+    # Migration 6: dedicated attempt table (M-001 durable persistence).
+    version = conn.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0]
+    if version < 6:
+        conn.execute("""CREATE TABLE IF NOT EXISTS model_fallback_attempts (
+            attempt_id TEXT PRIMARY KEY,
+            execution_id TEXT,
+            task_id TEXT,
+            agent_id TEXT NOT NULL,
+            provider TEXT NOT NULL DEFAULT 'opencode-go',
+            model TEXT NOT NULL,
+            attempt_number INTEGER NOT NULL DEFAULT 1,
+            status TEXT NOT NULL,
+            error_class TEXT,
+            error_message TEXT,
+            http_status INTEGER,
+            retry_after REAL,
+            wait_until TEXT,
+            started_at TEXT NOT NULL,
+            completed_at TEXT,
+            created_at TEXT NOT NULL
+        )""")
+        if conn.execute("SELECT COUNT(*) FROM schema_version WHERE version=6").fetchone()[0] == 0:
+            conn.execute("INSERT INTO schema_version(version, applied_at) VALUES (6, ?)", (now(),))
+        conn.commit()
+
 
 def _run_migration_4(conn):
     """Apply R5.2A migration atomically and idempotently.
@@ -888,17 +931,73 @@ def recover_interrupted(conn):
     return recovered
 
 
+def list_waiting_tasks(conn):
+    """Return tasks currently in a WAITING state with their persisted deadline."""
+    rows = conn.execute(
+        "SELECT task_id, status, updated_at FROM tasks WHERE status IN "
+        "('BLOCKED','WAITING_QUOTA_RESET','WAITING_RATE_LIMIT','WAITING_TRANSIENT_RETRY')"
+    ).fetchall()
+    out = []
+    for r in rows:
+        latest = conn.execute(
+            "SELECT execution_id, status, started_at FROM executions WHERE task_id=? ORDER BY started_at DESC",
+            (r["task_id"],),
+        ).fetchone()
+        out.append({
+            "task_id": r["task_id"],
+            "status": r["status"],
+            "execution_id": latest["execution_id"] if latest else None,
+            "execution_status": latest["status"] if latest else None,
+        })
+    return out
+
+
+def resume_due_waiting_tasks(conn, adapter=None, now_iso=None):
+    """Resume waiting tasks whose persisted deadline has elapsed.
+
+    Returns a list of (task_id, new_execution_id, result) for tasks resumed.
+    Tasks with unknown deadline are NOT resumed (require authorized re-check).
+    """
+    from datetime import datetime, timezone
+    now = datetime.now(timezone.utc)
+    results = []
+    waiting = list_waiting_tasks(conn)
+    for w in waiting:
+        tid = w["task_id"]
+        # Find persisted wait_until from fallback log.
+        row = conn.execute(
+            "SELECT wait_until FROM model_fallback_log WHERE task_id=? ORDER BY created_at DESC",
+            (tid,),
+        ).fetchone()
+        wait_until = row["wait_until"] if row and "wait_until" in row.keys() else None
+        if not wait_until:
+            continue  # unknown deadline: do not resume automatically
+        try:
+            deadline = datetime.fromisoformat(wait_until.replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if deadline > now:
+            continue  # not yet due
+        # Idempotency: only resume if task still in a waiting state.
+        task = get_task(conn, tid)
+        if task is None or task["status"] not in {"BLOCKED", "WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT", "WAITING_TRANSIENT_RETRY"}:
+            continue
+        eid, res = resume_interrupted_task(conn, tid, adapter=adapter)
+        results.append((tid, eid, res))
+    return results
+
+
 def resume_interrupted_task(conn, task_id, adapter=None, model=None):
     """Resume a previously interrupted/blocked task without duplicating work.
 
     Returns (new_execution_id, result) or (None, error_dict).
     """
     from orchestration.runtime.opencode_adapter import OpenCodeAdapter
-    from orchestration.runtime.model_hierarchies import AUTHORIZED_MODELS
+    from orchestration.runtime.model_routing import authorized_models
     if adapter is None:
         adapter = OpenCodeAdapter()
-    if model is not None and model not in AUTHORIZED_MODELS:
-        raise ValueError(f"policy violation: model {model!r} not authorized (BEAM_FREE_ONLY)")
+    if model is not None and model not in authorized_models():
+        raise ValueError(f"policy violation: model {model!r} not authorized ({__import__('orchestration.runtime.model_routing', fromlist=['get_policy']).get_policy()})")
     model = None
 
     task = get_task(conn, task_id)
@@ -906,7 +1005,7 @@ def resume_interrupted_task(conn, task_id, adapter=None, model=None):
         return None, {"status": "BLOCKED", "error": f"task not resumable from state {task['status']}"}
 
     latest = conn.execute("SELECT * FROM executions WHERE task_id=? ORDER BY started_at DESC", (task_id,)).fetchone()
-    if not latest or latest["status"] not in {"INTERRUPTED", "FAILED", "BLOCKED", "WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT"}:
+    if not latest or latest["status"] not in {"INTERRUPTED", "FAILED", "BLOCKED", "WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT", "WAITING_TRANSIENT_RETRY"}:
         return None, {"status": "BLOCKED", "error": "no interrupted execution found"}
 
     old_eid = latest["execution_id"]
@@ -924,6 +1023,10 @@ def resume_interrupted_task(conn, task_id, adapter=None, model=None):
 
     if task["status"] == "BLOCKED":
         update_task_status(conn, task_id, "RUNNING", actor=raw_agent_id)
+    elif task["status"] == "FAILED":
+        update_task_status(conn, task_id, "PENDING", actor=raw_agent_id)
+        update_task_status(conn, task_id, "ASSIGNED", actor=raw_agent_id)
+        update_task_status(conn, task_id, "RUNNING", actor=raw_agent_id)
     task = get_task(conn, task_id)
 
     eid = create_execution(conn, task["project_id"], task_id, raw_agent_id, commit=project.get("initial_commit"), context=prompt or "", inputs=[prompt or ""], resumed_from=old_eid)
@@ -933,7 +1036,48 @@ def resume_interrupted_task(conn, task_id, adapter=None, model=None):
     factory_root = Path(__file__).resolve().parents[2]
     _continuity_pre(factory_root, conn, task, project, eid, raw_agent_id, prompt or "", repo_path)
 
-    result = adapter.invoke(opencode_agent_id, prompt or "", cwd=repo_path, factory_root=factory_root, model=None, task_id=task_id, execution_id=eid)
+    import uuid as _uuid2
+    import datetime as _dt2
+    _att_id = f"att-{_uuid2.uuid4().hex[:12]}"
+    _started = _dt2.datetime.now(_dt2.timezone.utc).isoformat()
+    try:
+        create_attempt(conn, _att_id, eid, task_id, raw_agent_id, "opencode-go/beam-free", attempt_number=1, started_at=_started)
+    except Exception:
+        pass
+
+    try:
+        result = adapter.invoke(opencode_agent_id, prompt or "", cwd=repo_path, factory_root=factory_root, model=None, task_id=task_id, execution_id=eid)
+    except Exception as exc:
+        try:
+            fm = getattr(adapter, "fallback_manager", None)
+            if fm is not None:
+                fm.log_change(
+                    agent_id=raw_agent_id, task_id=task_id, primary="opencode-go/beam-free",
+                    effective="opencode-go/beam-free", fallback=None, reason="exception",
+                    status="FAILED", error_message=str(exc), execution_id=eid,
+                    attempt_number=1, error_class="exception",
+                    completed_at=_dt2.datetime.now(_dt2.timezone.utc).isoformat(),
+                )
+                for entry in fm.get_log():
+                    if entry.get("task_id") == task_id or entry.get("execution_id") == eid:
+                        save_fallback_log(conn, entry)
+        except Exception:
+            pass
+        try:
+            complete_attempt(conn, _att_id, "FAILED", error_class="exception", error_message=str(exc),
+                             completed_at=_dt2.datetime.now(_dt2.timezone.utc).isoformat())
+        except Exception:
+            pass
+        conn.commit()
+        result = {"status": "FAILED", "output": "", "error": str(exc), "model_effective": None, "model_provider": "opencode-go"}
+    else:
+        try:
+            complete_attempt(conn, _att_id, result.get("status", "COMPLETED"),
+                             error_class=None, error_message=result.get("error"),
+                             completed_at=_dt2.datetime.now(_dt2.timezone.utc).isoformat())
+            conn.commit()
+        except Exception:
+            pass
 
     if hasattr(adapter, "fallback_manager"):
         for entry in adapter.fallback_manager.get_log():
@@ -942,12 +1086,12 @@ def resume_interrupted_task(conn, task_id, adapter=None, model=None):
 
     outputs = [result.get("output", "")]
     evidence = [result.get("output", "")]
-    model_decisions = [{"model_effective": result.get("model_effective"), "model_provider": result.get("model_provider", "opencode-go"), "policy": "BEAM_FREE_ONLY", "resumed_from": old_eid}]
+    model_decisions = [{"model_effective": result.get("model_effective"), "model_provider": result.get("model_provider", "opencode-go"), "policy": __import__("orchestration.runtime.model_routing", fromlist=["get_policy"]).get_policy(), "resumed_from": old_eid}]
 
     if result["status"] == "COMPLETED":
         complete_execution(conn, eid, "COMPLETED", result="completed (resumed)", evidence=evidence, outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
         update_task_status(conn, task_id, "REVIEW_REQUIRED", actor=raw_agent_id, evidence=evidence)
-    elif result["status"] in {"WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT"}:
+    elif result["status"] in {"WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT", "WAITING_TRANSIENT_RETRY"}:
         complete_execution(conn, eid, result["status"], result="waiting", evidence=evidence, errors=[result.get("error") or "waiting"], outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
         update_task_status(conn, task_id, "BLOCKED", actor=raw_agent_id, evidence=evidence)
     else:
@@ -1220,12 +1364,12 @@ def _continuity_post(factory_root, conn, task, project, eid, agent_id, result, r
 
 def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None):
     from orchestration.runtime.opencode_adapter import OpenCodeAdapter
-    from orchestration.runtime.model_hierarchies import AUTHORIZED_MODELS
+    from orchestration.runtime.model_routing import authorized_models
     if adapter is None:
         adapter = OpenCodeAdapter()
     # Policy: reject non-authorized model requests.
-    if model is not None and model not in AUTHORIZED_MODELS:
-        raise ValueError(f"policy violation: model {model!r} not authorized (BEAM_FREE_ONLY)")
+    if model is not None and model not in authorized_models():
+        raise ValueError(f"policy violation: model {model!r} not authorized ({__import__('orchestration.runtime.model_routing', fromlist=['get_policy']).get_policy()})")
     # Never allow an explicit model to bypass the fallback manager's quota handling.
     model = None
     task = get_task(conn, task_id)
@@ -1258,7 +1402,49 @@ def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None)
     factory_root = Path(__file__).resolve().parents[2]
     _continuity_pre(factory_root, conn, task, project, eid, raw_agent_id, prompt, repo_path)
 
-    result = adapter.invoke(opencode_agent_id, prompt, cwd=repo_path, factory_root=factory_root, model=model, task_id=task_id, execution_id=eid)
+    import uuid as _uuid
+    import datetime as _dt
+    _attempt_id = f"att-{_uuid.uuid4().hex[:12]}"
+    _started = _dt.datetime.now(_dt.timezone.utc).isoformat()
+    try:
+        create_attempt(conn, _attempt_id, eid, task_id, raw_agent_id, "opencode-go/beam-free", attempt_number=1, started_at=_started)
+    except Exception:
+        pass
+    try:
+        result = adapter.invoke(opencode_agent_id, prompt, cwd=repo_path, factory_root=factory_root, model=model, task_id=task_id, execution_id=eid)
+    except Exception as exc:
+        # M-001: persist a FAILED attempt log before returning.
+        try:
+            fm = getattr(adapter, "fallback_manager", None)
+            if fm is not None:
+                fm.log_change(
+                    agent_id=raw_agent_id, task_id=task_id, primary="opencode-go/beam-free",
+                    effective="opencode-go/beam-free", fallback=None, reason="exception",
+                    status="FAILED", error_message=str(exc), execution_id=eid,
+                    attempt_number=1, error_class="exception",
+                    completed_at=_dt.datetime.now(_dt.timezone.utc).isoformat(),
+                )
+                for entry in fm.get_log():
+                    if entry.get("task_id") == task_id or entry.get("execution_id") == eid:
+                        save_fallback_log(conn, entry)
+        except Exception:
+            pass
+        try:
+            complete_attempt(conn, _attempt_id, "FAILED", error_class="exception", error_message=str(exc),
+                             completed_at=_dt.datetime.now(_dt.timezone.utc).isoformat())
+        except Exception:
+            pass
+        conn.commit()
+        result = {"status": "FAILED", "output": "", "error": str(exc), "model_effective": None, "model_provider": "opencode-go"}
+    else:
+        # Persist attempt completion.
+        try:
+            complete_attempt(conn, _attempt_id, result.get("status", "COMPLETED"),
+                             error_class=None, error_message=result.get("error"),
+                             completed_at=_dt.datetime.now(_dt.timezone.utc).isoformat())
+            conn.commit()
+        except Exception:
+            pass
 
     # Stage 2N: post-execution snapshot.
     _continuity_post(factory_root, conn, task, project, eid, raw_agent_id, result, repo_path)
@@ -1269,11 +1455,11 @@ def run_task(conn, task_id, prompt, adapter=None, model=None, evidence_dir=None)
                 save_fallback_log(conn, entry)
     outputs = [result.get("output", "")]
     evidence = [result.get("output", "")]
-    model_decisions = [{"model_effective": result.get("model_effective"), "model_provider": result.get("model_provider", "opencode-go"), "policy": "BEAM_FREE_ONLY"}]
+    model_decisions = [{"model_effective": result.get("model_effective"), "model_provider": result.get("model_provider", "opencode-go"), "policy": __import__("orchestration.runtime.model_routing", fromlist=["get_policy"]).get_policy()}]
     if result["status"] == "COMPLETED":
         complete_execution(conn, eid, "COMPLETED", result="completed", evidence=evidence, outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
         update_task_status(conn, task_id, "REVIEW_REQUIRED", actor=raw_agent_id, evidence=evidence)
-    elif result["status"] in {"WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT"}:
+    elif result["status"] in {"WAITING_QUOTA_RESET", "WAITING_RATE_LIMIT", "WAITING_TRANSIENT_RETRY"}:
         complete_execution(conn, eid, result["status"], result="waiting", evidence=evidence, errors=[result.get("error") or "waiting"], outputs=outputs, tools_used=["opencode.run"], decisions=model_decisions)
         update_task_status(conn, task_id, "BLOCKED", actor=raw_agent_id, evidence=evidence)
     elif result["status"] == "NEEDS_INTERVENTION":
@@ -1301,9 +1487,9 @@ def _save_workflow_results(conn, run_id, results):
 
 
 def run_workflow(conn, run_id, prompt, adapter=None, model=None):
-    from orchestration.runtime.model_hierarchies import AUTHORIZED_MODELS
-    if model is not None and model not in AUTHORIZED_MODELS:
-        raise ValueError(f"policy violation: model {model!r} not authorized (BEAM_FREE_ONLY)")
+    from orchestration.runtime.model_routing import authorized_models
+    if model is not None and model not in authorized_models():
+        raise ValueError(f"policy violation: model {model!r} not authorized ({__import__('orchestration.runtime.model_routing', fromlist=['get_policy']).get_policy()})")
     model = None
     run = workflow_status(conn, run_id)
     if run["status"] == "COMPLETED":
@@ -1468,6 +1654,9 @@ def main():
     tr.add_argument("--model")
     tr.add_argument("--json", action="store_true")
 
+    tw = task_sub.add_parser("waiting")
+    tw.add_argument("--json", action="store_true")
+
     # workflow
     workflow = sub.add_parser("workflow")
     workflow_sub = workflow.add_subparsers(dest="workflow_command", required=True)
@@ -1595,6 +1784,12 @@ def dispatch(conn, args):
             eid, result = run_task(conn, args.task_id, args.prompt, model=args.model)
             render({"execution_id": eid, "status": result["status"], "error": result.get("error")}, args.json)
             return 0 if result["status"] == "COMPLETED" else 1
+        if args.task_command == "waiting":
+            rows = conn.execute(
+                "SELECT task_id, status, updated_at FROM tasks WHERE status IN ('BLOCKED','WAITING_QUOTA_RESET','WAITING_RATE_LIMIT')"
+            ).fetchall()
+            render([dict(r) for r in rows], args.json)
+            return 0
     if args.command == "workflow":
         if args.workflow_command == "list":
             render(list_workflows(conn), args.json)
@@ -1648,20 +1843,55 @@ def dispatch(conn, args):
     raise ValueError("Unknown command")
 
 
+def create_attempt(conn, attempt_id, execution_id, task_id, agent_id, model,
+                   attempt_number=1, started_at=None):
+    """Persist the start of an attempt BEFORE invoking the provider (M-001)."""
+    now_ts = now()
+    conn.execute("""
+        INSERT OR REPLACE INTO model_fallback_attempts
+        (attempt_id, execution_id, task_id, agent_id, provider, model, attempt_number,
+         status, started_at, created_at)
+        VALUES (?,?,?,?,?,?,?,?,?,?)
+    """, (
+        attempt_id, execution_id, task_id, agent_id, "opencode-go", model,
+        attempt_number, "STARTED", started_at or now_ts, now_ts,
+    ))
+    conn.commit()
+
+
+def complete_attempt(conn, attempt_id, status, error_class=None, error_message=None,
+                     http_status=None, retry_after=None, wait_until=None, completed_at=None):
+    """Persist the result of an attempt."""
+    conn.execute("""
+        UPDATE model_fallback_attempts
+        SET status=?, error_class=?, error_message=?, http_status=?, retry_after=?,
+            wait_until=?, completed_at=?
+        WHERE attempt_id=?
+    """, (
+        status, error_class, error_message, http_status, retry_after,
+        wait_until, completed_at or now(), attempt_id,
+    ))
+    conn.commit()
+
+
 def save_fallback_log(conn, entry):
-    """Persist a model fallback log entry."""
+    """Persist a model fallback log entry (additive, idempotent)."""
     conn.execute("""
         INSERT OR REPLACE INTO model_fallback_log
         (log_id, execution_id, task_id, agent_id, primary_model, effective_model,
          fallback_model, reason, provider, started_at, wait_seconds, retries,
-         status, error_message, created_at)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+         status, error_message, created_at, attempt_number, error_class,
+         http_status, retry_after, reset_timestamp, wait_until, completed_at)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         entry["log_id"], entry.get("execution_id"), entry.get("task_id"),
         entry["agent_id"], entry["primary_model"], entry["effective_model"],
         entry.get("fallback_model"), entry.get("reason"), entry.get("provider", "opencode-go"),
         entry.get("started_at"), entry.get("wait_seconds", 0), entry.get("retries", 0),
         entry["status"], entry.get("error_message"), entry["created_at"],
+        entry.get("attempt_number", 0), entry.get("error_class"), entry.get("http_status"),
+        entry.get("retry_after"), entry.get("reset_timestamp"), entry.get("wait_until"),
+        entry.get("completed_at"),
     ))
     conn.commit()
 

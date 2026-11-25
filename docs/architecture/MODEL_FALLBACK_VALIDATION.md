@@ -1,64 +1,67 @@
-# MODEL FALLBACK MANAGER — VALIDACIÓN FINAL
+# MODEL FALLBACK MANAGER — VALIDACIÓN (BEAM_FREE_ONLY)
 
 ## Fecha
-2026-11-18
+
+2026-11-23 (reconciliación de documentación, RECON-018-DOCS-003).
 
 ## Rama
-`feature/model-fallback-manager`
 
-## Pruebas ejecutadas
+`main` (consolidado desde `feature/model-fallback-manager`).
 
-### Unitarias (19)
-```
-python3 -m unittest tests.orchestration.test_model_fallback -v
-Ran 19 tests in 0.247s — OK
-```
-Cobertura: clasificación de errores (6), jerarquías (3), selección/fallback (4), handle_error (5), logging (1).
+## Política
 
-### Integración (7)
-```
-python3 -m unittest tests.orchestration.test_model_fallback_integration -v
-Ran 7 tests in 3.014s — OK
-```
-Cobertura: ejecución normal, cuota→fallback, rate limit→wait, auth→intervention, transient→retry, todos no disponibles→WAITING_QUOTA_RESET, modelo explícito bypass.
+BEAM_FREE_ONLY (`opencode-go/beam-free`). Un solo modelo autorizado; sin alternativas;
+sin cambio de modelo en ningún escenario.
 
-### Suite completa existente
+## Pruebas ejecutadas (suite principal)
+
 ```
 python3 tests/run_all.py
 ALL TESTS PASSED
 ```
-No se rompieron pruebas existentes (contratos, políticas, orquestación, sandbox).
 
-## Escenarios validados (mocks, sin consumo de cuota)
+31 suites incluidas en `tests/run_all.py`. Adicionalmente:
 
-| # | Escenario | Resultado |
+```
+python3 tests/orchestration/test_structure.py
+PASS (8 tests)
+```
+
+## Escenarios bajo política actual
+
+| # | Escenario | Resultado esperado |
 |---|---|---|
-| 1 | Ejecución normal | PASS |
-| 2 | Cuota agotada del modelo principal | PASS (fallback a alternativa) |
-| 3 | Cambio al segundo modelo | PASS |
-| 4 | Agotamiento de segunda alternativa | PASS (WAITING_QUOTA_RESET) |
-| 5 | Límite temporal por hora | PASS (wait + retry) |
-| 6 | Espera y reanudación | PASS |
-| 7 | Recuperación del modelo principal | PASS (recover_primary) |
-| 8 | Error de autenticación | PASS (NEEDS_INTERVENTION) |
-| 9 | Error transitorio de red | PASS (retry) |
-| 10 | Ausencia de alternativas disponibles | PASS (WAITING_QUOTA_RESET) |
+| 1 | Ejecución normal | `opencode-go/beam-free` |
+| 2 | Cuota agotada del modelo autorizado | Marcar no disponible, `WAITING_QUOTA_RESET`, sin cambio de modelo |
+| 3 | Límite temporal por hora | Esperar `Retry-After`, reintentar mismo modelo |
+| 4 | Error transitorio de red | Reintentar mismo modelo |
+| 5 | Error de autenticación | `NEEDS_INTERVENTION`, sin cambio |
+| 6 | Error ambiguo | Abortar, sin cambio |
+| 7 | Recuperación por timestamp | `recover_primary` devuelve disponibilidad |
+| 8 | Modelo explícito no autorizado | Rechazado (policy violation) |
 
 ## Compatibilidad
 
 - Los 18 agentes mantienen sus responsabilidades normativas.
-- `OpenCodeAdapter` mantiene compatibilidad con `model=` explícito.
-- `run_task` integra fallback sin romper contratos existentes.
+- `OpenCodeAdapter` mantiene compatibilidad con `model="opencode-go/beam-free"`.
+- `run_task`/`run_workflow` rechazan modelos no autorizados.
 - Tabla `model_fallback_log` añadida sin modificar tablas existentes.
 
 ## Restricciones económicas
 
-- Todos los modelos son `opencode-go/*`.
+- El único modelo es `opencode-go/beam-free`.
 - No se utilizan proveedores externos, modelos de pago ni Extra Usage.
-- Las pruebas usan mocks; no consumen cuota real.
+- Las pruebas de fallback usan mocks; no consumen cuota real.
+
+## Pruebas de fallback (heredadas)
+
+`tests/orchestration/test_model_fallback.py` y
+`tests/orchestration/test_model_fallback_integration.py` contienen aserciones del diseño
+multi-modelo anterior a BEAM_FREE_ONLY. No forman parte de `tests/run_all.py` y no se
+modificaron en esta tarea. Su actualización requiere autorización y está fuera del alcance
+de RECON-018-DOCS-003.
 
 ## Estado
 
-**IMPLEMENTACIÓN COMPLETA — TODAS LAS PRUEBAS APROBADAS.**
-
-Pendiente: merge a rama principal (requiere autorización).
+Documentación reconciliada con la implementación BEAM_FREE_ONLY. No se modificó código ni
+pruebas. No se realizaron commits, merges, releases ni despliegues.

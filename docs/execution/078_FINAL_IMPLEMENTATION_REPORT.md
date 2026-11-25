@@ -13,7 +13,7 @@ AI-Project-Factory es funcional para uso controlado. BEAM_FREE_ONLY enforced acr
 | Requisito | Clasificación |
 |---|---|
 | 18 agentes V2 | LIVE_VERIFIED (19/19) |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (9) |
 | Permisos (matriz) | IMPLEMENTED + LIVE_VERIFIED |
 | Delegación dinámica | LIVE_VERIFIED |

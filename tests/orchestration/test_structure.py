@@ -13,9 +13,27 @@ def test_eighteen_agents_normative():
     files = list((ROOT / "agents").rglob("*.md"))
     assert len(files) == 18, len(files)
 
-def test_eighteen_agents_executable():
+def test_nineteen_agents_executable():
+    # Normative catalog has 18 unique agent IDs (AG-001..AG-018).
+    # Executable catalog has 19 files: AG-003 ships two documented
+    # specializations (security-risk-manager + security-risk-assessor)
+    # under the same AG-003 identity (see docs/execution/032_STAGE2O_AG003_IDENTITY_PROPOSAL.md).
     files = list((ROOT / ".opencode" / "agents").glob("*.md"))
-    assert len(files) == 18, len(files)
+    assert len(files) == 19, len(files)
+
+
+def test_ag003_specialization_preserved():
+    normative = ROOT / "agents" / "management" / "ag-003-security-risk-manager.md"
+    assessor = ROOT / ".opencode" / "agents" / "ag-003-security-risk-assessor.md"
+    manager = ROOT / ".opencode" / "agents" / "ag-003-security-risk-manager.md"
+    assert normative.is_file(), normative
+    assert assessor.is_file(), assessor
+    assert manager.is_file(), manager
+    for path in (assessor, manager):
+        text = path.read_text()
+        assert "opencode-go/beam-free" in text, path
+        assert "effect: deny" in text, path
+    assert "ag-003-security-risk-assessor.md" in normative.read_text(), normative
 
 def test_schemas_exist():
     for name in ["agent.schema.json","task.schema.json","execution.schema.json","audit.schema.json"]:
@@ -38,7 +56,8 @@ def test_context_files_exist():
         assert (ROOT / name).is_file()
 
 if __name__ == "__main__":
-    for fn in [test_structure_dirs, test_eighteen_agents_normative, test_eighteen_agents_executable,
-               test_schemas_exist, test_quality_gates_count, test_opencode_agents_frontmatter, test_context_files_exist]:
+    for fn in [test_structure_dirs, test_eighteen_agents_normative, test_nineteen_agents_executable,
+               test_ag003_specialization_preserved, test_schemas_exist, test_quality_gates_count,
+               test_opencode_agents_frontmatter, test_context_files_exist]:
         fn()
         print("PASS", fn.__name__)

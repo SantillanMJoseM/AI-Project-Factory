@@ -2,7 +2,7 @@
 
 ## Current state
 
-Stage 2G continuation completed on branch `feature/model-fallback-manager`. All agents restricted to `opencode-go/beam-free` (BEAM_FREE_ONLY). Real delegation, QA and independent audit demonstrated and persisted in SQLite.
+Stage 2G continuation completed on branch `main` (HEAD 5f63b74). All agents restricted to `opencode-go/beam-free` (BEAM_FREE_ONLY). Real delegation, QA and independent audit demonstrated and persisted in SQLite.
 
 ## What was being done
 
@@ -30,7 +30,7 @@ Recovered project state, enforced beam-free-only model policy across config, age
 
 ## Modified files
 
-See Git diff on `feature/model-fallback-manager`.
+See Git diff on `main`.
 
 ## Decisions taken
 
@@ -49,7 +49,7 @@ See Git diff on `feature/model-fallback-manager`.
 
 ## Last valid commit
 
-f676d7116dcbf252dd5da0bb19c42e0b657a6e14 (feature/model-fallback-manager)
+5f63b74ca0f54596ff83b1cdd5df02480b7a34da (main)
 
 ## Instructions to continue
 

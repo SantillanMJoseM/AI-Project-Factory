@@ -20,7 +20,7 @@ from orchestration.runtime.opencode_adapter import OpenCodeAdapter
 
 DB_PATH = Path("/tmp/opencode/worktrees/projectdesk/.factory/runtime.db")
 PROJECT_ID = "PROJECT-001"
-MODEL = os.environ.get("APF_MODEL", "opencode-go/qwen3.8-flash")
+MODEL = os.environ.get("APF_MODEL", "opencode-go/beam-free")
 
 
 def git_commit(worktree, message, allow_empty=False):

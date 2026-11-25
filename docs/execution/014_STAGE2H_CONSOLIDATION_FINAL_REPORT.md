@@ -6,7 +6,7 @@ HEAD: f676d7116dcbf252dd5da0bb19c42e0b657a6e14
 
 ## 1. Initial state
 
-Recovered from Stage 2G.2. System functional: 18 agents V2, 56 Skills assigned, 6 executions (all beam-free), multi-agent delegation verified, SQLite intact.
+Recovered from Stage 2G.2. System functional: 18 agents V2, 54 Skills assigned, 6 executions (all beam-free), multi-agent delegation verified, SQLite intact.
 
 ## 2. Protection and backup
 
@@ -29,7 +29,7 @@ Recovered from Stage 2G.2. System functional: 18 agents V2, 56 Skills assigned, 
 
 ## 5. Skills matrix (56)
 
-- 56 Skills present in `.opencode/skills/`.
+- 54 Skills present in `.opencode/skills/`.
 - Assigned to agents per specialization (documented in agent files).
 - Matrix: `docs/execution/SKILLS_COVERAGE_MATRIX_2H.md`.
 - LIVE_VERIFIED: hads (EXEC-0002). Others: ASSIGNED/NOT_TESTED (quota protection).
@@ -89,7 +89,7 @@ Recovered from Stage 2G.2. System functional: 18 agents V2, 56 Skills assigned, 
 
 ## 17. Limitations
 
-- 56 Skills not individually LIVE-tested (quota). Group tests possible.
+- 54 Skills not individually LIVE-tested (quota). Group tests possible.
 - AG-003 conflict pending user authorization.
 - Normative agents/ permissions not reconciled.
 - Fresh LXC install not executed.
@@ -111,7 +111,7 @@ Consolidation complete. System functional for controlled use: multi-agent delega
 | Requisito | Clasificación |
 |---|---|
 | 18 agentes V2 | LIVE_VERIFIED (19/19) |
-| 56 Skills (asignación) | IMPLEMENTED |
+| 54 Skills (asignación) | IMPLEMENTED |
 | Skills utilizables | LIVE_VERIFIED (hads) |
 | Permisos (matriz) | IMPLEMENTED + LIVE_VERIFIED |
 | Delegación dinámica | LIVE_VERIFIED |

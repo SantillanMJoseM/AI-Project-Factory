@@ -17,7 +17,7 @@ HEAD: b695f1a9ea1fdd8be987085aea0717717b787e85 (published)
 
 ## 3. Skills
 
-- 56 present. 5 LIVE_VERIFIED. 51 ASSIGNED/NOT_TESTED.
+- 54 present. 5 LIVE_VERIFIED. 49 ASSIGNED/NOT_TESTED.
 
 ## 4. SQLite
 
